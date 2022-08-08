@@ -4,10 +4,18 @@ import { createPortal } from "react-dom";
 interface ModalProps {
     children: ReactNode,
     active: boolean,
-    setActive: Dispatch<SetStateAction<boolean>>
+    setActive: Dispatch<SetStateAction<boolean>>,
+    type?: string,
+    title?: string | ReactNode
 }
 
-const Modal = ({children, active, setActive}: ModalProps) => {
+const Modal = ({
+    children,
+    active,
+    setActive,
+    type,
+    title
+}: ModalProps) => {
     const [mounted, setMounted] = useState(false);
     useEffect(() => {
         setMounted(true);
@@ -17,9 +25,14 @@ const Modal = ({children, active, setActive}: ModalProps) => {
     
     return mounted? createPortal(
         active?
-            <div>
-                <button onClick={() => setActive(false)}>X</button>
-                {children}
+            <div className={`modal ${type}`}>
+                <p className="modal--title">
+                    {title}
+                </p>
+                <div className="close_button" onClick={() => setActive(false)}></div>
+                <div className="modal--content">
+                    {children}
+                </div>
             </div>
             : null
         ,document.querySelector('#modal') as HTMLElement
