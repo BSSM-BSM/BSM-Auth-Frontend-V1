@@ -24,7 +24,7 @@ const Modal = ({
     
     
     return mounted? createPortal(
-        active?
+        active && (
             <div className={`modal ${type}`}>
                 <p className="modal--title">
                     {title}
@@ -34,8 +34,8 @@ const Modal = ({
                     {children}
                 </div>
             </div>
-            : null
-        ,document.querySelector('#modal') as HTMLElement
+        ),
+        document.querySelector('#modal') as HTMLElement
     ): null;
 };
 
