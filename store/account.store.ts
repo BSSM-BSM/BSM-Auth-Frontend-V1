@@ -29,5 +29,5 @@ export const userState = atom<User>({
 
 export const showLoginBoxState = atom<boolean>({
     key: 'showLoginBox',
-    default: true
+    default: false
 });

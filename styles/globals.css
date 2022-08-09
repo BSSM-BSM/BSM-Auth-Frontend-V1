@@ -285,6 +285,10 @@ input[type=number].year {
     }
 }
 
+.modal--content {
+    text-align: center;
+}
+
 .modal form {
     margin-top: 1rem;
 }
@@ -299,7 +303,7 @@ input[type=number].year {
     display: flex;
     justify-content: center;
     gap: 2rem;
-    margin-bottom: 2rem;
+    margin: 1rem 0 2rem 0;
 }
 
 .modal--bottom-menu-box span {
@@ -307,7 +311,8 @@ input[type=number].year {
 }
 
 .modal.modal :is(
-    .input-text, .button.main
+    .input-text:is([type=text], [type=password]),
+    .button.main
 ) {
     width:100% !important;
 }
