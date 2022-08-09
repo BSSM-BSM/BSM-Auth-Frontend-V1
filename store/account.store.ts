@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 
 export interface User {
+    isLogin: boolean,
     code: number,
     level: number,
     nickname: string,
@@ -15,6 +16,7 @@ export interface User {
 export const userState = atom<User>({
     key: 'user',
     default: {
+        isLogin: false,
         code: 0,
         level: -1,
         nickname: '',

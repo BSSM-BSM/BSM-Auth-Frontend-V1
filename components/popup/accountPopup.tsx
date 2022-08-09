@@ -45,7 +45,10 @@ const loginBox = (setShowSignUpBox: Dispatch<SetStateAction<boolean>>) => {
             },
             callback: data => {
                 const userInfo = JSON.parse(decodeBase64(data.accessToken.split('.')[1])) as User;
-                setUser(userInfo);
+                setUser({
+                    ...userInfo,
+                    isLogin: true
+                });
                 console.log(userInfo);
                 setShowLoginBox(false);
             },
@@ -133,7 +136,7 @@ const loginBox = (setShowSignUpBox: Dispatch<SetStateAction<boolean>>) => {
                 : '인증 중...'
             }</span>
         </>
-    )
+    );
     return (
         <Modal type="main" active={showLoginBox} setActive={setShowLoginBox} title={title}>
             {loginView()}

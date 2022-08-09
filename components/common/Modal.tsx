@@ -25,7 +25,7 @@ const Modal = ({
     
     return mounted? createPortal(
         active && (
-            <div className={`modal ${type}`}>
+            <div className={`modal ${type?? ''}`}>
                 <p className="modal--title">
                     {title}
                 </p>
