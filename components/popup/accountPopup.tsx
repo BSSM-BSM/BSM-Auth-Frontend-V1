@@ -9,7 +9,6 @@ const AccountPopup = () => {
     const [showSignUpBox, setShowSignUpBox] = useState(false);
     const [showAuthCodeBox, setShowAuthCodeBox] = useState(false);
 
-
     return (
         <div className="account-popup">
             {loginBox(setShowSignUpBox)}
@@ -20,7 +19,7 @@ const AccountPopup = () => {
 }
 
 const loginBox = (setShowSignUpBox: Dispatch<SetStateAction<boolean>>) => {
-    const [, setUser] = useRecoilState(userState);
+    const [user, setUser] = useRecoilState(userState);
     const [showLoginBox, setShowLoginBox] = useRecoilState(showLoginBoxState);
     const [loginStep, setLoginStep] = useState(0);
     const [id, setId] = useState('');
@@ -28,6 +27,30 @@ const loginBox = (setShowSignUpBox: Dispatch<SetStateAction<boolean>>) => {
 
     useEffect(() => {
         setLoginStep(0);
+        if (user.isLogin) {
+            ajax({
+                setShowLoginBox,
+                method: 'get',
+                url: 'user',
+                errorCallback(data) {
+                    if (data && data.statusCode === 401) {
+                        setUser({
+                            isLogin: false,
+                            code: 0,
+                            level: -1,
+                            nickname: '',
+                            uniqNo: '',
+                            enrolledAt: 0,
+                            grade: 0,
+                            classNo: 0,
+                            studentNo: 0,
+                            name: ''
+                        });
+                        return true;
+                    }
+                },
+            });
+        }
     }, [showLoginBox]);
 
     interface LoginRes {
@@ -37,6 +60,7 @@ const loginBox = (setShowSignUpBox: Dispatch<SetStateAction<boolean>>) => {
 
     const login = () => {
         ajax<LoginRes>({
+            setShowLoginBox,
             method: 'post',
             url: '/user/login',
             payload: {
@@ -149,6 +173,7 @@ const signUpBox = (
     setShowSignUpBox: Dispatch<SetStateAction<boolean>>,
     setShowAuthCodeBox: Dispatch<SetStateAction<boolean>>
 ) => {
+    const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
     const [id, setId] = useState('');
     const [pw, setpw] = useState('');
     const [checkPw, setcheckPw] = useState('');
@@ -160,6 +185,7 @@ const signUpBox = (
             return;
         }
         ajax({
+            setShowLoginBox,
             method: 'post',
             url: '/user',
             payload: {
@@ -252,6 +278,7 @@ const signUpBox = (
 }
 
 const authCodeBox = (showAuthCodeBox: boolean, setShowAuthCodeBox: Dispatch<SetStateAction<boolean>>) => {
+    const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
     const [enrolledAt, setEnrolledAt] = useState(0);
     const [grade, setGrade] = useState(0);
     const [classNo, setClassNo] = useState(0);
@@ -260,6 +287,7 @@ const authCodeBox = (showAuthCodeBox: boolean, setShowAuthCodeBox: Dispatch<SetS
 
     const authCodeMail = () => {
         ajax({
+            setShowLoginBox,
             method: 'post',
             url: '/user/mail/authcode',
             payload: {

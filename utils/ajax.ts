@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosPromise } from "axios";
-import { useRecoilState, useResetRecoilState } from "recoil";
-import { showLoginBoxState, userState } from "../store/account.store";
+import { Dispatch, SetStateAction } from "react";
 
 const instance = axios.create({
     baseURL:'/api',
@@ -10,21 +9,29 @@ const instance = axios.create({
     timeout:3000,
 });
 
+interface ErrorResType {
+    statusCode: number,
+    message: string
+}
+
 export const ajax = async <T>({
     method,
     url,
     payload,
     config,
     callback,
-    errorCallback
+    errorCallback,
+    setShowLoginBox
 }: {
     method: string,
     url: string,
     payload?: object,
     config?: object,
     callback?: (data: T) => void,
-    errorCallback?: Function,
+    errorCallback?: (data: ErrorResType | void) => boolean | void,
+    setShowLoginBox: Dispatch<SetStateAction<boolean>>
 }): Promise<void> => {
+    
     let res;
     try {
         const get = (): AxiosPromise<T> => {
@@ -41,12 +48,12 @@ export const ajax = async <T>({
         console.log(err);
         if (!(err instanceof AxiosError) || !err.response) {
             alert('알 수 없는 에러가 발생하였습니다');
-            errorCallback && errorCallback(err);
+            errorCallback && errorCallback();
             return;
         };
         if (!err.response.data) {
             alert(err.message);
-            errorCallback && errorCallback(err.response);
+            errorCallback && errorCallback();
             return;
         }
         if (!err.response.data.statusCode) {
@@ -64,8 +71,6 @@ export const ajax = async <T>({
         }
         switch (err.response.data.statusCode) {
             case 401:
-                const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
-                useResetRecoilState(userState);
                 setShowLoginBox(true);
                 break;
             default:

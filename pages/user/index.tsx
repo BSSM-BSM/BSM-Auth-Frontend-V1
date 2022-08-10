@@ -1,12 +1,12 @@
 import styles from '../../styles/user.module.css';
 import { NextPage } from 'next';
 import { useRecoilState } from 'recoil';
-import { userState } from '../../store/account.store';
+import { showLoginBoxState } from '../../store/account.store';
 import { useEffect, useState } from 'react';
 import { ajax } from '../../utils/ajax';
 
 const UserProfilePage: NextPage = () => {
-    const [user] = useRecoilState(userState);
+    const [user, setShowLoginBox] = useRecoilState(showLoginBoxState);
     const [userInfo, setUserInfo] = useState<UserInfo>({
         usercode: 0,
         createdAt: '',
@@ -36,17 +36,18 @@ const UserProfilePage: NextPage = () => {
 
     useEffect(() => {
         ajax<UserInfo>({
+            setShowLoginBox,
             method: 'get',
             url: 'user',
             callback(data) {
                 setUserInfo(data);
             },
-        })
-    }, []);
+        });
+    }, [user]);
 
     return (
         <div className='container _60'>{
-            userInfo.usercode &&
+            userInfo.usercode !== 0 &&
             <div>
                 <img src='/icons/profile_default.png' alt='user profile' className={`${styles.user_profile} ${styles.big}`} />
                 <br /><br />

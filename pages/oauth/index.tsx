@@ -46,6 +46,7 @@ const Oauth: NextPage = () => {
 
     const authenticate = () => {
         ajax<ServiceInfo>({
+            setShowLoginBox,
             method: 'get',
             url: `/oauth/authenticate?clientId=${clientId}&redirectURI=${redirectURI}`,
             errorCallback:() => {
@@ -65,6 +66,7 @@ const Oauth: NextPage = () => {
     
     const authorize = () => {
         ajax({
+            setShowLoginBox,
             method: 'post',
             url: '/oauth/authorize',
             payload: {
