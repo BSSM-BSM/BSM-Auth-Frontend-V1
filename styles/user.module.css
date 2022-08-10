@@ -1,0 +1,15 @@
+.user_profile {
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+}
+
+.user_profile.big {
+    width: 10rem;
+    height: 10rem;
+}
+
+.user_nickname_edit_wrap {
+    margin-left: 1rem;
+    font-size: 2.8rem;
+}

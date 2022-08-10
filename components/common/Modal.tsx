@@ -35,7 +35,7 @@ const Modal = ({
                 </div>
             </div>
         ),
-        document.querySelector('#modal') as HTMLElement
+        document.querySelector('#modal-wrap') as HTMLElement
     ): null;
 };
 

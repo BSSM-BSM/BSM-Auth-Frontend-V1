@@ -9,7 +9,7 @@ export default class MyDocument extends Document {
                 <body>
                     <Main />
                     <NextScript />
-                    <div id="modal"/>
+                    <div id="modal-wrap"/>
                 </body>
             </Html>
         );

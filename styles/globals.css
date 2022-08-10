@@ -11,7 +11,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     font-family: inherit;
 }
 
-:root{
+:root {
     --black:  #000;
     --gray:  #c0c0c0;
     --light_gray: #aaa;
@@ -25,7 +25,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     --accent:  #1188bb;
     --text:  #202124;
     --accent-text:  #e8eaed;
-    --text-level-1:  #505154;
+    --text-level-1:  #606164;
     --text-level-2:  #808184;
     --text-level-3:  #b0b1b4;
     --background:  #ededed;
@@ -43,7 +43,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     --bright:  brightness(0);
     --visited:  #800080;
 }
-:root.dark{
+:root.dark {
     --black:  #000;
     --gray:  #525252;
     --light_gray: #aaa;
@@ -57,7 +57,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     --accent:  #62cdfe;
     --text:  #e8eaed;
     --accent-text:  #202124;
-    --text-level-1:  #b8babd;
+    --text-level-1:  #a8aaad;
     --text-level-2:  #888a8d;
     --text-level-3:  #585a5d;
     --background:  #202124;
@@ -95,7 +95,7 @@ body {
     color: var(--text);
     font-size: 1.5rem;
     transition: background-color .5s;
-    padding-bottom: 5rem;
+    padding: 5rem 0;
     vertical-align: middle;
     line-height: 1.2;
     font-family: NotoSans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -130,6 +130,80 @@ img{
 
 label, summary{
     cursor: pointer;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.center {
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.container {
+    max-width: 120rem;
+    text-align: center;
+    margin-left: auto; margin-right: auto;
+    justify-content: center;
+    align-items: center;
+}
+.container._60 {
+    max-width: 60rem;
+    text-align: center;
+    margin-left: auto; margin-right: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-wrap > li > h3 {
+    padding: 1.5rem 1.5rem .5rem;
+}
+
+.list {
+    background-color: var(--level-1);
+    border-radius: 2rem;
+    overflow: hidden;
+}
+
+.list li {
+    border-bottom: 1px solid var(--gray);
+    padding: 1.25rem 1.5rem;
+    transition: .2s;
+}
+
+.list li.pointer {
+    cursor: pointer;
+}
+
+.list li.detail {
+    display: flex;
+    gap: 2rem;
+}
+
+.list li.detail span:nth-child(2) {
+    color: var(--text-level-1);
+}
+
+.list li.detail span:nth-child(3) {
+    cursor: pointer;
+    margin-left: auto;
+    color: var(--text-level-2);
+}
+
+.list li:last-child {
+    border: none;
+}
+
+.list li:hover {
+    background-color: var(--hover);
 }
 
 .logo {
@@ -231,26 +305,47 @@ input[type=number].year {
 }
 
 
-.close_button {
+.close_button,
+.edit_button {
     width: 5rem;
-    height: 4rem;
+    height: 5rem;
     border-radius: .5rem;
     padding: 1rem;
     cursor: pointer;
-    background-image: url('/icons/x.svg');
+    background: none;
     background-repeat: no-repeat;
     background-size: 4rem;
     background-position: center;
+    border: none;
     filter: var(--bright);
     transition: .25s;
 }
 
-.close_button:hover {
+:is(
+    .close_button,
+    .edit_button
+):hover {
     box-shadow: var(--shadow);
     background-color: var(--hover);
 }
 
-#modal {
+.close_button {
+    height: 4rem;
+    background-image: url('/icons/x.svg');
+}
+
+.edit_button {
+    width: 3rem;
+    height: 3rem;
+    background-size: 2rem;
+    background-image: url('/icons/edit.svg');
+}
+
+#modal-wrap {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     display: flex;
@@ -259,6 +354,7 @@ input[type=number].year {
 }
 
 .modal {
+    pointer-events: all;
     min-width: 20rem;
     min-height: 6rem;
     position: absolute;
