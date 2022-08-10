@@ -155,12 +155,8 @@ label, summary{
     justify-content: center;
     align-items: center;
 }
-.container._60 {
-    max-width: 60rem;
-    text-align: center;
-    margin-left: auto; margin-right: auto;
-    justify-content: center;
-    align-items: center;
+.container._50 {
+    max-width: 50rem;
 }
 
 .list-wrap > li > h3 {

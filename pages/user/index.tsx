@@ -1,12 +1,15 @@
 import styles from '../../styles/user.module.css';
 import { NextPage } from 'next';
 import { useRecoilState } from 'recoil';
-import { showLoginBoxState } from '../../store/account.store';
+import { showLoginBoxState, userState } from '../../store/account.store';
 import { useEffect, useState } from 'react';
 import { ajax } from '../../utils/ajax';
+import UserPopup from '../../components/popup/userPopup';
+import { showUpdateNicknameBoxState, showUpdatePwBoxState } from '../../store/user.store copy';
 
 const UserProfilePage: NextPage = () => {
-    const [user, setShowLoginBox] = useRecoilState(showLoginBoxState);
+    const [user] = useRecoilState(userState);
+    const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
     const [userInfo, setUserInfo] = useState<UserInfo>({
         usercode: 0,
         createdAt: '',
@@ -20,6 +23,9 @@ const UserProfilePage: NextPage = () => {
         }
     });
     const [detailDate, setDetailDate] = useState(false);
+
+    const [, setShowUpdateNicknameBox] = useRecoilState(showUpdateNicknameBoxState);
+    const [, setShowUpdatePwBox] = useRecoilState(showUpdatePwBoxState);
 
     interface UserInfo {
         usercode: number,
@@ -46,14 +52,16 @@ const UserProfilePage: NextPage = () => {
     }, [user]);
 
     return (
-        <div className='container _60'>{
+        <div className='container _50'>
+            <UserPopup />
+        {
             userInfo.usercode !== 0 &&
             <div>
                 <img src='/icons/profile_default.png' alt='user profile' className={`${styles.user_profile} ${styles.big}`} />
                 <br /><br />
                 <p className={`${styles.user_nickname_edit_wrap} bold`}>
                     <span>{userInfo.nickname}</span>
-                    <button className='edit_button'></button>
+                    <button className='edit_button' onClick={() => setShowUpdateNicknameBox(true)}></button>
                 </p>
                 <ul className='list-wrap left'>
                     <li>
@@ -89,8 +97,8 @@ const UserProfilePage: NextPage = () => {
                     <li>
                         <h3>설정</h3>
                         <ul className='list'>
-                            <li className='pointer'>닉네임 변경</li>
-                            <li className='pointer'>비밀번호 변경</li>
+                            <li className='pointer' onClick={() => setShowUpdateNicknameBox(true)}>닉네임 변경</li>
+                            <li className='pointer' onClick={() => setShowUpdatePwBox(true)}>비밀번호 변경</li>
                             <li className='detail'>
                                 <span>연결된 서비스 관리</span>
                                 <span>(준비중)</span>
@@ -99,7 +107,7 @@ const UserProfilePage: NextPage = () => {
                     </li>
                 </ul>
             </div>
-        }</div>   
+        }</div>
     );
 }
 

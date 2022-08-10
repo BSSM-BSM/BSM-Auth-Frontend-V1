@@ -9,13 +9,13 @@ import { showLoginBoxState, userState } from '../../store/account.store';
 import { ajax } from '../../utils/ajax';
 
 const Oauth: NextPage = () => {
+    const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
     const router = useRouter();
     const { clientId, redirectURI } = router.query;
     const [user] = useRecoilState(userState);
     const [showAuthenticateFailedBox, setShowAuthenticateFailedBox] = useState(false);
     const [showAuthorizeFailedBox, setShowAuthorizeFailedBox] = useState(false);
     const [showOauthBox, setShowOauthBox] = useState(false);
-    const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
 
     useEffect(() => {
         if (!user.isLogin) {
