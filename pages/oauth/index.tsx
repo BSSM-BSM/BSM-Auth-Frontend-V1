@@ -1,4 +1,4 @@
-import styles from '../../styles/oauth/oauth.module.css';
+import styles from '../../styles/oauth.module.css';
 import type { NextPage } from 'next'
 import Head from 'next/head';
 import { useRouter } from 'next/router';

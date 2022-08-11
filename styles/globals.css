@@ -148,6 +148,22 @@ label, summary{
     font-weight: bold;
 }
 
+.rows, .cols {
+    display: flex;
+}
+
+.cols {
+    flex-direction: column;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.flex-main {
+    flex: 1;
+}
+
 .container {
     max-width: 120rem;
     text-align: center;
@@ -155,8 +171,25 @@ label, summary{
     justify-content: center;
     align-items: center;
 }
+
 .container._50 {
     max-width: 50rem;
+}
+
+.container._100 {
+    max-width: 100rem;
+}
+
+.container .title {
+    font-size: 3.6rem;
+    margin-left: 2.5rem;
+    text-align: left;
+}
+@media screen and (min-width: 0) and (max-width: 920px)  {
+    .container .title {
+        font-size: 3rem;
+        margin-left: 1rem;
+    }
 }
 
 .list-wrap > li > h3 {
@@ -200,6 +233,68 @@ label, summary{
 
 .list li:hover {
     background-color: var(--hover);
+}
+
+.left-slide-menu {
+    position: relative;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+}
+
+.left-slide-menu .menu-button {
+    position: relative;
+}
+
+.left-slide-menu .menu-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
+    height: 100%;
+    word-break: keep-all;
+    padding: 1rem;
+    transition: .25s;
+    background-color: var(--menu-background);
+    backdrop-filter: blur(5px);
+}
+
+.left-slide-menu .menu-button:hover ~ .menu-list,
+.menu-list:hover {
+    pointer-events: all;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.menu-button {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 1rem;
+    transition: all .25s;
+}
+
+.menu-button:hover {
+  box-shadow: var(--shadow);
+  background-color: var(--hover);
+}
+
+.menu-button .line {
+    width: 3rem;
+    height: .3rem;
+    border-radius: 1rem;
+    background-color: var(--text);
+    display: block;
+    margin: .25rem;
+    filter: var(--bright);
+    transition: .4s ease-in-out;
 }
 
 .logo {
