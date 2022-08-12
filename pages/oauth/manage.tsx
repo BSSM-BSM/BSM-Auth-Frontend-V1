@@ -6,7 +6,7 @@ import { OauthClientList } from '../../components/oauth/clientList';
 import { ajax } from '../../utils/ajax';
 import { Client, OauthScopeList } from '../../types/OauthTypes';
 import { ClientMenuPopup } from '../../components/oauth/clientMenuPopup';
-import { useModal } from '../../hook/useModal';
+import { useModal } from '../../hooks/useModal';
 
 const OauthManagePage: NextPage = () => {
     const { openModal } = useModal();

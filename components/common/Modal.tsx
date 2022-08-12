@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRecoilState } from "recoil";
-import { useModal } from "../../hook/useModal";
+import { useModal } from "../../hooks/useModal";
 import { modalState } from "../../store/modal.store";
 
 interface ModalProps {

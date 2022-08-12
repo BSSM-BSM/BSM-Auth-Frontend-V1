@@ -5,7 +5,7 @@ import { userState } from '../../store/account.store';
 import { useEffect, useState } from 'react';
 import { ajax } from '../../utils/ajax';
 import { UserPopup } from '../../components/user/userPopup';
-import { useModal } from '../../hook/useModal';
+import { useModal } from '../../hooks/useModal';
 
 const UserProfilePage: NextPage = () => {
     const { openModal } = useModal();

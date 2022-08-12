@@ -4,11 +4,11 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import Modal from '../../components/common/Modal';
+import Modal from '../../components/common/modal';
 import { userState } from '../../store/account.store';
 import { ajax } from '../../utils/ajax';
 import { OauthScope } from '../../types/OauthTypes';
-import { useModal } from '../../hook/useModal';
+import { useModal } from '../../hooks/useModal';
 
 const Oauth: NextPage = () => {
     const { openModal, closeModal } = useModal();

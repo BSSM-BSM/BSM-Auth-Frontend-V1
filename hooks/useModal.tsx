@@ -4,10 +4,11 @@ import { modalState } from "../store/modal.store";
 interface UseModal {
     openModal: (key: string) => void;
     closeModal: (key: string) => void;
+    closeAllModal: () => void;
 }
 
 export const useModal = (): UseModal => {
-    const [modalList, setModalList] = useRecoilState(modalState);
+    const [, setModalList] = useRecoilState(modalState);
 
     const openModal = (key: string) => {
         setModalList(prev => ({
@@ -23,8 +24,13 @@ export const useModal = (): UseModal => {
         });
     }
 
+    const closeAllModal = () => {
+        setModalList({});
+    }
+
     return {
         openModal,
-        closeModal
+        closeModal,
+        closeAllModal
     }
 }

@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosPromise } from "axios";
-import { useModal } from "../hook/useModal";
+import { useModal } from "../hooks/useModal";
 
 const instance = axios.create({
     baseURL:'/api',

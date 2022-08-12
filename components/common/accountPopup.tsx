@@ -1,10 +1,10 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { useModal } from "../../hook/useModal";
+import { useModal } from "../../hooks/useModal";
 import { User, userState } from "../../store/account.store";
 import { ajax } from "../../utils/ajax";
 import { decodeBase64 } from "../../utils/util";
-import Modal from "./Modal";
+import Modal from "./modal";
 
 export const AccountBox = () => {
     return (

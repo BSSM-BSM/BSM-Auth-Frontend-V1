@@ -2,8 +2,8 @@ import styles from '../../styles/oauth.module.css';
 import { useState } from "react";
 import { OauthScopeList } from "../../types/OauthTypes";
 import { ajax } from "../../utils/ajax";
-import Modal from "../common/Modal";
-import { useModal } from '../../hook/useModal';
+import Modal from "../common/modal";
+import { useModal } from '../../hooks/useModal';
 
 interface ClientMenuPopopProps {
     getClientList: () => void,
