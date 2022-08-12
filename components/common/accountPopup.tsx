@@ -1,26 +1,24 @@
-import { Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { showLoginBoxState, User, userState } from "../../store/account.store";
+import { useModal } from "../../hook/useModal";
+import { User, userState } from "../../store/account.store";
 import { ajax } from "../../utils/ajax";
 import { decodeBase64 } from "../../utils/util";
 import Modal from "./Modal";
 
-const AccountPopup = () => {
-    const [showSignUpBox, setShowSignUpBox] = useState(false);
-    const [showAuthCodeBox, setShowAuthCodeBox] = useState(false);
-
+export const AccountBox = () => {
     return (
-        <div className="account-popup">
-            {loginBox(setShowSignUpBox)}
-            {signUpBox(showSignUpBox, setShowSignUpBox, setShowAuthCodeBox)}
-            {authCodeBox(showAuthCodeBox, setShowAuthCodeBox)}
-        </div>
-    );
+        <>
+            <LoginBox />
+            <SignUpBox />
+            <AuthCodeBox />
+        </>
+    )
 }
 
-const loginBox = (setShowSignUpBox: Dispatch<SetStateAction<boolean>>) => {
+const LoginBox = () => {
+    const { openModal, closeModal } = useModal();
     const [user, setUser] = useRecoilState(userState);
-    const [showLoginBox, setShowLoginBox] = useRecoilState(showLoginBoxState);
     const [loginStep, setLoginStep] = useState(0);
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
@@ -29,7 +27,6 @@ const loginBox = (setShowSignUpBox: Dispatch<SetStateAction<boolean>>) => {
         setLoginStep(0);
         if (user.isLogin) {
             ajax({
-                setShowLoginBox,
                 method: 'get',
                 url: 'user',
                 errorCallback(data) {
@@ -51,7 +48,7 @@ const loginBox = (setShowSignUpBox: Dispatch<SetStateAction<boolean>>) => {
                 },
             });
         }
-    }, [showLoginBox]);
+    }, []);
 
     interface LoginRes {
         accessToken: string,
@@ -60,7 +57,6 @@ const loginBox = (setShowSignUpBox: Dispatch<SetStateAction<boolean>>) => {
 
     const login = () => {
         ajax<LoginRes>({
-            setShowLoginBox,
             method: 'post',
             url: '/user/login',
             payload: {
@@ -74,7 +70,7 @@ const loginBox = (setShowSignUpBox: Dispatch<SetStateAction<boolean>>) => {
                     isLogin: true
                 });
                 console.log(userInfo);
-                setShowLoginBox(false);
+                closeModal('login');
             },
             errorCallback: (data: any) => {
                 if (data.statusCode === 400) {
@@ -110,7 +106,7 @@ const loginBox = (setShowSignUpBox: Dispatch<SetStateAction<boolean>>) => {
                         }}
                     />
                     <div className="modal--bottom-menu-box">
-                        <span onClick={() => setShowSignUpBox(true)}>회원가입</span>
+                        <span onClick={() => openModal('signUp')}>회원가입</span>
                         <span>비밀번호 복구</span>
                         <span>ID 찾기</span>
                     </div>
@@ -138,7 +134,7 @@ const loginBox = (setShowSignUpBox: Dispatch<SetStateAction<boolean>>) => {
                         }}
                     />
                     <div className="modal--bottom-menu-box">
-                        <span onClick={() => setShowSignUpBox(true)}>회원가입</span>
+                        <span onClick={() => openModal('signUp')}>회원가입</span>
                         <span>비밀번호 복구</span>
                         <span>ID 찾기</span>
                     </div>
@@ -162,18 +158,14 @@ const loginBox = (setShowSignUpBox: Dispatch<SetStateAction<boolean>>) => {
         </>
     );
     return (
-        <Modal type="main" active={showLoginBox} setActive={setShowLoginBox} title={title}>
+        <Modal type="main" id="login" title={title}>
             {loginView()}
         </Modal>
     );
 }
 
-const signUpBox = (
-    showSignUpBox: boolean,
-    setShowSignUpBox: Dispatch<SetStateAction<boolean>>,
-    setShowAuthCodeBox: Dispatch<SetStateAction<boolean>>
-) => {
-    const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
+const SignUpBox = () => {
+    const { openModal, closeModal } = useModal();
     const [id, setId] = useState('');
     const [pw, setpw] = useState('');
     const [checkPw, setcheckPw] = useState('');
@@ -185,7 +177,6 @@ const signUpBox = (
             return;
         }
         ajax({
-            setShowLoginBox,
             method: 'post',
             url: '/user',
             payload: {
@@ -197,7 +188,7 @@ const signUpBox = (
             },
             callback: () => {
                 alert('회원가입이 완료되었습니다');
-                setShowSignUpBox(false);
+                closeModal('signUp');
             }
         });
     }
@@ -210,7 +201,7 @@ const signUpBox = (
         </>
     )
     return (
-        <Modal type="main" active={showSignUpBox} setActive={setShowSignUpBox} title={title}>
+        <Modal type="main" id="signUp" title={title}>
             <form
                 autoComplete="off"
                 onSubmit={e => {
@@ -269,7 +260,7 @@ const signUpBox = (
                     }}
                 />
                 <div className="modal--bottom-menu-box">
-                    <span onClick={() => setShowAuthCodeBox(true)}>인증코드 발급</span>
+                    <span onClick={() => openModal('authCode')}>인증코드 발급</span>
                 </div>
                 <button type="submit" className="button main accent">가입하기</button>
             </form>
@@ -277,8 +268,8 @@ const signUpBox = (
     );
 }
 
-const authCodeBox = (showAuthCodeBox: boolean, setShowAuthCodeBox: Dispatch<SetStateAction<boolean>>) => {
-    const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
+const AuthCodeBox = () => {
+    const { closeModal } = useModal();
     const [enrolledAt, setEnrolledAt] = useState(0);
     const [grade, setGrade] = useState(0);
     const [classNo, setClassNo] = useState(0);
@@ -287,7 +278,6 @@ const authCodeBox = (showAuthCodeBox: boolean, setShowAuthCodeBox: Dispatch<SetS
 
     const authCodeMail = () => {
         ajax({
-            setShowLoginBox,
             method: 'post',
             url: '/user/mail/authcode',
             payload: {
@@ -299,13 +289,13 @@ const authCodeBox = (showAuthCodeBox: boolean, setShowAuthCodeBox: Dispatch<SetS
             },
             callback: () => {
                 alert('인증코드 전송이 완료되었습니다\n메일함을 확인해주세요');
-                setShowAuthCodeBox(false);
+                closeModal('authCode');
             }
         });
     }
 
     return (
-        <Modal type="main" active={showAuthCodeBox} setActive={setShowAuthCodeBox} title="인증코드 발급">
+        <Modal type="main" id="authCode" title="인증코드 발급">
             <br/><p>인증코드는 학교 이메일 계정으로 보내드립니다</p>
             <form
                 autoComplete="off"
@@ -377,5 +367,3 @@ const authCodeBox = (showAuthCodeBox: boolean, setShowAuthCodeBox: Dispatch<SetS
         </Modal>
     );
 }
-
-export default AccountPopup;

@@ -2,16 +2,14 @@ import styles from '../../styles/oauth.module.css';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
 import { OauthClientList } from '../../components/oauth/clientList';
-import { showLoginBoxState } from '../../store/account.store';
 import { ajax } from '../../utils/ajax';
 import { Client, OauthScopeList } from '../../types/OauthTypes';
 import { ClientMenuPopup } from '../../components/oauth/clientMenuPopup';
+import { useModal } from '../../hook/useModal';
 
 const OauthManagePage: NextPage = () => {
-    const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
-    const [showCreateClientBox, setShowCreateClientBox] = useState(false);
+    const { openModal } = useModal();
 
     useEffect(() => {
         getClientList();
@@ -23,7 +21,6 @@ const OauthManagePage: NextPage = () => {
 
     const getClientList = () => {
         ajax<Client[]>({
-            setShowLoginBox,
             method: 'get',
             url: '/oauth/client',
             callback: data => {
@@ -34,7 +31,6 @@ const OauthManagePage: NextPage = () => {
     
     const getScopeInfoList = () => {
         ajax<OauthScopeList>({
-            setShowLoginBox,
             method: 'get',
             url: '/oauth/scopes',
             callback: data => {
@@ -48,11 +44,11 @@ const OauthManagePage: NextPage = () => {
             <Head>
                 <title>OAuth 클라이언트 - BSM Auth</title>
             </Head>
-            <ClientMenuPopup showCreateBox={showCreateClientBox} setShowCreateBox={setShowCreateClientBox} getClientList={getClientList} scopeList={scopeInfoList} />
+            <ClientMenuPopup getClientList={getClientList} scopeList={scopeInfoList} />
             <div className={styles.client_manage}>
                 <h1 className='title'>OAuth 클라이언트</h1>
                 <div className={`${styles.oauth_menu} rows space-between`}>
-                    <button className='button accent' onClick={() => setShowCreateClientBox(true)}>추가</button>
+                    <button className='button accent' onClick={() => openModal('createClient')}>추가</button>
                     <button className='button' onClick={getClientList}>새로 고침</button>
                 </div>
                 <ul className={styles.client_list}>{

@@ -1,12 +1,11 @@
 import type { NextPage } from 'next'
-import { useRecoilState } from 'recoil';
-import { showLoginBoxState } from '../store/account.store';
+import { useModal } from '../hook/useModal';
 
 const Home: NextPage = () => {
-    const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
+    const { openModal } = useModal();
     return (
         <div>
-            <button onClick={() => setShowLoginBox(true)}>로그인창 열기</button>
+            <button onClick={() => openModal('loginBox')}>로그인 창 열기</button>
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosPromise } from "axios";
-import { Dispatch, SetStateAction } from "react";
+import { useModal } from "../hook/useModal";
 
 const instance = axios.create({
     baseURL:'/api',
@@ -21,15 +21,13 @@ export const ajax = async <T>({
     config,
     callback,
     errorCallback,
-    setShowLoginBox
 }: {
     method: string,
     url: string,
     payload?: object,
     config?: object,
     callback?: (data: T) => void,
-    errorCallback?: (data: ErrorResType | void) => boolean | void,
-    setShowLoginBox: Dispatch<SetStateAction<boolean>>
+    errorCallback?: (data: ErrorResType | void) => boolean | void
 }): Promise<void> => {
     
     let res;
@@ -71,7 +69,8 @@ export const ajax = async <T>({
         }
         switch (err.response.data.statusCode) {
             case 401:
-                setShowLoginBox(true);
+                const { openModal } = useModal();
+                openModal('loginBox');
                 break;
             default:
                 alert(`에러코드: ${err.response.data.statusCode} ${err.response.data.message}`);

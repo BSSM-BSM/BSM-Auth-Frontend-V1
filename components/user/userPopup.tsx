@@ -1,31 +1,23 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { showLoginBoxState, User, userState } from "../../store/account.store";
-import { PopupProps } from "../../types/PopupProps";
+import { useModal } from "../../hook/useModal";
+import { User, userState } from "../../store/account.store";
 import { ajax } from "../../utils/ajax";
 import { decodeBase64 } from "../../utils/util";
 import Modal from "../common/Modal";
 
-interface UserPopupProps {
-    showUpdatePwBox: boolean,
-    setShowUpdatePwBox: Dispatch<SetStateAction<boolean>>,
-    showUpdateNicknameBox:boolean,
-    setShowUpdateNicknameBox: Dispatch<SetStateAction<boolean>>
-}
-
-export const UserPopup = (props: UserPopupProps) => {
+export const UserPopup = () => {
 
     return (
-        <div className="user-popup">
-            <UpdatePwBox showBox={props.showUpdatePwBox} setShowBox={props.setShowUpdatePwBox} />
-            <UpdateNicknameBox showBox={props.showUpdateNicknameBox} setShowBox={props.setShowUpdateNicknameBox} />
-        </div>
+        <>
+            <UpdatePwBox />
+            <UpdateNicknameBox />
+        </>
     );
 }
 
-const UpdatePwBox = (props: PopupProps) => {
-    const { showBox, setShowBox } = props;
-    const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
+const UpdatePwBox = () => {
+    const { closeModal } = useModal();
     const [newPw, setNewPw] = useState('');
     const [checkNewPw, setCheckNewPw] = useState('');
 
@@ -34,22 +26,21 @@ const UpdatePwBox = (props: PopupProps) => {
             return;
         }
         ajax<{accessToken: string}>({
-            setShowLoginBox,
             method: 'put',
             url: '/user/pw',
             payload: {
                 newPw,
                 checkNewPw
             },
-            callback: (data) => {
+            callback: () => {
                 alert('비밀번호 재설정이 완료되었습니다');
-                setShowBox(false);
+                closeModal('updatePw');
             }
         });
     }
 
     return (
-        <Modal type="main" active={showBox} setActive={setShowBox} title="비밀번호 재설정">
+        <Modal type="main" id="updatePw" title="비밀번호 재설정">
             <form
                 autoComplete="off"
                 onSubmit={e => {
@@ -83,10 +74,9 @@ const UpdatePwBox = (props: PopupProps) => {
     );
 }
 
-const UpdateNicknameBox = (props: PopupProps) => {
-    const { showBox, setShowBox } = props;
+const UpdateNicknameBox = () => {
+    const { closeModal } = useModal();
     const [, setUser] = useRecoilState(userState);
-    const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
     const [newNickname, setNewNickname] = useState('');
 
     const updateNickname = () => {
@@ -94,7 +84,6 @@ const UpdateNicknameBox = (props: PopupProps) => {
             return;
         }
         ajax<{accessToken: string}>({
-            setShowLoginBox,
             method: 'put',
             url: '/user/nickname',
             payload: {
@@ -107,13 +96,13 @@ const UpdateNicknameBox = (props: PopupProps) => {
                     ...userInfo,
                     isLogin: true
                 });
-                setShowBox(false);
+                closeModal('updateNickname')
             }
         });
     }
 
     return (
-        <Modal type="main" active={showBox} setActive={setShowBox} title="닉네임 변경">
+        <Modal type="main" id="updateNickname" title="닉네임 변경">
             <form
                 autoComplete="off"
                 onSubmit={e => {

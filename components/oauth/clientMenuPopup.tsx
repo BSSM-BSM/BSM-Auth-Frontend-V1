@@ -1,15 +1,11 @@
 import styles from '../../styles/oauth.module.css';
-import { Dispatch, SetStateAction, useState } from "react";
-import { useRecoilState } from "recoil";
-import { showLoginBoxState } from "../../store/account.store";
+import { useState } from "react";
 import { OauthScopeList } from "../../types/OauthTypes";
-import { PopupProps } from "../../types/PopupProps";
 import { ajax } from "../../utils/ajax";
 import Modal from "../common/Modal";
+import { useModal } from '../../hook/useModal';
 
 interface ClientMenuPopopProps {
-    showCreateBox: boolean,
-    setShowCreateBox: Dispatch<SetStateAction<boolean>>,
     getClientList: () => void,
     scopeList: OauthScopeList
 }
@@ -18,19 +14,19 @@ export const ClientMenuPopup = (props: ClientMenuPopopProps) => {
 
     return (
         <div className="user-popup">
-            <CreateClientBox scopeList={props.scopeList} getClientList={props.getClientList} showBox={props.showCreateBox} setShowBox={props.setShowCreateBox} />
+            <CreateClientBox scopeList={props.scopeList} getClientList={props.getClientList} />
         </div>
     );
 }
 
-interface CreateClientBoxProps extends PopupProps {
+interface CreateClientProps {
     getClientList: () => void,
     scopeList: OauthScopeList
 }
 
-const CreateClientBox = (props: CreateClientBoxProps) => {
-    const { showBox, setShowBox, getClientList, scopeList: scopeInfoList } = props;
-    const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
+const CreateClientBox = (props: CreateClientProps) => {
+    const { closeModal } = useModal();
+    const { getClientList, scopeList: scopeInfoList } = props;
     const [domain, setDomain] = useState('');
     const [redirectURI, setRedirectURI] = useState('');
     const [serviceName, setServiceName] = useState('');
@@ -38,7 +34,6 @@ const CreateClientBox = (props: CreateClientBoxProps) => {
 
     const createClient = () => {
         ajax<{accessToken: string}>({
-            setShowLoginBox,
             method: 'post',
             url: '/oauth/client',
             payload: {
@@ -49,13 +44,13 @@ const CreateClientBox = (props: CreateClientBoxProps) => {
             },
             callback: () => {
                 getClientList();
-                setShowBox(false);
+                closeModal('createClient');
             }
         });
     }
 
     return (
-        <Modal active={showBox} setActive={setShowBox} title="클라이언트 생성">
+        <Modal id='createClient' title="클라이언트 생성">
             <form
                 autoComplete="off"
                 onSubmit={e => {

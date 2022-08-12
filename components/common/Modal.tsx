@@ -1,35 +1,38 @@
-import { Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { useRecoilState } from "recoil";
+import { useModal } from "../../hook/useModal";
+import { modalState } from "../../store/modal.store";
 
 interface ModalProps {
     children: ReactNode,
-    active: boolean,
-    setActive: Dispatch<SetStateAction<boolean>>,
+    id: string,
     type?: string,
     title?: string | ReactNode
 }
 
 const Modal = ({
     children,
-    active,
-    setActive,
+    id,
     type,
     title
 }: ModalProps) => {
+    const { closeModal } = useModal();
     const [mounted, setMounted] = useState(false);
+    const [modalList] = useRecoilState(modalState);
+
     useEffect(() => {
         setMounted(true);
         return () => setMounted(false);
     }, []);
     
-    
     return mounted? createPortal(
-        active && (
+        modalList[id] && (
             <div className={`modal ${type?? ''}`}>
                 <p className="modal--title">
                     {title}
                 </p>
-                <div className="close_button" onClick={() => setActive(false)}></div>
+                <div className="close_button" onClick={() => closeModal(id)}></div>
                 <div className="modal--content">
                     {children}
                 </div>

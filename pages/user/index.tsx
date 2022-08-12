@@ -1,14 +1,15 @@
 import styles from '../../styles/user.module.css';
 import { NextPage } from 'next';
 import { useRecoilState } from 'recoil';
-import { showLoginBoxState, userState } from '../../store/account.store';
+import { userState } from '../../store/account.store';
 import { useEffect, useState } from 'react';
 import { ajax } from '../../utils/ajax';
 import { UserPopup } from '../../components/user/userPopup';
+import { useModal } from '../../hook/useModal';
 
 const UserProfilePage: NextPage = () => {
+    const { openModal } = useModal();
     const [user] = useRecoilState(userState);
-    const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
     const [userInfo, setUserInfo] = useState<UserInfo>({
         usercode: 0,
         createdAt: '',
@@ -22,9 +23,6 @@ const UserProfilePage: NextPage = () => {
         }
     });
     const [detailDate, setDetailDate] = useState(false);
-
-    const [showUpdateNicknameBox, setShowUpdateNicknameBox] = useState(false);
-    const [showUpdatePwBox, setShowUpdatePwBox] = useState(false);
 
     interface UserInfo {
         usercode: number,
@@ -41,7 +39,6 @@ const UserProfilePage: NextPage = () => {
 
     useEffect(() => {
         ajax<UserInfo>({
-            setShowLoginBox,
             method: 'get',
             url: 'user',
             callback(data) {
@@ -52,7 +49,7 @@ const UserProfilePage: NextPage = () => {
 
     return (
         <div className='container _50'>
-            {UserPopup({showUpdateNicknameBox, setShowUpdateNicknameBox, showUpdatePwBox, setShowUpdatePwBox})}
+            <UserPopup />
         {
             userInfo.usercode !== 0 &&
             <div>
@@ -60,7 +57,7 @@ const UserProfilePage: NextPage = () => {
                 <br /><br />
                 <p className={`${styles.user_nickname_edit_wrap} bold`}>
                     <span>{userInfo.nickname}</span>
-                    <button className='edit_button' onClick={() => setShowUpdateNicknameBox(true)}></button>
+                    <button className='edit_button' onClick={() => openModal('updateNickname')}></button>
                 </p>
                 <ul className='list-wrap left'>
                     <li>
@@ -96,8 +93,8 @@ const UserProfilePage: NextPage = () => {
                     <li>
                         <h3>설정</h3>
                         <ul className='list'>
-                            <li className='pointer' onClick={() => setShowUpdateNicknameBox(true)}>닉네임 변경</li>
-                            <li className='pointer' onClick={() => setShowUpdatePwBox(true)}>비밀번호 변경</li>
+                            <li className='pointer' onClick={() => openModal('updateNickname')}>닉네임 변경</li>
+                            <li className='pointer' onClick={() => openModal('updatePw')}>비밀번호 변경</li>
                             <li className='detail'>
                                 <span>연결된 서비스 관리</span>
                                 <span>(준비중)</span>
