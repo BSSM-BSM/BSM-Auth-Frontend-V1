@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { showLoginBoxState, User, userState } from "../../store/account.store";
 import { ajax } from "../../utils/ajax";
 import { decodeBase64 } from "../../utils/util";
-import Modal from "../common/Modal";
+import Modal from "./Modal";
 
 const AccountPopup = () => {
     const [showSignUpBox, setShowSignUpBox] = useState(false);

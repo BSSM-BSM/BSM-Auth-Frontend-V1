@@ -1,24 +1,31 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useRecoilState } from "recoil";
 import { showLoginBoxState, User, userState } from "../../store/account.store";
-import { showUpdateNicknameBoxState, showUpdatePwBoxState } from "../../store/user.store copy";
+import { PopupProps } from "../../types/PopupProps";
 import { ajax } from "../../utils/ajax";
 import { decodeBase64 } from "../../utils/util";
 import Modal from "../common/Modal";
 
-const UserPopup = () => {
+interface UserPopupProps {
+    showUpdatePwBox: boolean,
+    setShowUpdatePwBox: Dispatch<SetStateAction<boolean>>,
+    showUpdateNicknameBox:boolean,
+    setShowUpdateNicknameBox: Dispatch<SetStateAction<boolean>>
+}
+
+export const UserPopup = (props: UserPopupProps) => {
 
     return (
         <div className="user-popup">
-            {updateNicknameBox()}
-            {updatePwBox()}
+            <UpdatePwBox showBox={props.showUpdatePwBox} setShowBox={props.setShowUpdatePwBox} />
+            <UpdateNicknameBox showBox={props.showUpdateNicknameBox} setShowBox={props.setShowUpdateNicknameBox} />
         </div>
     );
 }
 
-const updatePwBox = () => {
+const UpdatePwBox = (props: PopupProps) => {
+    const { showBox, setShowBox } = props;
     const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
-    const [showUpdatePwBox, setShowUpdatePwBox] = useRecoilState(showUpdatePwBoxState);
     const [newPw, setNewPw] = useState('');
     const [checkNewPw, setCheckNewPw] = useState('');
 
@@ -36,13 +43,13 @@ const updatePwBox = () => {
             },
             callback: (data) => {
                 alert('비밀번호 재설정이 완료되었습니다');
-                setShowUpdatePwBox(false);
+                setShowBox(false);
             }
         });
     }
 
     return (
-        <Modal type="main" active={showUpdatePwBox} setActive={setShowUpdatePwBox} title="비밀번호 재설정">
+        <Modal type="main" active={showBox} setActive={setShowBox} title="비밀번호 재설정">
             <form
                 autoComplete="off"
                 onSubmit={e => {
@@ -76,10 +83,10 @@ const updatePwBox = () => {
     );
 }
 
-const updateNicknameBox = () => {
+const UpdateNicknameBox = (props: PopupProps) => {
+    const { showBox, setShowBox } = props;
     const [, setUser] = useRecoilState(userState);
     const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
-    const [showUpdateNicknameBox, setShowUpdateNicknameBox] = useRecoilState(showUpdateNicknameBoxState);
     const [newNickname, setNewNickname] = useState('');
 
     const updateNickname = () => {
@@ -100,13 +107,13 @@ const updateNicknameBox = () => {
                     ...userInfo,
                     isLogin: true
                 });
-                setShowUpdateNicknameBox(false);
+                setShowBox(false);
             }
         });
     }
 
     return (
-        <Modal type="main" active={showUpdateNicknameBox} setActive={setShowUpdateNicknameBox} title="닉네임 변경">
+        <Modal type="main" active={showBox} setActive={setShowBox} title="닉네임 변경">
             <form
                 autoComplete="off"
                 onSubmit={e => {
@@ -129,5 +136,3 @@ const updateNicknameBox = () => {
         </Modal>
     );
 }
-
-export default UserPopup;

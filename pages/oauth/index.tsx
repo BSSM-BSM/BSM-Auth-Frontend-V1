@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import Modal from '../../components/common/Modal';
 import { showLoginBoxState, userState } from '../../store/account.store';
 import { ajax } from '../../utils/ajax';
+import { OauthScope } from '../../types/OauthTypes';
 
 const Oauth: NextPage = () => {
     const [, setShowLoginBox] = useRecoilState(showLoginBoxState);
@@ -31,11 +32,7 @@ const Oauth: NextPage = () => {
         authorized: boolean,
         domain: string,
         name: string,
-        scopeList: {
-            id: string,
-            name: string,
-            description: string
-        }[];
+        scopeList: OauthScope[]
     }
     const [serviceInfo, setServiceInfo] = useState<ServiceInfo>({
         authorized: false,

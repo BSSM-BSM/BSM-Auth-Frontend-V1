@@ -1,4 +1,5 @@
 import styles from '../../styles/oauth.module.css';
+import { OauthScopeList } from '../../types/OauthTypes';
 
 interface Client {
     clientId: string,
@@ -9,11 +10,11 @@ interface Client {
     scopeList: string[]
 }
 
-export const OauthClientList = (props: {client: Client}) => {
-    const { client } = props;
+export const OauthClientList = (props: {client: Client, scopeInfoList: OauthScopeList}) => {
+    const { client, scopeInfoList } = props;
     
     return (
-        <li className={`${styles.client} rows`} key={client.clientId}>
+        <li className={`${styles.client} rows`}>
             <div className='flex-main'>
                 <div className={`${styles.top_wrap} left`}>
                     <h2 className={`${styles.service_name} bold`}>{client.serviceName}</h2>
@@ -28,15 +29,16 @@ export const OauthClientList = (props: {client: Client}) => {
                     <summary>Client Secret</summary>
                 </details>
                 <details>
-                    <ul className={`${styles.scope_list} left`}>{
-                        client.scopeList.map(scope => (
-                            <li key={scope}>
-                                <details>
-                                    {scope}
-                                    <summary>{scope}</summary>
-                                </details>
-                            </li>
-                        ))
+                    <ul className={`${styles.scope_list} ${styles._25} left`}>{
+                        scopeInfoList.filter(scopeInfo => client.scopeList.some(scope => scope === scopeInfo.id))
+                            .map(scope => (
+                                <li key={scope.id}>
+                                    <details>
+                                        {scope.description}
+                                        <summary>{scope.name}</summary>
+                                    </details>
+                                </li>
+                            ))
                     }</ul>
                     <summary>제공되는 정보</summary>
                 </details>

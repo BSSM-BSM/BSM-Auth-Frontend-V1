@@ -113,6 +113,10 @@ body {
     src: url('/fonts/NotoSansKR-Bold.woff2') format('woff2');
 }
 
+h3 {
+    font-size: 2rem;
+}
+
 ul,
 ol,
 li {

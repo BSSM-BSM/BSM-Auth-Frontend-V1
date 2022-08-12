@@ -4,8 +4,7 @@ import { useRecoilState } from 'recoil';
 import { showLoginBoxState, userState } from '../../store/account.store';
 import { useEffect, useState } from 'react';
 import { ajax } from '../../utils/ajax';
-import UserPopup from '../../components/popup/userPopup';
-import { showUpdateNicknameBoxState, showUpdatePwBoxState } from '../../store/user.store copy';
+import { UserPopup } from '../../components/user/userPopup';
 
 const UserProfilePage: NextPage = () => {
     const [user] = useRecoilState(userState);
@@ -24,8 +23,8 @@ const UserProfilePage: NextPage = () => {
     });
     const [detailDate, setDetailDate] = useState(false);
 
-    const [, setShowUpdateNicknameBox] = useRecoilState(showUpdateNicknameBoxState);
-    const [, setShowUpdatePwBox] = useRecoilState(showUpdatePwBoxState);
+    const [showUpdateNicknameBox, setShowUpdateNicknameBox] = useState(false);
+    const [showUpdatePwBox, setShowUpdatePwBox] = useState(false);
 
     interface UserInfo {
         usercode: number,
@@ -53,7 +52,7 @@ const UserProfilePage: NextPage = () => {
 
     return (
         <div className='container _50'>
-            <UserPopup />
+            {UserPopup({showUpdateNicknameBox, setShowUpdateNicknameBox, showUpdatePwBox, setShowUpdatePwBox})}
         {
             userInfo.usercode !== 0 &&
             <div>

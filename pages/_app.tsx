@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import AccountPopup from '../components/popup/accountPopup'
+import AccountPopup from '../components/common/accountPopup'
 import { RecoilRoot } from 'recoil'
 
 function MyApp({ Component, pageProps }: AppProps) {
