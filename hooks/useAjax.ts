@@ -16,7 +16,7 @@ interface ErrorResType {
 }
 
 export const useAjax = () => {
-    const { loading } = useOverlay();
+    const { loading, showAlert } = useOverlay();
     const { openModal } = useModal();
 
     const ajax = async <T>({
@@ -52,20 +52,20 @@ export const useAjax = () => {
             loading(false);
             console.log(err);
             if (!(err instanceof AxiosError) || !err.response) {
-                alert('알 수 없는 에러가 발생하였습니다');
+                showAlert('알 수 없는 에러가 발생하였습니다');
                 errorCallback && errorCallback();
                 return;
             };
             if (!err.response.data) {
-                alert(err.message);
+                showAlert(err.message);
                 errorCallback && errorCallback();
                 return;
             }
             if (!err.response.data.statusCode) {
                 if (err.response.status == 429) {
-                    alert('잠시 후에 다시 시도해주세요.');
+                    showAlert('잠시 후에 다시 시도해주세요.');
                 } else {
-                    alert(`HTTP ERROR ${err.response.status}`);
+                    showAlert(`HTTP ERROR ${err.response.status}`);
                 }
                 errorCallback && errorCallback(err.response.data);
                 return;
@@ -79,7 +79,7 @@ export const useAjax = () => {
                     openModal('login');
                     break;
                 default:
-                    alert(`에러코드: ${err.response.data.statusCode} ${err.response.data.message}`);
+                    showAlert(`에러코드: ${err.response.data.statusCode} ${err.response.data.message}`);
             }
             return;
         }

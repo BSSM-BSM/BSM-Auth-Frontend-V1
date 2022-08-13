@@ -1,15 +1,19 @@
+import { prepareServerlessUrl } from "next/dist/server/base-server";
 import { useRecoilState } from "recoil";
-import { loadingState, toastCountState, toastState } from "../store/overlay.store";
+import { alertState, alertTimerState, loadingState, toastCountState, toastState } from "../store/overlay.store";
 
 interface UseOverlay {
     loading: (flag: boolean) => void;
     showToast: (msg: string) => Promise<void>;
+    showAlert: (msg: string) => void;
 }
 
 export const useOverlay = (): UseOverlay => {
     const [, setLoading] = useRecoilState(loadingState);
     const [, setToastList] = useRecoilState(toastState);
     const [toastCount, setToastCount] = useRecoilState(toastCountState);
+    const [, setAlert] = useRecoilState(alertState);
+    const [alertTimer, setAlertTimer] = useRecoilState(alertTimerState);
 
     const loading = (flag: boolean) => {
         setLoading(() => flag);
@@ -43,8 +47,38 @@ export const useOverlay = (): UseOverlay => {
         });
     }
 
+    const showAlert = (msg: string) => {
+        if (alertTimer.hideTimer) {
+            clearInterval(alertTimer.hideTimer);
+        }
+        if (alertTimer.removeTimer) {
+            clearInterval(alertTimer.removeTimer);
+        }
+
+        setAlert({
+            status: 'active',
+            msg
+        });
+
+        setAlertTimer({
+            hideTimer: setTimeout(() => {
+                setAlert(prev => ({
+                    ...prev,
+                    status: 'hide'
+                }));
+            }, 5000),
+            removeTimer: setTimeout(() => {
+                setAlert(() => ({
+                    status: '',
+                    msg: null
+                }));
+            }, 5200),
+        })
+    }
+
     return {
         loading,
-        showToast
+        showToast,
+        showAlert
     }
 }

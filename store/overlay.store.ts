@@ -20,3 +20,25 @@ export const toastCountState = atom<number>({
     key: 'toastCountState',
     default: 0
 });
+
+export const alertState = atom<{
+    status: string,
+    msg: string | null
+}>({
+    key: 'alert',
+    default: {
+        status: '',
+        msg: null
+    }
+});
+
+export const alertTimerState = atom<{
+    removeTimer: NodeJS.Timer | null,
+    hideTimer: NodeJS.Timer | null
+}>({
+    key: 'alertTimer',
+    default: {
+        removeTimer: null,
+        hideTimer: null
+    }
+});

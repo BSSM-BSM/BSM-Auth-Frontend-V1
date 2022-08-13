@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { useAjax } from "../../hooks/useAjax";
 import { useModal } from "../../hooks/useModal";
+import { useOverlay } from "../../hooks/useOverlay";
 import { User, userState } from "../../store/account.store";
 import { decodeBase64 } from "../../utils/util";
 import Modal from "./modal";
@@ -18,6 +19,7 @@ export const AccountBox = () => {
 
 const LoginBox = () => {
     const { ajax } = useAjax();
+    const { showAlert } = useOverlay();
     const { openModal, closeModal } = useModal();
     const [user, setUser] = useRecoilState(userState);
     const [loginStep, setLoginStep] = useState(0);
@@ -76,7 +78,7 @@ const LoginBox = () => {
             errorCallback: (data: any) => {
                 if (data.statusCode === 400) {
                     setLoginStep(0);
-                    alert(data.message);
+                    showAlert(data.message);
                     return true;
                 }
                 setLoginStep(1);
@@ -167,6 +169,7 @@ const LoginBox = () => {
 
 const SignUpBox = () => {
     const { ajax } = useAjax();
+    const { showAlert } = useOverlay();
     const { openModal, closeModal } = useModal();
     const [id, setId] = useState('');
     const [pw, setpw] = useState('');
@@ -189,7 +192,7 @@ const SignUpBox = () => {
                 authCode
             },
             callback: () => {
-                alert('회원가입이 완료되었습니다');
+                showAlert('회원가입이 완료되었습니다');
                 closeModal('signUp');
             }
         });
@@ -272,6 +275,7 @@ const SignUpBox = () => {
 
 const AuthCodeBox = () => {
     const { ajax } = useAjax();
+    const { showAlert } = useOverlay();
     const { closeModal } = useModal();
     const [enrolledAt, setEnrolledAt] = useState(0);
     const [grade, setGrade] = useState(0);
@@ -291,7 +295,7 @@ const AuthCodeBox = () => {
                 name
             },
             callback: () => {
-                alert('인증코드 전송이 완료되었습니다\n메일함을 확인해주세요');
+                showAlert('인증코드 전송이 완료되었습니다\n메일함을 확인해주세요');
                 closeModal('authCode');
             }
         });

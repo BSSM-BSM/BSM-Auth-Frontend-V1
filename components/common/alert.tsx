@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRecoilState } from "recoil";
-import { toastState } from "../../store/overlay.store";
+import { alertState } from "../../store/overlay.store";
 
-const Toast = () => {
+const Alert = () => {
     const [mounted, setMounted] = useState(false);
-    const [toastList] = useRecoilState(toastState);
+    const [alert] = useRecoilState(alertState);
 
     useEffect(() => {
         setMounted(true);
@@ -13,13 +13,11 @@ const Toast = () => {
     }, []);
     
     return mounted? createPortal(
-        <div className="toast-wrap">{
-            Object.values(toastList).map(toast => (
-                <div key={toast.id} className={`toast ${toast.status}`}>{toast.msg}</div>
-            ))
+        <div className="alert-wrap">{
+            alert.msg !== null && <div className={`alert ${alert.status}`}>{alert.msg}</div>
         }</div>,
         document.querySelector('#overlay-wrap') as HTMLElement
     ): null;
 };
 
-export default Toast;
+export default Alert;
