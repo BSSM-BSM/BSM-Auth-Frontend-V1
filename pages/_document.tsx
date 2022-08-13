@@ -10,6 +10,7 @@ export default class MyDocument extends Document {
                     <Main />
                     <NextScript />
                     <div id="modal-wrap"/>
+                    <div id="overlay-wrap"/>
                 </body>
             </Html>
         );

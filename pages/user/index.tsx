@@ -3,11 +3,12 @@ import { NextPage } from 'next';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/account.store';
 import { useEffect, useState } from 'react';
-import { ajax } from '../../utils/ajax';
 import { UserPopup } from '../../components/user/userPopup';
 import { useModal } from '../../hooks/useModal';
+import { useAjax } from '../../hooks/useAjax';
 
 const UserProfilePage: NextPage = () => {
+    const { ajax } = useAjax();
     const { openModal } = useModal();
     const [user] = useRecoilState(userState);
     const [userInfo, setUserInfo] = useState<UserInfo>({

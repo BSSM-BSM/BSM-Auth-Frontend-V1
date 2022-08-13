@@ -1,8 +1,8 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import { useAjax } from "../../hooks/useAjax";
 import { useModal } from "../../hooks/useModal";
 import { User, userState } from "../../store/account.store";
-import { ajax } from "../../utils/ajax";
 import { decodeBase64 } from "../../utils/util";
 import Modal from "./modal";
 
@@ -17,6 +17,7 @@ export const AccountBox = () => {
 }
 
 const LoginBox = () => {
+    const { ajax } = useAjax();
     const { openModal, closeModal } = useModal();
     const [user, setUser] = useRecoilState(userState);
     const [loginStep, setLoginStep] = useState(0);
@@ -165,6 +166,7 @@ const LoginBox = () => {
 }
 
 const SignUpBox = () => {
+    const { ajax } = useAjax();
     const { openModal, closeModal } = useModal();
     const [id, setId] = useState('');
     const [pw, setpw] = useState('');
@@ -269,6 +271,7 @@ const SignUpBox = () => {
 }
 
 const AuthCodeBox = () => {
+    const { ajax } = useAjax();
     const { closeModal } = useModal();
     const [enrolledAt, setEnrolledAt] = useState(0);
     const [grade, setGrade] = useState(0);

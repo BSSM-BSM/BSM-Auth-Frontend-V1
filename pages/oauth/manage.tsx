@@ -3,12 +3,13 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { OauthClientList } from '../../components/oauth/clientList';
-import { ajax } from '../../utils/ajax';
 import { Client, OauthScopeList } from '../../types/OauthTypes';
 import { ClientMenuPopup } from '../../components/oauth/clientMenuPopup';
 import { useModal } from '../../hooks/useModal';
+import { useAjax } from '../../hooks/useAjax';
 
 const OauthManagePage: NextPage = () => {
+    const { ajax } = useAjax();
     const { openModal } = useModal();
 
     useEffect(() => {

@@ -1,9 +1,9 @@
 import styles from '../../styles/oauth.module.css';
 import { useState } from "react";
 import { OauthScopeList } from "../../types/OauthTypes";
-import { ajax } from "../../utils/ajax";
 import Modal from "../common/modal";
 import { useModal } from '../../hooks/useModal';
+import { useAjax } from '../../hooks/useAjax';
 
 interface ClientMenuPopopProps {
     getClientList: () => void,
@@ -25,6 +25,7 @@ interface CreateClientProps {
 }
 
 const CreateClientBox = (props: CreateClientProps) => {
+    const { ajax } = useAjax();
     const { closeModal } = useModal();
     const { getClientList, scopeList: scopeInfoList } = props;
     const [domain, setDomain] = useState('');

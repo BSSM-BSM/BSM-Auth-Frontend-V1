@@ -6,11 +6,12 @@ import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Modal from '../../components/common/modal';
 import { userState } from '../../store/account.store';
-import { ajax } from '../../utils/ajax';
 import { OauthScope } from '../../types/OauthTypes';
 import { useModal } from '../../hooks/useModal';
+import { useAjax } from '../../hooks/useAjax';
 
 const Oauth: NextPage = () => {
+    const { ajax } = useAjax();
     const { openModal, closeModal } = useModal();
     const router = useRouter();
     const { clientId, redirectURI } = router.query;

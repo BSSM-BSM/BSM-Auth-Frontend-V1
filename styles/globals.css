@@ -303,13 +303,48 @@ label, summary{
 
 .dim {
     pointer-events: all;
-    display: fixed;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, .2);
     z-index: 100;
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 102;
+}
+
+.loading > div {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.loading span {
+    display: inline-block;
+    width: 7.5rem;
+    height: 7.5rem;
+    border: 1rem solid var(--text-level-2);
+    border-radius: 50%;
+    border-top-color: var(--accent);
+    animation: spin .75s ease-in-out infinite;
+    -webkit-animation: spin .75s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {-webkit-transform: rotate(360deg);}
+}
+@-webkit-keyframes spin {
+    to {-webkit-transform: rotate(360deg);}
 }
 
 .logo {
