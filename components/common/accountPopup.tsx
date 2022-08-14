@@ -13,6 +13,7 @@ export const AccountBox = () => {
             <LoginBox />
             <SignUpBox />
             <AuthCodeBox />
+            <FindIdBox />
         </>
     )
 }
@@ -87,6 +88,14 @@ const LoginBox = () => {
         });
     }
 
+    const bottomMenuView = (): ReactNode => (
+        <div className="modal--bottom-menu-box">
+            <span onClick={() => openModal('signUp')}>회원가입</span>
+            <span>비밀번호 복구</span>
+            <span onClick={() => openModal('findId')}>ID 찾기</span>
+        </div>
+    )
+
     const loginView = (): ReactNode => {
         switch (loginStep) {
             case 0: return (
@@ -108,11 +117,7 @@ const LoginBox = () => {
                             setId(e.target.value);
                         }}
                     />
-                    <div className="modal--bottom-menu-box">
-                        <span onClick={() => openModal('signUp')}>회원가입</span>
-                        <span>비밀번호 복구</span>
-                        <span>ID 찾기</span>
-                    </div>
+                    {bottomMenuView()}
                     <button type="submit" className="button main accent">다음</button>
                 </form>
             )
@@ -136,11 +141,7 @@ const LoginBox = () => {
                             setPw(e.target.value);
                         }}
                     />
-                    <div className="modal--bottom-menu-box">
-                        <span onClick={() => openModal('signUp')}>회원가입</span>
-                        <span>비밀번호 복구</span>
-                        <span>ID 찾기</span>
-                    </div>
+                    {bottomMenuView()}
                     <button type="submit" className="button main accent">로그인</button>
                 </form>
             )
@@ -150,7 +151,7 @@ const LoginBox = () => {
     const title = (
         <>
             <img src="/logo/logo.png" alt="logo" className="logo" />
-            <br />
+            <br/>
             <span>{
                 loginStep === 0?
                 '로그인'
@@ -201,7 +202,7 @@ const SignUpBox = () => {
     const title = (
         <>
             <img src="/logo/logo.png" alt="logo" className="logo" />
-            <br />
+            <br/>
             <span>회원가입</span>
         </>
     )
@@ -303,7 +304,7 @@ const AuthCodeBox = () => {
 
     return (
         <Modal type="main" id="authCode" title="인증코드 발급">
-            <br/><p>인증코드는 학교 이메일 계정으로 보내드립니다</p>
+            <p>인증코드는 학교 이메일 계정으로 보내드립니다</p>
             <form
                 autoComplete="off"
                 onSubmit={e => {
@@ -370,6 +371,108 @@ const AuthCodeBox = () => {
                     }}
                 />
                 <button type="submit" className="button main accent">인증코드 발급</button>
+            </form>
+        </Modal>
+    );
+}
+
+const FindIdBox = () => {
+    const { ajax } = useAjax();
+    const { showToast } = useOverlay();
+    const { closeModal } = useModal();
+    const [enrolledAt, setEnrolledAt] = useState(0);
+    const [grade, setGrade] = useState(0);
+    const [classNo, setClassNo] = useState(0);
+    const [studentNo, setStudentNo] = useState(0);
+    const [name, setName] = useState('');
+
+    const findIdMail = () => {
+        ajax({
+            method: 'post',
+            url: '/user/mail/id',
+            payload: {
+                enrolledAt,
+                grade,
+                classNo,
+                studentNo,
+                name
+            },
+            callback: () => {
+                showToast('ID 복구 메일 전송이 완료되었습니다.\n메일함을 확인해주세요.');
+                closeModal('findId');
+            }
+        });
+    }
+
+    return (
+        <Modal type="main" id="findId" title="ID 찾기">
+            <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
+            <form
+                autoComplete="off"
+                onSubmit={e => {
+                    e.preventDefault();
+                    findIdMail();
+                }}
+            >
+                <input
+                    type="number"
+                    className="input-text year"
+                    placeholder="입학연도"
+                    min="2021"
+                    max="2099"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setEnrolledAt(Number(e.target.value));
+                    }}
+                />
+                <input
+                    type="number"
+                    className="input-text"
+                    placeholder="학년"
+                    min="1"
+                    max="3"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setGrade(Number(e.target.value));
+                    }}
+                />
+                <input
+                    type="number"
+                    className="input-text"
+                    placeholder="반"
+                    min="1"
+                    max="4"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setClassNo(Number(e.target.value));
+                    }}
+                />
+                <input
+                    type="number"
+                    className="input-text"
+                    placeholder="번호"
+                    min="1"
+                    max="16"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setStudentNo(Number(e.target.value));
+                    }}
+                />
+                <input
+                    type="text"
+                    className="input-text"
+                    placeholder="이름"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setName(e.target.value);
+                    }}
+                />
+                <button type="submit" className="button main accent">복구 메일 전송</button>
             </form>
         </Modal>
     );

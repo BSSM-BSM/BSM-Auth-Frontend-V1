@@ -651,11 +651,15 @@ input[type=number].year {
     display: flex;
     justify-content: center;
     gap: 2rem;
-    margin: 1rem 0 2rem 0;
+    margin: 1rem 0;
 }
 
 .modal--bottom-menu-box span {
     cursor: pointer;
+}
+
+.modal.modal .button.main {
+    margin-top: 1rem;
 }
 
 .modal.modal :is(
