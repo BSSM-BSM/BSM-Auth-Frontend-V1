@@ -3,10 +3,11 @@ import { useState } from "react";
 interface ToggleButtonProps {
     onCallback: Function;
     offCallback: Function;
+    initial: boolean
 }
 
-export const ToggleButton = (props: ToggleButtonProps, initial: boolean) => {
-    const [checked, setChecked] = useState(initial);
+export const ToggleButton = (props: ToggleButtonProps) => {
+    const [checked, setChecked] = useState(props.initial);
     
     return (
         <label className={`toggle-button ${checked? 'active': ''}`} onClick={() => {

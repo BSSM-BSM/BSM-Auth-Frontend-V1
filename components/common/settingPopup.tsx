@@ -23,7 +23,21 @@ export const SettingBox = () => {
                     <ul className='list'>
                         <li className="toggle">
                             <span>다크 모드</span>
-                            <ToggleButton onCallback={() => setTheme('dark')} offCallback={() => setTheme('white')} />
+                            <ToggleButton
+                                onCallback={
+                                    () => {
+                                        setTheme('dark');
+                                        localStorage.setItem('theme', 'dark');
+                                    }
+                                }
+                                offCallback={
+                                    () => {
+                                        setTheme('white')
+                                        localStorage.setItem('theme', 'white');
+                                    }
+                                }
+                                initial={theme === 'dark'}
+                            />
                         </li>
                         <li className='detail'>
                             <span>배율</span>
