@@ -53,7 +53,7 @@ const ResetPwPage: NextPage = () => {
             url: `/user/pw/token?token=${token}`,
             callback: data => {
                 setTokenInfo(data);
-                openModal('resetPw');
+                openModal('resetPw', false);
             }
         });
     }
@@ -91,7 +91,7 @@ const ResetPwPage: NextPage = () => {
             <Head>
                 <title>비밀번호 재설정 - BSM Auth</title>
             </Head>
-            <Modal type="main" id="resetPw" title="비밀번호 재설정" close={false}>
+            <Modal type="main" id="resetPw" title="비밀번호 재설정">
                 <h3>남은 시간 {leftTime}</h3>
                 <form
                     autoComplete="off"

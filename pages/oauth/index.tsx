@@ -19,7 +19,7 @@ const Oauth: NextPage = () => {
 
     useEffect(() => {
         if (!user.isLogin) {
-            openModal('login');
+            openModal('login', false);
         }
     }, []);
     
@@ -45,14 +45,14 @@ const Oauth: NextPage = () => {
             method: 'get',
             url: `/oauth/authenticate?clientId=${clientId}&redirectURI=${redirectURI}`,
             errorCallback:() => {
-                openModal('oauthAuthenticateFailed');
+                openModal('oauthAuthenticateFailed', false);
             },
             callback: data => {
                 if (data.authorized) {
                     return authorize();
                 }
                 setServiceInfo(data);
-                openModal('oauth');
+                openModal('oauth', false);
                 closeModal('oauthAuthenticateFailed');
                 closeModal('oauthAuthorizeFailed');
             }
@@ -69,7 +69,7 @@ const Oauth: NextPage = () => {
             },
             errorCallback: () => {
                 closeModal('oauth');
-                openModal('oauthAuthorizeFailed');
+                openModal('oauthAuthorizeFailed', false);
             },
             callback: (data: any) => {
                 window.location = data.redirectURI;
