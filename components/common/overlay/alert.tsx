@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRecoilState } from "recoil";
-import { alertState } from "../../store/overlay.store";
+import { alertState } from "../../../store/overlay.store";
 
 const Alert = () => {
     const [mounted, setMounted] = useState(false);

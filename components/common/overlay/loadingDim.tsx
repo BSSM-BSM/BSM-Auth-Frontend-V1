@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRecoilState } from "recoil";
-import { loadingState } from "../../store/overlay.store";
+import { loadingState } from "../../../store/overlay.store";
 
 const LoadingDim = () => {
     const [mounted, setMounted] = useState(false);

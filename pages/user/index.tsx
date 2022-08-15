@@ -100,6 +100,7 @@ const UserProfilePage: NextPage = () => {
                                 <span>연결된 서비스 관리</span>
                                 <span>(준비중)</span>
                             </li>
+                            <li className='pointer' onClick={() => openModal('setting')}>다른 설정</li>
                         </ul>
                     </li>
                 </ul>

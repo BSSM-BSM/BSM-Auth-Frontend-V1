@@ -11,7 +11,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     font-family: inherit;
 }
 
-:root {
+body {
     --black: 0, 0, 0;
     --gray: 192, 192, 192;
     --light_gray: 170, 170, 170;
@@ -41,7 +41,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     --bright: brightness(0);
     --visited: #800080;
 }
-:root.dark {
+body.dark {
     --gray: 82, 82, 82;
     --red: 250, 128, 114;
     --yellow: 255, 140, 0;
@@ -201,15 +201,19 @@ label, summary{
 
 .list li {
     border-bottom: 1px solid rgb(var(--gray));
-    padding: 1.25rem 1.5rem;
+    padding: 1rem 1.5rem;
     transition: .2s;
+}
+
+.list li span {
+    margin: .2rem 0;
 }
 
 .list li.pointer {
     cursor: pointer;
 }
 
-.list li.detail {
+.list li:is(.detail, .toggle) {
     display: flex;
     gap: 2rem;
 }
@@ -222,6 +226,10 @@ label, summary{
     cursor: pointer;
     margin-left: auto;
     color: rgb(var(--text-level-2));
+}
+
+.list li.toggle .toggle-button {
+    margin-left: auto;
 }
 
 .list li:last-child {
@@ -472,6 +480,34 @@ label, summary{
     background-color: rgb(var(--hover), .2) !important;
 }
 
+.toggle-button {
+    position: relative;
+    background-color: grey;
+    width: 4rem;
+    height: 2.2rem;
+    border-radius: 1.6rem;
+}
+
+.toggle-button.active {
+    background-color: rgb(var(--accent));
+}
+
+.toggle-button .slider {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: .3rem;
+    height: 1.6rem;
+    width: 1.6rem;
+    background-color: white;
+    border-radius: 12px;
+    transition: .25s;
+}
+
+.toggle-button.active .slider {
+    left: calc(100% - .3rem - 1.6rem);
+}
+
 .input-text,
 .textarea {
     border: none;
@@ -515,15 +551,6 @@ input[type=number].year {
     .textarea
 ):hover {
     box-shadow: var(--shadow) inset;
-    background-color: rgba(var(--hover), .1) !important;
-}
-
-.modal :is(
-    .input-text,
-    input[type=number],
-    textarea,
-    .textarea
-):hover {
     background-color: rgba(var(--hover), .1) !important;
 }
 
@@ -603,7 +630,7 @@ input[type=number].year {
     padding: 1.5rem;
     border-radius: 2rem;
     box-shadow: var(--shadow);
-    background-color: rgb(var(--level-1));
+    background-color: rgb(var(--background));
     z-index: 101;
     animation: modal_show 100ms ease-out;
 }
