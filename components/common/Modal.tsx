@@ -8,14 +8,16 @@ interface ModalProps {
     children: ReactNode,
     id: string,
     type?: string,
-    title?: string | ReactNode
+    title?: string | ReactNode,
+    close?: boolean
 }
 
 const Modal = ({
     children,
     id,
     type,
-    title
+    title,
+    close = true
 }: ModalProps) => {
     const { closeModal } = useModal();
     const [mounted, setMounted] = useState(false);
@@ -32,7 +34,7 @@ const Modal = ({
                 <p className="modal--title">
                     {title}
                 </p>
-                <div className="close_button" onClick={() => closeModal(id)}></div>
+                {close && <div className="close_button" onClick={() => closeModal(id)}></div>}
                 <div className="modal--content">
                     {children}
                 </div>

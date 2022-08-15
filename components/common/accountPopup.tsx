@@ -14,6 +14,7 @@ export const AccountBox = () => {
             <SignUpBox />
             <AuthCodeBox />
             <FindIdBox />
+            <ResetPwBox />
         </>
     )
 }
@@ -91,8 +92,8 @@ const LoginBox = () => {
     const bottomMenuView = (): ReactNode => (
         <div className="modal--bottom-menu-box">
             <span onClick={() => openModal('signUp')}>회원가입</span>
-            <span>비밀번호 복구</span>
-            <span onClick={() => openModal('findId')}>ID 찾기</span>
+            <span onClick={() => openModal('resetPwMail')}>비밀번호 복구</span>
+            <span onClick={() => openModal('findIdMail')}>ID 찾기</span>
         </div>
     )
 
@@ -399,13 +400,13 @@ const FindIdBox = () => {
             },
             callback: () => {
                 showToast('ID 복구 메일 전송이 완료되었습니다.\n메일함을 확인해주세요.');
-                closeModal('findId');
+                closeModal('findIdMail');
             }
         });
     }
 
     return (
-        <Modal type="main" id="findId" title="ID 찾기">
+        <Modal type="main" id="findIdMail" title="ID 찾기">
             <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
             <form
                 autoComplete="off"
@@ -470,6 +471,52 @@ const FindIdBox = () => {
                     onChange={e => {
                         e.preventDefault();
                         setName(e.target.value);
+                    }}
+                />
+                <button type="submit" className="button main accent">복구 메일 전송</button>
+            </form>
+        </Modal>
+    );
+}
+
+const ResetPwBox = () => {
+    const { ajax } = useAjax();
+    const { showToast } = useOverlay();
+    const { closeModal } = useModal();
+    const [id, setId] = useState('');
+
+    const resetPwMail = () => {
+        ajax({
+            method: 'post',
+            url: '/user/mail/pw',
+            payload: {
+                id
+            },
+            callback: () => {
+                showToast('비밀번호 복구 메일 전송이 완료되었습니다.\n메일함을 확인해주세요.');
+                closeModal('resetPwMail');
+            }
+        });
+    }
+
+    return (
+        <Modal type="main" id="resetPwMail" title="비밀번호 복구">
+            <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
+            <form
+                autoComplete="off"
+                onSubmit={e => {
+                    e.preventDefault();
+                    resetPwMail();
+                }}
+            >
+                <input
+                    type="text"
+                    className="input-text"
+                    placeholder="복구할 아이디"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setId(e.target.value);
                     }}
                 />
                 <button type="submit" className="button main accent">복구 메일 전송</button>
