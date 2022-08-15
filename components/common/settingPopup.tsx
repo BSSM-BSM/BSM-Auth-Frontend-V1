@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { themeState } from "../../store/common.store";
+import { screenScaleState, themeState } from "../../store/common.store";
 import { ToggleButton } from "./buttons/toggleButton";
 import Modal from "./modal";
 
 export const SettingBox = () => {
     const [theme, setTheme] = useRecoilState(themeState);
+    const [screenScale, setScreenScale] = useRecoilState(screenScaleState);
 
     useEffect(() => {
         if (theme === 'dark') {
@@ -14,6 +15,10 @@ export const SettingBox = () => {
             document.body.classList.remove('dark');
         }
     }, [theme]);
+
+    useEffect(() => {
+        document.documentElement.style.setProperty('--scale', `${screenScale * 0.625}%`);
+    })
 
     return (
         <Modal type="main" id="setting" title="설정">
@@ -39,9 +44,19 @@ export const SettingBox = () => {
                                 initial={theme === 'dark'}
                             />
                         </li>
-                        <li className='detail'>
+                        <li className='picker'>
                             <span>배율</span>
-                            <span>100%</span>
+                            <label>
+                                <input
+                                    className="input-text"
+                                    type="number"
+                                    min={50}
+                                    max={500}
+                                    onChange={(event) => setScreenScale(Number(event.target.value))}
+                                    value={screenScale}
+                                ></input>
+                                <span>%</span>
+                            </label>
                         </li>
                     </ul>
                 </li>
