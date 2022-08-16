@@ -56,7 +56,11 @@ const OauthManagePage: NextPage = () => {
                     !clientList.length?
                     <p>클라이언트가 없습니다, 상단 추가 버튼을 눌러 추가하세요</p>
                     :clientList.map(client => (
-                        <OauthClientList client={client} key={client.clientId} scopeInfoList={scopeInfoList} />
+                        <OauthClientList
+                            client={client}
+                            scopeInfoList={scopeInfoList}
+                            getClientList={getClientList}
+                        />
                     ))
                 }</ul>
             </div>

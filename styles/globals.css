@@ -61,7 +61,7 @@ body.dark {
     --level-2: 64, 65, 68;
   
     --input: 192, 192, 192;
-    --menu-background: 51, 51, 51;
+    --menu-background: 60, 60, 60;
   
     --shadow: 0 0 0 #000;
     --hover: 168, 170, 173;
@@ -487,9 +487,14 @@ label, summary{
     background-color: rgb(var(--level-2));
     transition: .25s;
 }
+
 .button:hover {
     box-shadow: var(--shadow);
     background-color: rgb(var(--hover), .2) !important;
+}
+
+.button.delete {
+    background-color: rgb(var(--red));
 }
 
 .toggle-button {

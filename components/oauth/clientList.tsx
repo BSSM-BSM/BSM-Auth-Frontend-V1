@@ -1,3 +1,4 @@
+import { useAjax } from '../../hooks/useAjax';
 import styles from '../../styles/oauth.module.css';
 import { OauthScopeList } from '../../types/OauthTypes';
 
@@ -10,8 +11,21 @@ interface Client {
     scopeList: string[]
 }
 
-export const OauthClientList = (props: {client: Client, scopeInfoList: OauthScopeList}) => {
-    const { client, scopeInfoList } = props;
+export const OauthClientList = (props: {
+    client: Client,
+    scopeInfoList: OauthScopeList,
+    getClientList: Function
+}) => {
+    const { client, scopeInfoList, getClientList } = props;
+    const { ajax } = useAjax();
+
+    const deleteClient = () => {
+        ajax({
+            method: 'delete',
+            url: `/oauth/client/${props.client.clientId}`,
+            callback: () => getClientList()
+        })
+    }
     
     return (
         <li className={`${styles.client} rows`}>
@@ -51,7 +65,16 @@ export const OauthClientList = (props: {client: Client, scopeInfoList: OauthScop
                 </span>
                 <ul className='menu-list'>
                     <li>
-                        <button className='button delete'>삭제</button>
+                        <button
+                            className='button delete'
+                            onClick={() => {
+                                if (confirm('정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다!')) {
+                                    deleteClient();
+                                }
+                            }}
+                        >
+                            삭제
+                        </button>
                     </li>
                 </ul>
             </div>

@@ -18,7 +18,7 @@ export const SettingBox = () => {
 
     useEffect(() => {
         document.documentElement.style.setProperty('--scale', `${screenScale * 0.625}%`);
-    })
+    }, [screenScale]);
 
     return (
         <Modal type="main" id="setting" title="설정">
@@ -37,7 +37,7 @@ export const SettingBox = () => {
                                 }
                                 offCallback={
                                     () => {
-                                        setTheme('white')
+                                        setTheme('white');
                                         localStorage.setItem('theme', 'white');
                                     }
                                 }
