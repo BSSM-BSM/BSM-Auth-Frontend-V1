@@ -23,37 +23,10 @@ const LoginBox = () => {
     const { ajax } = useAjax();
     const { showAlert } = useOverlay();
     const { openModal, closeModal } = useModal();
-    const [user, setUser] = useRecoilState(userState);
+    const [, setUser] = useRecoilState(userState);
     const [loginStep, setLoginStep] = useState(0);
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
-
-    useEffect(() => {
-        setLoginStep(0);
-        if (user.isLogin) {
-            ajax({
-                method: 'get',
-                url: 'user',
-                errorCallback(data) {
-                    if (data && data.statusCode === 401) {
-                        setUser({
-                            isLogin: false,
-                            code: 0,
-                            level: -1,
-                            nickname: '',
-                            uniqNo: '',
-                            enrolledAt: 0,
-                            grade: 0,
-                            classNo: 0,
-                            studentNo: 0,
-                            name: ''
-                        });
-                        return true;
-                    }
-                },
-            });
-        }
-    }, []);
 
     interface LoginRes {
         accessToken: string,
@@ -63,18 +36,18 @@ const LoginBox = () => {
     const login = () => {
         ajax<LoginRes>({
             method: 'post',
-            url: '/user/login',
+            url: 'user/login',
             payload: {
                 id,
                 pw
             },
             callback: data => {
-                const userInfo = JSON.parse(decodeBase64(data.accessToken.split('.')[1])) as User;
-                setUser({
-                    ...userInfo,
+                const userInfo = {
+                    ...JSON.parse(decodeBase64(data.accessToken.split('.')[1])),
                     isLogin: true
-                });
-                console.log(userInfo);
+                } as User;
+                localStorage.setItem('user', JSON.stringify(userInfo));
+                setUser(userInfo);
                 closeModal('login');
             },
             errorCallback: (data: any) => {
@@ -185,7 +158,7 @@ const SignUpBox = () => {
         }
         ajax({
             method: 'post',
-            url: '/user',
+            url: 'user',
             payload: {
                 id,
                 pw,
@@ -288,7 +261,7 @@ const AuthCodeBox = () => {
     const authCodeMail = () => {
         ajax({
             method: 'post',
-            url: '/user/mail/authcode',
+            url: 'user/mail/authcode',
             payload: {
                 enrolledAt,
                 grade,
@@ -390,7 +363,7 @@ const FindIdBox = () => {
     const findIdMail = () => {
         ajax({
             method: 'post',
-            url: '/user/mail/id',
+            url: 'user/mail/id',
             payload: {
                 enrolledAt,
                 grade,
@@ -488,7 +461,7 @@ const ResetPwBox = () => {
     const resetPwMail = () => {
         ajax({
             method: 'post',
-            url: '/user/mail/pw',
+            url: 'user/mail/pw',
             payload: {
                 id
             },

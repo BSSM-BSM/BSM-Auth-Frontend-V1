@@ -3,7 +3,6 @@
 }
 
 .oauth_menu {
-    /* margin: 3rem 2.5rem 1rem 2.5rem; */
     margin-top: 5rem;
 }
 
@@ -14,11 +13,11 @@
     margin-top: 1rem;
 }
 .client {
-    background-color: rgb(var(--level-1));
+    background-color: var(--level-1);
     border-radius: 2rem;
     overflow: hidden;
 }
-.client > div:first-child{
+.client > div:first-child {
     padding: 1rem 0 1rem 2rem;
 }
 .client :is(.top_wrap, .bottom_wrap) {
@@ -55,7 +54,7 @@
 
 .scope_list li{
     width: calc(50% - .5rem);
-    color: rgb(var(--text-level-2));
+    color: var(--text-level-2);
 }
 
 .scope_list._25 li{
@@ -63,7 +62,7 @@
 }
 
 .scope_list li summary{
-    color: rgb(var(--text));
+    color: var(--text);
 }
 
 .scope_list li label {
