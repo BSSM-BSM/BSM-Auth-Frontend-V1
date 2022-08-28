@@ -1,15 +1,6 @@
 import { useAjax } from '../../hooks/useAjax';
 import styles from '../../styles/oauth.module.css';
-import { OauthScopeList } from '../../types/OauthTypes';
-
-interface Client {
-    clientId: string,
-    clientSecret: string,
-    domain: string,
-    serviceName: string,
-    redirectURI: string,
-    scopeList: string[]
-}
+import { Client, OauthScopeList } from '../../types/OauthTypes';
 
 export const OauthClientList = (props: {
     client: Client,
@@ -18,6 +9,13 @@ export const OauthClientList = (props: {
 }) => {
     const { client, scopeInfoList, getClientList } = props;
     const { ajax } = useAjax();
+    const accessType: {
+        [index: string]: string
+    } = {
+        ALL: '모두',
+        STUDENT: '학생만',
+        TEACHER: '선생님만',
+    }
 
     const deleteClient = () => {
         ajax({
@@ -32,7 +30,10 @@ export const OauthClientList = (props: {
             <div className='flex-main'>
                 <div className={`${styles.top_wrap} left`}>
                     <h2 className={`${styles.service_name} bold`}>{client.serviceName}</h2>
-                    <p className={`${styles.client_id}`}>{client.clientId}</p>
+                    <div className='rows gap-1'>
+                        <span className={`${styles.client_id}`}>{client.clientId}</span>
+                        <span>허용대상: {accessType[client.access]}</span>
+                    </div>
                 </div>
                 <div className={`${styles.bottom_wrap} left`}>
                     <p className='accent-text'>{client.domain}</p>

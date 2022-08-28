@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { useAjax } from "../../hooks/useAjax";
 import { useModal } from "../../hooks/useModal";
+import { useOverlay } from "../../hooks/useOverlay";
 import { User, userState } from "../../store/account.store";
 import { decodeBase64 } from "../../utils/util";
 import Modal from "../common/modal";
@@ -19,6 +20,7 @@ export const UserPopup = () => {
 const UpdatePwBox = () => {
     const { ajax } = useAjax();
     const { closeModal } = useModal();
+    const { showToast } = useOverlay();
     const [newPw, setNewPw] = useState('');
     const [checkNewPw, setCheckNewPw] = useState('');
 
@@ -34,7 +36,7 @@ const UpdatePwBox = () => {
                 checkNewPw
             },
             callback: () => {
-                alert('비밀번호 재설정이 완료되었습니다');
+                showToast('비밀번호 재설정이 완료되었습니다');
                 closeModal('updatePw');
             }
         });
@@ -78,6 +80,7 @@ const UpdatePwBox = () => {
 const UpdateNicknameBox = () => {
     const { ajax } = useAjax();
     const { closeModal } = useModal();
+    const { showToast } = useOverlay();
     const [, setUser] = useRecoilState(userState);
     const [newNickname, setNewNickname] = useState('');
 
@@ -92,7 +95,7 @@ const UpdateNicknameBox = () => {
                 newNickname
             },
             callback: (data) => {
-                alert('닉네임 변경이 완료되었습니다');
+                showToast('닉네임 변경이 완료되었습니다');
                 const userInfo = JSON.parse(decodeBase64(data.accessToken.split('.')[1])) as User;
                 setUser({
                     ...userInfo,

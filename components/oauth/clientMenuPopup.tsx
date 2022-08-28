@@ -32,6 +32,7 @@ const CreateClientBox = (props: CreateClientProps) => {
     const [redirectURI, setRedirectURI] = useState('');
     const [serviceName, setServiceName] = useState('');
     const [selectScopeList, setSelectScopeList] = useState<string[]>([]);
+    const [access, setAccess] = useState('ALL');
 
     const createClient = () => {
         ajax<{accessToken: string}>({
@@ -41,7 +42,8 @@ const CreateClientBox = (props: CreateClientProps) => {
                 domain,
                 redirectURI,
                 serviceName,
-                scopeList: selectScopeList
+                scopeList: selectScopeList,
+                access
             },
             callback: () => {
                 getClientList();
@@ -110,6 +112,33 @@ const CreateClientBox = (props: CreateClientProps) => {
                         setRedirectURI(e.target.value);
                     }}
                 />
+                <h3>허용 대상</h3>
+                <p>해당 설정을 변경하면 선택된 대상만 가입하도록 할 수 있습니다.</p>
+                <div className='rows gap-1'>{
+                    [{
+                        name: '모두',
+                        value: 'ALL'
+                    },
+                    {
+                        name: '학생만',
+                        value: 'STUDENT'
+                    },
+                    {
+                        name: '선생님만',
+                        value: 'TEACHER'
+                    }].map(accessType => (
+                        <label key={accessType.value}>
+                            {accessType.name}
+                            <input
+                                type="radio"
+                                value={accessType.value}
+                                checked={access === accessType.value}
+                                onChange={(event) => setAccess(event.target.value)}
+                            />
+                        </label>
+                    ))
+                }</div>
+                <br />
                 <h3>사용할 정보</h3>
                 <ul className={`${styles.scope_list} left`}>{
                     scopeInfoList.map(scope => (
@@ -135,7 +164,7 @@ const CreateClientBox = (props: CreateClientProps) => {
                         </li>
                     ))
                 }</ul>
-                <button type="submit" className="button main accent">비밀번호 재설정</button>
+                <button type="submit" className="button main accent">생성</button>
             </form>
         </Modal>
     );

@@ -4,7 +4,8 @@ export interface Client {
     domain: string,
     serviceName: string,
     redirectURI: string,
-    scopeList: string[]
+    scopeList: string[],
+    access: string
 }
 
 export interface OauthScope {

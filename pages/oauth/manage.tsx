@@ -7,15 +7,18 @@ import { Client, OauthScopeList } from '../../types/OauthTypes';
 import { ClientMenuPopup } from '../../components/oauth/clientMenuPopup';
 import { useModal } from '../../hooks/useModal';
 import { useAjax } from '../../hooks/useAjax';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../store/account.store';
 
 const OauthManagePage: NextPage = () => {
     const { ajax } = useAjax();
     const { openModal } = useModal();
+    const [user] = useRecoilState(userState);
 
     useEffect(() => {
         getClientList();
         getScopeInfoList();
-    }, []);
+    }, [user]);
 
     const [clientList, setClientList] = useState<Client[]>([]);
     const [scopeInfoList, setScopeInfoList] = useState<OauthScopeList>([]);
