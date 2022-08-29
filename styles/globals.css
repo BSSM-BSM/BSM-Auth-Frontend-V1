@@ -801,6 +801,33 @@ input[type=number].year {
     }
 }
 
+.modal--menu {
+    display: flex;
+}
+
+.modal--menu li {
+    padding: 1rem;
+    flex: 1;
+    transition: .25s;
+    cursor: pointer;
+}
+
+.modal--menu li:first-child {
+    border-radius: 1rem 0 0 1rem;
+}
+
+.modal--menu li:last-child {
+    border-radius: 0 1rem 1rem 0;
+}
+
+.modal--menu li:hover {
+    background-color: var(--hover);
+}
+
+.modal--menu li.active {
+    background-color: var(--level-2);
+}
+
 .modal--content {
     margin-top: 1rem;
     text-align: center;

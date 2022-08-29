@@ -4,6 +4,7 @@ import { useAjax } from "../../hooks/useAjax";
 import { useModal } from "../../hooks/useModal";
 import { useOverlay } from "../../hooks/useOverlay";
 import { User, userState } from "../../store/account.store";
+import { UserRole } from "../../types/UserRole";
 import { decodeBase64 } from "../../utils/util";
 import Modal from "./modal";
 
@@ -144,34 +145,127 @@ const LoginBox = () => {
 
 const SignUpBox = () => {
     const { ajax } = useAjax();
-    const { showAlert } = useOverlay();
+    const { showToast } = useOverlay();
     const { openModal, closeModal } = useModal();
     const [id, setId] = useState('');
     const [pw, setpw] = useState('');
     const [checkPw, setcheckPw] = useState('');
     const [nickname, setNickname] = useState('');
     const [authCode, setAuthCode] = useState('');
+    const [name, setName] = useState('');
 
-    const signUp = () => {
+    const signUp = (role: UserRole) => {
         if (!confirm('회원 가입하시겠습니까?')) {
             return;
         }
+        const payload = (() => {
+            switch (role) {
+                case UserRole.STUDENT: return {
+                    id,
+                    pw,
+                    checkPw,
+                    nickname,
+                    authCode
+                }
+                case UserRole.TEACHER: return {
+                    id,
+                    pw,
+                    checkPw,
+                    nickname,
+                    authCode,
+                    name
+                }
+            }
+        })();
         ajax({
             method: 'post',
-            url: 'user',
-            payload: {
-                id,
-                pw,
-                checkPw,
-                nickname,
-                authCode
-            },
+            url: `user/${role}`,
+            payload,
             callback: () => {
-                showAlert('회원가입이 완료되었습니다');
+                showToast('회원가입이 완료되었습니다');
                 closeModal('signUp');
             }
         });
     }
+
+    const signUpFormView = (role: UserRole) => (
+        <form
+            autoComplete="off"
+            onSubmit={e => {
+                e.preventDefault();
+                signUp(role);
+            }}
+        >
+            <input
+                type="text"
+                className="input-text"
+                placeholder="아이디"
+                required
+                onChange={e => {
+                    e.preventDefault();
+                    setId(e.target.value);
+                }}
+            />
+            <input
+                type="password"
+                className="input-text"
+                placeholder="비밀번호"
+                required
+                onChange={e => {
+                    e.preventDefault();
+                    setpw(e.target.value);
+                }}
+            />
+            <input
+                type="password"
+                className="input-text"
+                placeholder="비밀번호 재입력"
+                required
+                onChange={e => {
+                    e.preventDefault();
+                    setcheckPw(e.target.value);
+                }}
+            />
+            <input
+                type="text"
+                className="input-text"
+                placeholder="닉네임"
+                required
+                onChange={e => {
+                    e.preventDefault();
+                    setNickname(e.target.value);
+                }}
+            />
+            {
+                role === UserRole.TEACHER
+                ? <input
+                    type="text"
+                    className="input-text"
+                    placeholder="선생님 이름"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setName(e.target.value);
+                    }}
+                />
+                : null
+            }
+            <input
+                type="text"
+                className="input-text"
+                placeholder="인증코드"
+                required
+                onChange={e => {
+                    e.preventDefault();
+                    setAuthCode(e.target.value);
+                }}
+            />
+            <div className="modal--bottom-menu-box">
+                <span onClick={() => openModal('authCode')}>인증코드 발급</span>
+            </div>
+            <button type="submit" className="button main accent">가입하기</button>
+        </form>
+    )
 
     const title = (
         <>
@@ -181,176 +275,23 @@ const SignUpBox = () => {
         </>
     )
     return (
-        <Modal type="main" id="signUp" title={title}>
-            <form
-                autoComplete="off"
-                onSubmit={e => {
-                    e.preventDefault();
-                    signUp();
-                }}
-            >
-                <input
-                    type="text"
-                    className="input-text"
-                    placeholder="아이디"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setId(e.target.value);
-                    }}
-                />
-                <input
-                    type="password"
-                    className="input-text"
-                    placeholder="비밀번호"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setpw(e.target.value);
-                    }}
-                />
-                <input
-                    type="password"
-                    className="input-text"
-                    placeholder="비밀번호 재입력"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setcheckPw(e.target.value);
-                    }}
-                />
-                <input
-                    type="text"
-                    className="input-text"
-                    placeholder="닉네임"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setNickname(e.target.value);
-                    }}
-                />
-                <input
-                    type="text"
-                    className="input-text"
-                    placeholder="인증코드"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setAuthCode(e.target.value);
-                    }}
-                />
-                <div className="modal--bottom-menu-box">
-                    <span onClick={() => openModal('authCode')}>인증코드 발급</span>
-                </div>
-                <button type="submit" className="button main accent">가입하기</button>
-            </form>
-        </Modal>
+        <Modal type="main" id="signUp" title={title} menuList={
+            [
+                {
+                    element: signUpFormView(UserRole.STUDENT),
+                    name: '학생'
+                },
+                {
+                    element: signUpFormView(UserRole.TEACHER),
+                    name: '선생님'
+                }
+            ]
+        }></Modal>
     );
 }
+
 
 const AuthCodeBox = () => {
-    const { ajax } = useAjax();
-    const { showAlert } = useOverlay();
-    const { closeModal } = useModal();
-    const [enrolledAt, setEnrolledAt] = useState(0);
-    const [grade, setGrade] = useState(0);
-    const [classNo, setClassNo] = useState(0);
-    const [studentNo, setStudentNo] = useState(0);
-    const [name, setName] = useState('');
-
-    const authCodeMail = () => {
-        ajax({
-            method: 'post',
-            url: 'user/mail/authcode',
-            payload: {
-                enrolledAt,
-                grade,
-                classNo,
-                studentNo,
-                name
-            },
-            callback: () => {
-                showAlert('인증코드 전송이 완료되었습니다\n메일함을 확인해주세요');
-                closeModal('authCode');
-            }
-        });
-    }
-
-    return (
-        <Modal type="main" id="authCode" title="인증코드 발급">
-            <p>인증코드는 학교 이메일 계정으로 보내드립니다</p>
-            <form
-                autoComplete="off"
-                onSubmit={e => {
-                    e.preventDefault();
-                    authCodeMail();
-                }}
-            >
-                <input
-                    type="number"
-                    className="input-text year"
-                    placeholder="입학연도"
-                    min="2021"
-                    max="2099"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setEnrolledAt(Number(e.target.value));
-                    }}
-                />
-                <input
-                    type="number"
-                    className="input-text"
-                    placeholder="학년"
-                    min="1"
-                    max="3"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setGrade(Number(e.target.value));
-                    }}
-                />
-                <input
-                    type="number"
-                    className="input-text"
-                    placeholder="반"
-                    min="1"
-                    max="4"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setClassNo(Number(e.target.value));
-                    }}
-                />
-                <input
-                    type="number"
-                    className="input-text"
-                    placeholder="번호"
-                    min="1"
-                    max="16"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setStudentNo(Number(e.target.value));
-                    }}
-                />
-                <input
-                    type="text"
-                    className="input-text"
-                    placeholder="이름"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setName(e.target.value);
-                    }}
-                />
-                <button type="submit" className="button main accent">인증코드 발급</button>
-            </form>
-        </Modal>
-    );
-}
-
-const FindIdBox = () => {
     const { ajax } = useAjax();
     const { showToast } = useOverlay();
     const { closeModal } = useModal();
@@ -359,35 +300,55 @@ const FindIdBox = () => {
     const [classNo, setClassNo] = useState(0);
     const [studentNo, setStudentNo] = useState(0);
     const [name, setName] = useState('');
+    const [teacherEmail, setTeacherEmail] = useState('');
 
-    const findIdMail = () => {
+    const authCodeMail = (role: UserRole) => {
+        const payload = (() => {
+            switch (role) {
+                case UserRole.STUDENT: return {
+                    enrolledAt,
+                    grade,
+                    classNo,
+                    studentNo,
+                    name
+                }
+                case UserRole.TEACHER: return {
+                    email: teacherEmail
+                }
+            }
+        })();
         ajax({
             method: 'post',
-            url: 'user/mail/id',
-            payload: {
-                enrolledAt,
-                grade,
-                classNo,
-                studentNo,
-                name
-            },
+            url: `user/mail/authcode/${role}`,
+            payload,
             callback: () => {
-                showToast('ID 복구 메일 전송이 완료되었습니다.\n메일함을 확인해주세요.');
-                closeModal('findIdMail');
+                showToast('인증코드 전송이 완료되었습니다\n메일함을 확인해주세요');
+                closeModal('authCode');
             }
         });
     }
 
-    return (
-        <Modal type="main" id="findIdMail" title="ID 찾기">
-            <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
+    const authCodeFormView = (role: UserRole) => (
+        <>
             <form
                 autoComplete="off"
                 onSubmit={e => {
                     e.preventDefault();
-                    findIdMail();
+                    authCodeMail(role);
                 }}
             >
+                {
+                    authCodeInputView(role)
+                }
+                <p>인증코드는 학교 이메일 계정으로 보내드립니다</p>
+                <button type="submit" className="button main accent">인증코드 발급</button>
+            </form>
+        </>
+    )
+
+    const authCodeInputView = (role: UserRole) => {
+        switch (role) {
+            case UserRole.STUDENT: return (<>
                 <input
                     type="number"
                     className="input-text year"
@@ -446,9 +407,96 @@ const FindIdBox = () => {
                         setName(e.target.value);
                     }}
                 />
+            </>)
+            case UserRole.TEACHER: return (
+                <input
+                    type="text"
+                    className="input-text"
+                    placeholder="학교 이메일 주소"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setTeacherEmail(e.target.value);
+                    }}
+                />
+            )
+        }
+    }
+
+    return (
+        <Modal type="main" id="authCode" title="인증코드 발급" menuList={
+            [
+                {
+                    element: authCodeFormView(UserRole.STUDENT),
+                    name: '학생'
+                },
+                {
+                    element: authCodeFormView(UserRole.TEACHER),
+                    name: '선생님'
+                }
+            ]
+        }></Modal>
+    );
+}
+
+const FindIdBox = () => {
+    const { ajax } = useAjax();
+    const { showToast } = useOverlay();
+    const { closeModal } = useModal();
+    const [email, setEmail] = useState('');
+
+    const findIdMail = (role: UserRole) => {
+        ajax({
+            method: 'post',
+            url: `user/mail/id/${role}`,
+            payload: {
+                email
+            },
+            callback: () => {
+                showToast('ID 복구 메일 전송이 완료되었습니다.\n메일함을 확인해주세요.');
+                closeModal('findIdMail');
+            }
+        });
+    }
+
+    const findIdFormView = (role: UserRole) => (
+        <>
+            <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
+            <form
+                autoComplete="off"
+                onSubmit={e => {
+                    e.preventDefault();
+                    findIdMail(role);
+                }}
+            >
+                <input
+                    type="text"
+                    className="input-text"
+                    placeholder="학교 이메일 주소"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setEmail(e.target.value);
+                    }}
+                />
                 <button type="submit" className="button main accent">복구 메일 전송</button>
             </form>
-        </Modal>
+        </>
+    )
+
+    return (
+        <Modal type="main" id="findIdMail" title="ID 찾기" menuList={
+            [
+                {
+                    element: findIdFormView(UserRole.STUDENT),
+                    name: '학생'
+                },
+                {
+                    element: findIdFormView(UserRole.TEACHER),
+                    name: '선생님'
+                }
+            ]
+        }></Modal>
     );
 }
 
