@@ -6,34 +6,31 @@ import { useEffect, useState } from 'react';
 import { UserPopup } from '../../components/user/userPopup';
 import { useModal } from '../../hooks/useModal';
 import { useAjax } from '../../hooks/useAjax';
+import { UserRole } from '../../types/UserRole';
 
 const UserProfilePage: NextPage = () => {
     const { ajax } = useAjax();
     const { openModal } = useModal();
     const [user] = useRecoilState(userState);
     const [userInfo, setUserInfo] = useState<UserInfo>({
-        usercode: 0,
+        code: 0,
         createdAt: '',
-        nickname: '',
-        student: {
-            enrolledAt: 0,
-            grade: 0,
-            classNo: 0,
-            studentNo: 0,
-            name: ''
-        }
+        nickname: ''
     });
     const [detailDate, setDetailDate] = useState(false);
 
     interface UserInfo {
-        usercode: number,
+        code: number,
         createdAt: string,
         nickname: string,
-        student: {
+        student?: {
             enrolledAt: number,
             grade: number,
             classNo: number,
             studentNo: number,
+            name: string
+        },
+        teacher?: {
             name: string
         }
     }
@@ -52,7 +49,7 @@ const UserProfilePage: NextPage = () => {
         <div className='container _50'>
             <UserPopup />
         {
-            userInfo.usercode !== 0 &&
+            userInfo.code !== 0 &&
             <div>
                 <img src='/icons/profile_default.png' alt='user profile' className={`${styles.user_profile} ${styles.big}`} />
                 <br /><br />
@@ -66,7 +63,7 @@ const UserProfilePage: NextPage = () => {
                         <ul className='list'>
                             <li className='detail'>
                                 <span>유저 코드</span>
-                                <span>{userInfo.usercode}</span>
+                                <span>{userInfo.code}</span>
                             </li>
                             <li className='detail'>
                                 <span>가입 날짜</span>
@@ -77,18 +74,26 @@ const UserProfilePage: NextPage = () => {
                                 }</span>
                                 {!detailDate && <span onClick={() => setDetailDate(true)}>자세히 보기</span>}
                             </li>
-                            <li className='detail'>
-                                <span>이름</span>
-                                <span>{userInfo.student.name}</span>
-                            </li>
-                            <li className='detail'>
-                                <span>학반번호</span>
-                                <span>{`${userInfo.student.grade}학년 ${userInfo.student.classNo}반 ${userInfo.student.studentNo}번`}</span>
-                            </li>
-                            <li className='detail'>
-                                <span>입학 연도</span>
-                                <span>{`${userInfo.student.enrolledAt}년`}</span>
-                            </li>
+                            {userInfo.student && <>
+                                <li className='detail'>
+                                    <span>이름</span>
+                                    <span>{userInfo.student.name}</span>
+                                </li>
+                                <li className='detail'>
+                                    <span>학반번호</span>
+                                    <span>{`${userInfo.student.grade}학년 ${userInfo.student.classNo}반 ${userInfo.student.studentNo}번`}</span>
+                                </li>
+                                <li className='detail'>
+                                    <span>입학 연도</span>
+                                    <span>{`${userInfo.student.enrolledAt}년`}</span>
+                                </li>
+                            </>}
+                            {userInfo.teacher && <>
+                                <li className='detail'>
+                                    <span>이름</span>
+                                    <span>{userInfo.teacher.name}</span>
+                                </li>
+                            </>}
                         </ul>
                     </li>
                     <li>
