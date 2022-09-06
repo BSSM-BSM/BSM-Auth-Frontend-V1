@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Modal from '../components/common/modal';
 import { useModal } from '../hooks/useModal';
-import { useAjax } from '../hooks/useAjax';
+import { HttpMethod, useAjax } from '../hooks/useAjax';
 import { useOverlay } from '../hooks/useOverlay';
 import { useInterval } from '../hooks/useInterval';
 
@@ -49,7 +49,7 @@ const ResetPwPage: NextPage = () => {
 
     const getTokenInfo = () => {
         ajax<TokenInfo>({
-            method: 'get',
+            method: HttpMethod.GET,
             url: `/user/pw/token?token=${token}`,
             callback: data => {
                 setTokenInfo(data);
@@ -72,7 +72,7 @@ const ResetPwPage: NextPage = () => {
     
     const resetPw = () => {
         ajax({
-            method: 'post',
+            method: HttpMethod.POST,
             url: '/user/pw/token',
             payload: {
                 token,

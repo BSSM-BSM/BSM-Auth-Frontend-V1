@@ -3,7 +3,7 @@ import { useState } from "react";
 import { OauthScopeList } from "../../types/OauthTypes";
 import Modal from "../common/modal";
 import { useModal } from '../../hooks/useModal';
-import { useAjax } from '../../hooks/useAjax';
+import { HttpMethod, useAjax } from '../../hooks/useAjax';
 
 interface ClientMenuPopopProps {
     getClientList: () => void,
@@ -36,7 +36,7 @@ const CreateClientBox = (props: CreateClientProps) => {
 
     const createClient = () => {
         ajax<{accessToken: string}>({
-            method: 'post',
+            method: HttpMethod.POST,
             url: '/oauth/client',
             payload: {
                 domain,

@@ -6,7 +6,7 @@ import { OauthClientList } from '../../components/oauth/clientList';
 import { Client, OauthScopeList } from '../../types/OauthTypes';
 import { ClientMenuPopup } from '../../components/oauth/clientMenuPopup';
 import { useModal } from '../../hooks/useModal';
-import { useAjax } from '../../hooks/useAjax';
+import { HttpMethod, useAjax } from '../../hooks/useAjax';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/account.store';
 
@@ -25,7 +25,7 @@ const OauthManagePage: NextPage = () => {
 
     const getClientList = () => {
         ajax<Client[]>({
-            method: 'get',
+            method: HttpMethod.GET,
             url: '/oauth/client',
             callback: data => {
                 setClientList(data);
@@ -35,7 +35,7 @@ const OauthManagePage: NextPage = () => {
     
     const getScopeInfoList = () => {
         ajax<OauthScopeList>({
-            method: 'get',
+            method: HttpMethod.GET,
             url: '/oauth/scopes',
             callback: data => {
                 setScopeInfoList(data);

@@ -8,7 +8,7 @@ import Modal from '../../components/common/modal';
 import { userState } from '../../store/account.store';
 import { OauthScope } from '../../types/OauthTypes';
 import { useModal } from '../../hooks/useModal';
-import { useAjax } from '../../hooks/useAjax';
+import { HttpMethod, useAjax } from '../../hooks/useAjax';
 
 const Oauth: NextPage = () => {
     const { ajax } = useAjax();
@@ -18,14 +18,12 @@ const Oauth: NextPage = () => {
     const [user] = useRecoilState(userState);
 
     useEffect(() => {
-        if (!user.isLogin) {
-            openModal('login', false);
-        }
+        if (!user.isLogin) openModal('login', false);
     }, []);
     
     useEffect(() => {
-        if (user.isLogin) authenticate();
-    }, [user]);
+        if (clientId && user.isLogin) authenticate();
+    }, [user, clientId]);
 
     interface ServiceInfo {
         authorized: boolean,
@@ -42,7 +40,7 @@ const Oauth: NextPage = () => {
 
     const authenticate = () => {
         ajax<ServiceInfo>({
-            method: 'get',
+            method: HttpMethod.GET,
             url: `/oauth/authenticate?clientId=${clientId}&redirectURI=${redirectURI}`,
             errorCallback:() => {
                 openModal('oauthAuthenticateFailed', false);
@@ -61,7 +59,7 @@ const Oauth: NextPage = () => {
     
     const authorize = () => {
         ajax({
-            method: 'post',
+            method: HttpMethod.POST,
             url: '/oauth/authorize',
             payload: {
                 clientId,

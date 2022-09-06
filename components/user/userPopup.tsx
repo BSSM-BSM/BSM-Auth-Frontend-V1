@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { useAjax } from "../../hooks/useAjax";
+import { HttpMethod, useAjax } from "../../hooks/useAjax";
 import { useModal } from "../../hooks/useModal";
 import { useOverlay } from "../../hooks/useOverlay";
 import { User, userState } from "../../store/account.store";
@@ -29,7 +29,7 @@ const UpdatePwBox = () => {
             return;
         }
         ajax<{accessToken: string}>({
-            method: 'put',
+            method: HttpMethod.PUT,
             url: '/user/pw',
             payload: {
                 newPw,
@@ -89,7 +89,7 @@ const UpdateNicknameBox = () => {
             return;
         }
         ajax<{accessToken: string}>({
-            method: 'put',
+            method: HttpMethod.PUT,
             url: '/user/nickname',
             payload: {
                 newNickname

@@ -867,12 +867,6 @@ input[type=number].year {
     width:100% !important;
 }
 
-.detail {
-    color: var(--text-level-1);
-    font-size: 1.6rem;
-    cursor: pointer;
-}
-
 .user-profile {
     border-radius: 50%;
     height: 2rem;

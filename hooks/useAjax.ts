@@ -1,4 +1,6 @@
 import axios, { AxiosError, AxiosPromise } from "axios";
+import { useResetRecoilState } from "recoil";
+import { userState } from "../store/account.store";
 import { useModal } from "./useModal";
 import { useOverlay } from "./useOverlay";
 
@@ -10,6 +12,13 @@ const instance = axios.create({
     timeout:3000,
 });
 
+export enum HttpMethod {
+    GET,
+    POST,
+    PUT,
+    DELETE
+}
+
 interface ErrorResType {
     statusCode: number,
     message: string
@@ -18,6 +27,7 @@ interface ErrorResType {
 export const useAjax = () => {
     const { loading, showAlert } = useOverlay();
     const { openModal } = useModal();
+    const resetUser = useResetRecoilState(userState);
 
     const ajax = async <T>({
         method,
@@ -27,7 +37,7 @@ export const useAjax = () => {
         callback,
         errorCallback,
     }: {
-        method: string,
+        method: HttpMethod,
         url: string,
         payload?: object,
         config?: object,
@@ -38,20 +48,19 @@ export const useAjax = () => {
     
         let res;
         try {
-            const get = (): AxiosPromise<T> => {
+            res = (await((): AxiosPromise<T> => {
                 switch (method) {
-                    case 'get': return instance.get(url, config);
-                    case 'post': return instance.post(url, payload, config);
-                    case 'put': return instance.put(url, payload, config);
-                    case 'delete': return instance.delete(url, config);
+                    case HttpMethod.GET: return instance.get(url, config);
+                    case HttpMethod.POST: return instance.post(url, payload, config);
+                    case HttpMethod.PUT: return instance.put(url, payload, config);
+                    case HttpMethod.DELETE: return instance.delete(url, config);
                     default: throw new Error();
                 }
-            }
-            res = (await get()).data;
+            })()).data;
         } catch (err) {
             loading(false);
-            console.log(err);
             if (!(err instanceof AxiosError) || !err.response) {
+                console.log(err);
                 showAlert('알 수 없는 에러가 발생하였습니다');
                 errorCallback && errorCallback();
                 return;
@@ -76,6 +85,7 @@ export const useAjax = () => {
             }
             switch (err.response.data.statusCode) {
                 case 401:
+                    resetUser();
                     openModal('login');
                     break;
                 default:

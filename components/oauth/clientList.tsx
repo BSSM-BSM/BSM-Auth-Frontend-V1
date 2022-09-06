@@ -1,4 +1,4 @@
-import { useAjax } from '../../hooks/useAjax';
+import { HttpMethod, useAjax } from '../../hooks/useAjax';
 import styles from '../../styles/oauth.module.css';
 import { Client, OauthScopeList } from '../../types/OauthTypes';
 
@@ -19,7 +19,7 @@ export const OauthClientList = (props: {
 
     const deleteClient = () => {
         ajax({
-            method: 'delete',
+            method: HttpMethod.DELETE,
             url: `/oauth/client/${props.client.clientId}`,
             callback: () => getClientList()
         })

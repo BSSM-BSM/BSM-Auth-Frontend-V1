@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { useAjax } from "../../hooks/useAjax";
+import { HttpMethod, useAjax } from "../../hooks/useAjax";
 import { useModal } from "../../hooks/useModal";
 import { useOverlay } from "../../hooks/useOverlay";
 import { User, userState } from "../../store/account.store";
@@ -36,7 +36,7 @@ const LoginBox = () => {
 
     const login = () => {
         ajax<LoginRes>({
-            method: 'post',
+            method: HttpMethod.POST,
             url: 'user/login',
             payload: {
                 id,
@@ -178,7 +178,7 @@ const SignUpBox = () => {
             }
         })();
         ajax({
-            method: 'post',
+            method: HttpMethod.POST,
             url: `user/${role}`,
             payload,
             callback: () => {
@@ -295,30 +295,28 @@ const AuthCodeBox = () => {
     const { ajax } = useAjax();
     const { showToast } = useOverlay();
     const { closeModal } = useModal();
-    const [enrolledAt, setEnrolledAt] = useState(0);
     const [grade, setGrade] = useState(0);
     const [classNo, setClassNo] = useState(0);
     const [studentNo, setStudentNo] = useState(0);
     const [name, setName] = useState('');
-    const [teacherEmail, setTeacherEmail] = useState('');
+    const [email, setEmail] = useState('');
 
     const authCodeMail = (role: UserRole) => {
         const payload = (() => {
             switch (role) {
                 case UserRole.STUDENT: return {
-                    enrolledAt,
                     grade,
                     classNo,
                     studentNo,
                     name
                 }
                 case UserRole.TEACHER: return {
-                    email: teacherEmail
+                    email
                 }
             }
         })();
         ajax({
-            method: 'post',
+            method: HttpMethod.POST,
             url: `user/mail/authcode/${role}`,
             payload,
             callback: () => {
@@ -349,18 +347,6 @@ const AuthCodeBox = () => {
     const authCodeInputView = (role: UserRole) => {
         switch (role) {
             case UserRole.STUDENT: return (<>
-                <input
-                    type="number"
-                    className="input-text year"
-                    placeholder="입학연도"
-                    min="2021"
-                    max="2099"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setEnrolledAt(Number(e.target.value));
-                    }}
-                />
                 <input
                     type="number"
                     className="input-text"
@@ -416,7 +402,7 @@ const AuthCodeBox = () => {
                     required
                     onChange={e => {
                         e.preventDefault();
-                        setTeacherEmail(e.target.value);
+                        setEmail(e.target.value);
                     }}
                 />
             )
@@ -444,19 +430,99 @@ const FindIdBox = () => {
     const { showToast } = useOverlay();
     const { closeModal } = useModal();
     const [email, setEmail] = useState('');
+    const [grade, setGrade] = useState(0);
+    const [classNo, setClassNo] = useState(0);
+    const [studentNo, setStudentNo] = useState(0);
+    const [name, setName] = useState('');
 
     const findIdMail = (role: UserRole) => {
+        const payload = (() => {
+            switch (role) {
+                case UserRole.STUDENT: return {
+                    grade,
+                    classNo,
+                    studentNo,
+                    name
+                }
+                case UserRole.TEACHER: return {
+                    email
+                }
+            }
+        })();
         ajax({
-            method: 'post',
+            method: HttpMethod.POST,
             url: `user/mail/id/${role}`,
-            payload: {
-                email
-            },
+            payload,
             callback: () => {
                 showToast('ID 복구 메일 전송이 완료되었습니다.\n메일함을 확인해주세요.');
                 closeModal('findIdMail');
             }
         });
+    }
+
+    const findIdInputView = (role: UserRole) => {
+        switch (role) {
+            case UserRole.STUDENT: return (<>
+                <input
+                    type="number"
+                    className="input-text"
+                    placeholder="학년"
+                    min="1"
+                    max="3"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setGrade(Number(e.target.value));
+                    }}
+                />
+                <input
+                    type="number"
+                    className="input-text"
+                    placeholder="반"
+                    min="1"
+                    max="4"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setClassNo(Number(e.target.value));
+                    }}
+                />
+                <input
+                    type="number"
+                    className="input-text"
+                    placeholder="번호"
+                    min="1"
+                    max="16"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setStudentNo(Number(e.target.value));
+                    }}
+                />
+                <input
+                    type="text"
+                    className="input-text"
+                    placeholder="이름"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setName(e.target.value);
+                    }}
+                />
+            </>)
+            case UserRole.TEACHER: return (
+                <input
+                    type="text"
+                    className="input-text"
+                    placeholder="학교 이메일 주소"
+                    required
+                    onChange={e => {
+                        e.preventDefault();
+                        setEmail(e.target.value);
+                    }}
+                />
+            )
+        }
     }
 
     const findIdFormView = (role: UserRole) => (
@@ -469,16 +535,9 @@ const FindIdBox = () => {
                     findIdMail(role);
                 }}
             >
-                <input
-                    type="text"
-                    className="input-text"
-                    placeholder="학교 이메일 주소"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setEmail(e.target.value);
-                    }}
-                />
+                {
+                    findIdInputView(role)
+                }
                 <button type="submit" className="button main accent">복구 메일 전송</button>
             </form>
         </>
@@ -508,7 +567,7 @@ const ResetPwBox = () => {
 
     const resetPwMail = () => {
         ajax({
-            method: 'post',
+            method: HttpMethod.POST,
             url: 'user/mail/pw',
             payload: {
                 id

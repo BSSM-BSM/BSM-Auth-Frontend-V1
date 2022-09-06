@@ -5,7 +5,7 @@ import { userState } from '../../store/account.store';
 import { useEffect, useState } from 'react';
 import { UserPopup } from '../../components/user/userPopup';
 import { useModal } from '../../hooks/useModal';
-import { useAjax } from '../../hooks/useAjax';
+import { HttpMethod, useAjax } from '../../hooks/useAjax';
 import { UserRole } from '../../types/UserRole';
 
 const UserProfilePage: NextPage = () => {
@@ -37,7 +37,7 @@ const UserProfilePage: NextPage = () => {
 
     useEffect(() => {
         ajax<UserInfo>({
-            method: 'get',
+            method: HttpMethod.GET,
             url: 'user',
             callback(data) {
                 setUserInfo(data);
