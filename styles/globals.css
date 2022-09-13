@@ -17,7 +17,12 @@ body {
     --white: #fff;
     --red: #e46b5d;
     --yellow: #ffa500;
-    --green: #7ee27e;
+    --green: #6fd16f;
+    --blue: #1188bb;
+    --red-level-1: #ffd7ca;
+    --yellow-level-1: #fafab0;
+    --green-level-1: #d3fad3;
+    --blue-level-1: #b7e3f7;
     
     --main: #1188bb;
     color-scheme: light;
@@ -32,11 +37,13 @@ body {
   
     --level-1: #f9f9f9;
     --level-2: #dcdcdc;
+    --level-3: #bababa;
 
     --input: rgba(192, 192, 192, .3);
     --menu-background: #ffffff88;
   
     --shadow: .1rem .1rem 1rem rgba(0, 0, 0, .2);
+    --shadow-level-1: .2rem .2rem 5rem rgba(0, 0, 0, .2);
     --hover: rgba(0, 0, 0, .2);;
     --bright: brightness(0);
     --visited: #800080;
@@ -47,6 +54,11 @@ body.dark {
     --red: #fa8072;
     --yellow: #ff8c00;
     --green: #72c472;
+    --blue: #62cdfe;
+    --red-level-1: #c3685e;
+    --yellow-level-1: #c77109;
+    --green-level-1: #5d9b5e;
+    --blue-level-1: #4296bd;
     
     --main: #62cdfe;
     color-scheme: dark;
@@ -60,12 +72,14 @@ body.dark {
     --modal-background: #242528;
   
     --level-1: #303134;
-    --level-2: #404144;
+    --level-2: #404145;
+    --level-3: #505156;
   
     --menu-background: #33333388;
   
     --dim: rgba(0, 0, 0, .3);
     --shadow: 0 0 0 #000;
+    --shadow-level-1: .2rem .2rem 5rem rgba(0, 0, 0, .2);
     --hover: #a8aaad66;
     --bright: brightness(20);
     --visited: #f4a4ff;
@@ -82,7 +96,6 @@ html {
     font-size: var(--scale);
     height: 100%;
     scroll-behavior: smooth;
-    overflow: overlay;
     scroll-snap-type: y proximity;
 }
 
@@ -96,6 +109,35 @@ body {
     line-height: 1.2;
     font-family: NotoSans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+body, .scroll_bar, .modal--content {
+    overflow: overlay !important;
+}
+
+:is(
+    body,
+    .scroll-bar
+)::-webkit-scrollbar {
+    width: 2rem;
+}
+
+.modal--content::-webkit-scrollbar {
+    width: .4rem;
+}
+
+:is(
+    body,
+    .scroll-bar
+)::-webkit-scrollbar-thumb {
+    background-color: var(--text-level-1);
+    border-radius: 1rem;
+    border: .8rem solid transparent;
+    background-clip: padding-box;
+}
+
+.modal--content::-webkit-scrollbar-thumb {
+    border: 0;
 }
 
 @font-face {
@@ -161,7 +203,6 @@ label, summary{
 
 .center {
     text-align: center !important;
-    justify-content: center;
     margin-left: auto;
     margin-right: auto;
 }
@@ -174,8 +215,24 @@ label, summary{
     display: flex;
 }
 
+.inline-flex {
+    display: inline-flex;
+}
+
 .cols {
     flex-direction: column;
+}
+
+.cols.center {
+    align-items: center;
+}
+
+.rows.center {
+    justify-content: center;
+}
+
+.gap-05 {
+    gap: .5rem;
 }
 
 .gap-1 {
@@ -285,13 +342,17 @@ label, summary{
     margin-left: auto;
 }
 
-.list li.picker label {
-    margin-left: auto;
+.list li.picker div {
+    width: auto !important;
+    margin: 0 0 0 auto !important;
 }
 
 .list li.picker input {
     background: none;
-    margin: 0;
+}
+
+.list li.picker input:valid:not(:focus) {
+    box-shadow: none !important;
 }
 
 .list li:last-child {
@@ -341,27 +402,21 @@ label, summary{
     animation-fill-mode:  forwards;
 }
 
-.dropdown-content li {
-    transition: .25s;
-}
-
-.dropdown-content li:first-child {
-    border-radius: .5rem .5rem 0rem 0rem;
-}
-
-.dropdown-content li:last-child {
-    border-radius: 0rem 0rem .5rem .5rem;
-}
-
-.dropdown-content li:hover {
-    background-color: var(--hover);
-}
-
 .dropdown-content .option {
     display: inline-block;
     padding: 1.2rem 1.6rem;
     width: 100%;
     cursor: pointer;
+    transition: .25s;
+    border-radius: .5rem;
+}
+
+.dropdown-content .option:hover {
+    background-color: var(--hover);
+}
+
+.dropdown-content .option:active {
+    transform: scale(.8);
 }
 
 .left-slide-menu {
@@ -421,7 +476,7 @@ label, summary{
     border-radius: 1rem;
     background-color: var(--text);
     display: block;
-    margin: .25rem;
+    margin: .25rem 0;
     filter: var(--bright);
     transition: .4s ease-in-out;
 }
@@ -481,6 +536,7 @@ label, summary{
     color: var(--text);
     animation: toast_show 250ms ease-out;
     white-space: pre-line;
+    cursor: pointer;
 }
 
 .toast:hover {
@@ -606,6 +662,15 @@ label, summary{
     background-color: var(--hover) !important;
 }
 
+.button:active,
+.button_wrap > *:active {
+    transform: scale(.8);
+}
+
+.button_wrap > * {
+    transition: .25s;
+}
+
 .button.delete {
     background-color: var(--red);
 }
@@ -630,7 +695,7 @@ label, summary{
     height: 1.6rem;
     width: 1.6rem;
     background-color: white;
-    border-radius: 12px;
+    border-radius: 50%;
     transition: .25s;
 }
 
@@ -638,72 +703,25 @@ label, summary{
     left: calc(100% - .3rem - 1.6rem);
 }
 
-.input-text,
-.textarea {
-    border: none;
-    color: var(--text);
-    width: 37.5rem;
-    font-weight: bold;
-    font-size: 1.5rem;
-    margin: 1rem 0;
-    outline: .2rem solid #00000000;
-    padding: 1.5rem;
-    border-radius: .5rem;
-    background-color: var(--input);
-    text-align: left;
+.checkbox {
+    display: inline-flex;
+    gap: .5rem;
     transition: .25s;
 }
 
-input[type=number] {
-    width: 5.5rem;
-    padding: 1rem 0 1rem 1rem;
-    margin: 1rem .2rem;
+.checkbox:active {
+    transform: scale(.8);
 }
 
-input[type=number].year {
-    width: 8rem;
-    padding: 1rem 0 1rem 1rem;
-}
-
-:is(
-    .input-text,
-    input[type=number],
-    textarea,
-    .textarea
-)::placeholder {
-    color: var(--text);
-}
-
-:is(
-    .input-text,
-    input[type=number],
-    textarea,
-    .textarea
-):hover {
-    box-shadow: var(--shadow) inset;
-    background-color: var(--hover) !important;
-}
-
-:is(
-    .input-text,
-    input[type=number],
-    textarea,
-    .textarea
-):focus {
-    box-shadow: 0 0 0 .2rem var(--main) inset;
-}
-
-.accent{
+.accent {
     color: var(--accent-text);
     background-color: var(--accent);
 }
-.accent-text{
+.accent-text {
     color: var(--accent);
 }
 
 .inactive {
-    color: var(--text) !important;
-    background-color: var(--gray) !important;
     opacity: .5;
     cursor: not-allowed;
 }
@@ -763,7 +781,7 @@ input[type=number].year {
 
 .modal {
     pointer-events: all;
-    margin-top: 5rem;
+    margin: 6rem 0 0 0;
     min-width: 20rem;
     min-height: 6rem;
     position: absolute;
@@ -790,6 +808,14 @@ input[type=number].year {
 .modal.big {
     min-width: 60rem;
     max-width: 80rem;
+}
+
+@media screen and (min-width: 0px) and (max-width: 800px) {
+    .modal {
+        max-width: calc(100% - 1rem) !important;
+        min-width: 0 !important;
+        width: 100% !important;
+    }
 }
 
 @keyframes modal_show {
@@ -861,10 +887,16 @@ input[type=number].year {
 }
 
 .modal.modal :is(
-    .input-text:is([type=text], [type=password]),
+    .input:is([type=text], [type=password]),
     .button.main
 ) {
     width:100% !important;
+}
+
+.detail {
+    color: var(--text-level-1);
+    font-size: 1.6rem;
+    cursor: pointer;
 }
 
 .user-profile {

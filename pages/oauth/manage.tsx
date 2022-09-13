@@ -9,11 +9,17 @@ import { useModal } from '../../hooks/useModal';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/account.store';
+import { titleState } from '../../store/common.store';
 
 const OauthManagePage: NextPage = () => {
+    const [, setTitle] = useRecoilState(titleState);
     const { ajax } = useAjax();
     const { openModal } = useModal();
     const [user] = useRecoilState(userState);
+
+    useEffect(() => {
+        setTitle('OAuth 클라이언트');
+    }, []);
 
     useEffect(() => {
         getClientList();
@@ -50,7 +56,6 @@ const OauthManagePage: NextPage = () => {
             </Head>
             <ClientMenuPopup getClientList={getClientList} scopeList={scopeInfoList} />
             <div className={styles.client_manage}>
-                <h1 className='title'>OAuth 클라이언트</h1>
                 <div className={`${styles.oauth_menu} rows space-between`}>
                     <button className='button accent' onClick={() => openModal('createClient')}>추가</button>
                     <button className='button' onClick={getClientList}>새로 고침</button>

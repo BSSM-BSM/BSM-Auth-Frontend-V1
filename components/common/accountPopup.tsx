@@ -1,12 +1,14 @@
-import { ReactNode, useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-import { HttpMethod, useAjax } from "../../hooks/useAjax";
-import { useModal } from "../../hooks/useModal";
-import { useOverlay } from "../../hooks/useOverlay";
-import { User, userState } from "../../store/account.store";
-import { UserRole } from "../../types/UserRole";
-import { decodeBase64 } from "../../utils/util";
-import Modal from "./modal";
+import { ReactNode, useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { HttpMethod, useAjax } from '../../hooks/useAjax';
+import { useModal } from '../../hooks/useModal';
+import { useOverlay } from '../../hooks/useOverlay';
+import { User, userState } from '../../store/account.store';
+import { UserRole } from '../../types/UserRole';
+import { decodeBase64 } from '../../utils/util';
+import { NumberInput } from './inputs/numberInput';
+import { TextInput } from './inputs/textInput';
+import Modal from './modal';
 
 export const AccountBox = () => {
     return (
@@ -64,7 +66,7 @@ const LoginBox = () => {
     }
 
     const bottomMenuView = (): ReactNode => (
-        <div className="modal--bottom-menu-box">
+        <div className='modal--bottom-menu-box'>
             <span onClick={() => openModal('signUp')}>회원가입</span>
             <span onClick={() => openModal('resetPwMail')}>비밀번호 복구</span>
             <span onClick={() => openModal('findIdMail')}>ID 찾기</span>
@@ -75,49 +77,42 @@ const LoginBox = () => {
         switch (loginStep) {
             case 0: return (
                 <form
-                    autoComplete="off"
+                    className='cols gap-1'
+                    autoComplete='off'
                     onSubmit={e => {
                         e.preventDefault();
                         setLoginStep(1);
                     }}
                 >
-                    <input
-                        key="id"
-                        type="text"
-                        className="input-text"
-                        placeholder="아이디"
+                    <TextInput
+                        key='id'
+                        setCallback={setId}
+                        placeholder='아이디'
                         required
-                        onChange={e => {
-                            e.preventDefault();
-                            setId(e.target.value);
-                        }}
                     />
                     {bottomMenuView()}
-                    <button type="submit" className="button main accent">다음</button>
+                    <button type='submit' className='button main accent'>다음</button>
                 </form>
             )
             case 1: return (
                 <form 
-                    autoComplete="off"
+                    className='cols gap-1'
+                    autoComplete='off'
                     onSubmit={e => {
                         e.preventDefault();
                         setLoginStep(2);
                         login();
                     }}
                 >
-                    <input
-                        key="pw"
-                        type="password"
-                        className="input-text"
-                        placeholder="비밀번호"
+                    <TextInput
+                        key='pw'
+                        type='password'
+                        setCallback={setPw}
+                        placeholder='비밀번호'
                         required
-                        onChange={e => {
-                            e.preventDefault();
-                            setPw(e.target.value);
-                        }}
                     />
                     {bottomMenuView()}
-                    <button type="submit" className="button main accent">로그인</button>
+                    <button type='submit' className='button main accent'>로그인</button>
                 </form>
             )
         }
@@ -125,7 +120,7 @@ const LoginBox = () => {
 
     const title = (
         <>
-            <img src="/logo/logo.png" alt="logo" className="logo" />
+            <img src='/logo/logo.png' alt='logo' className='logo' />
             <br/>
             <span>{
                 loginStep === 0?
@@ -137,7 +132,7 @@ const LoginBox = () => {
         </>
     );
     return (
-        <Modal type="main" id="login" title={title}>
+        <Modal type='main' id='login' title={title}>
             {loginView()}
         </Modal>
     );
@@ -148,8 +143,8 @@ const SignUpBox = () => {
     const { showToast } = useOverlay();
     const { openModal, closeModal } = useModal();
     const [id, setId] = useState('');
-    const [pw, setpw] = useState('');
-    const [checkPw, setcheckPw] = useState('');
+    const [pw, setPw] = useState('');
+    const [checkPw, setCheckPw] = useState('');
     const [nickname, setNickname] = useState('');
     const [authCode, setAuthCode] = useState('');
     const [name, setName] = useState('');
@@ -190,92 +185,65 @@ const SignUpBox = () => {
 
     const signUpFormView = (role: UserRole) => (
         <form
-            autoComplete="off"
+            className='cols gap-1'
+            autoComplete='off'
             onSubmit={e => {
                 e.preventDefault();
                 signUp(role);
             }}
         >
-            <input
-                type="text"
-                className="input-text"
+            <TextInput
+                setCallback={setId}
                 placeholder="아이디"
                 required
-                onChange={e => {
-                    e.preventDefault();
-                    setId(e.target.value);
-                }}
             />
-            <input
-                type="password"
-                className="input-text"
-                placeholder="비밀번호"
+            <TextInput
+                type='password'
+                setCallback={setPw}
+                placeholder='비밀번호'
                 required
-                onChange={e => {
-                    e.preventDefault();
-                    setpw(e.target.value);
-                }}
             />
-            <input
-                type="password"
-                className="input-text"
-                placeholder="비밀번호 재입력"
+            <TextInput
+                type='password'
+                setCallback={setCheckPw}
+                placeholder='비밀번호 재입력'
                 required
-                onChange={e => {
-                    e.preventDefault();
-                    setcheckPw(e.target.value);
-                }}
             />
-            <input
-                type="text"
-                className="input-text"
-                placeholder="닉네임"
+            <TextInput
+                setCallback={setNickname}
+                placeholder='닉네임'
                 required
-                onChange={e => {
-                    e.preventDefault();
-                    setNickname(e.target.value);
-                }}
             />
             {
                 role === UserRole.TEACHER
-                ? <input
-                    type="text"
-                    className="input-text"
-                    placeholder="선생님 이름"
+                ? <TextInput
+                    setCallback={setName}
+                    placeholder='선생님 이름'
                     required
-                    onChange={e => {
-                        e.preventDefault();
-                        setName(e.target.value);
-                    }}
                 />
                 : null
             }
-            <input
-                type="text"
-                className="input-text"
-                placeholder="인증코드"
+            <TextInput
+                setCallback={setAuthCode}
+                placeholder='인증코드'
                 required
-                onChange={e => {
-                    e.preventDefault();
-                    setAuthCode(e.target.value);
-                }}
             />
-            <div className="modal--bottom-menu-box">
+            <div className='modal--bottom-menu-box'>
                 <span onClick={() => openModal('authCode')}>인증코드 발급</span>
             </div>
-            <button type="submit" className="button main accent">가입하기</button>
+            <button type='submit' className='button main accent'>가입하기</button>
         </form>
     )
 
     const title = (
         <>
-            <img src="/logo/logo.png" alt="logo" className="logo" />
+            <img src='/logo/logo.png' alt='logo' className='logo' />
             <br/>
             <span>회원가입</span>
         </>
     )
     return (
-        <Modal type="main" id="signUp" title={title} menuList={
+        <Modal type='main' id='signUp' title={title} menuList={
             [
                 {
                     element: signUpFormView(UserRole.STUDENT),
@@ -329,7 +297,8 @@ const AuthCodeBox = () => {
     const authCodeFormView = (role: UserRole) => (
         <>
             <form
-                autoComplete="off"
+                className='cols gap-1 center'
+                autoComplete='off'
                 onSubmit={e => {
                     e.preventDefault();
                     authCodeMail(role);
@@ -339,7 +308,7 @@ const AuthCodeBox = () => {
                     authCodeInputView(role)
                 }
                 <p>인증코드는 학교 이메일 계정으로 보내드립니다</p>
-                <button type="submit" className="button main accent">인증코드 발급</button>
+                <button type='submit' className='button main accent'>인증코드 발급</button>
             </form>
         </>
     )
@@ -347,70 +316,47 @@ const AuthCodeBox = () => {
     const authCodeInputView = (role: UserRole) => {
         switch (role) {
             case UserRole.STUDENT: return (<>
-                <input
-                    type="number"
-                    className="input-text"
-                    placeholder="학년"
-                    min="1"
-                    max="3"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setGrade(Number(e.target.value));
-                    }}
-                />
-                <input
-                    type="number"
-                    className="input-text"
-                    placeholder="반"
-                    min="1"
-                    max="4"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setClassNo(Number(e.target.value));
-                    }}
-                />
-                <input
-                    type="number"
-                    className="input-text"
-                    placeholder="번호"
-                    min="1"
-                    max="16"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setStudentNo(Number(e.target.value));
-                    }}
-                />
-                <input
-                    type="text"
-                    className="input-text"
+                <div className='rows gap-05'>
+                    <NumberInput
+                        setCallback={setGrade}
+                        min={1}
+                        max={3}
+                        placeholder='학년'
+                        required
+                    />
+                    <NumberInput
+                        setCallback={setClassNo}
+                        min={1}
+                        max={4}
+                        placeholder='반'
+                        required
+                    />
+                    <NumberInput
+                        setCallback={setStudentNo}
+                        min={1}
+                        max={16}
+                        placeholder='번호'
+                        required
+                    />
+                </div>
+                <TextInput
+                    setCallback={setName}
                     placeholder="이름"
                     required
-                    onChange={e => {
-                        e.preventDefault();
-                        setName(e.target.value);
-                    }}
                 />
             </>)
             case UserRole.TEACHER: return (
-                <input
-                    type="text"
-                    className="input-text"
+                <TextInput
+                    setCallback={setEmail}
                     placeholder="학교 이메일 주소"
                     required
-                    onChange={e => {
-                        e.preventDefault();
-                        setEmail(e.target.value);
-                    }}
                 />
             )
         }
     }
 
     return (
-        <Modal type="main" id="authCode" title="인증코드 발급" menuList={
+        <Modal type='main' id='authCode' title='인증코드 발급' menuList={
             [
                 {
                     element: authCodeFormView(UserRole.STUDENT),
@@ -463,63 +409,40 @@ const FindIdBox = () => {
     const findIdInputView = (role: UserRole) => {
         switch (role) {
             case UserRole.STUDENT: return (<>
-                <input
-                    type="number"
-                    className="input-text"
-                    placeholder="학년"
-                    min="1"
-                    max="3"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setGrade(Number(e.target.value));
-                    }}
-                />
-                <input
-                    type="number"
-                    className="input-text"
-                    placeholder="반"
-                    min="1"
-                    max="4"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setClassNo(Number(e.target.value));
-                    }}
-                />
-                <input
-                    type="number"
-                    className="input-text"
-                    placeholder="번호"
-                    min="1"
-                    max="16"
-                    required
-                    onChange={e => {
-                        e.preventDefault();
-                        setStudentNo(Number(e.target.value));
-                    }}
-                />
-                <input
-                    type="text"
-                    className="input-text"
+                <div className='rows gap-05'>
+                    <NumberInput
+                        setCallback={setGrade}
+                        min={1}
+                        max={3}
+                        placeholder='학년'
+                        required
+                    />
+                    <NumberInput
+                        setCallback={setClassNo}
+                        min={1}
+                        max={4}
+                        placeholder='반'
+                        required
+                    />
+                    <NumberInput
+                        setCallback={setStudentNo}
+                        min={1}
+                        max={16}
+                        placeholder='번호'
+                        required
+                    />
+                </div>
+                <TextInput
+                    setCallback={setName}
                     placeholder="이름"
                     required
-                    onChange={e => {
-                        e.preventDefault();
-                        setName(e.target.value);
-                    }}
                 />
             </>)
             case UserRole.TEACHER: return (
-                <input
-                    type="text"
-                    className="input-text"
-                    placeholder="학교 이메일 주소"
+                <TextInput
+                    setCallback={setEmail}
+                    placeholder='학교 이메일 주소'
                     required
-                    onChange={e => {
-                        e.preventDefault();
-                        setEmail(e.target.value);
-                    }}
                 />
             )
         }
@@ -529,7 +452,8 @@ const FindIdBox = () => {
         <>
             <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
             <form
-                autoComplete="off"
+                className='cols gap-1 center'
+                autoComplete='off'
                 onSubmit={e => {
                     e.preventDefault();
                     findIdMail(role);
@@ -538,13 +462,13 @@ const FindIdBox = () => {
                 {
                     findIdInputView(role)
                 }
-                <button type="submit" className="button main accent">복구 메일 전송</button>
+                <button type='submit' className='button main accent'>복구 메일 전송</button>
             </form>
         </>
     )
 
     return (
-        <Modal type="main" id="findIdMail" title="ID 찾기" menuList={
+        <Modal type='main' id='findIdMail' title='ID 찾기' menuList={
             [
                 {
                     element: findIdFormView(UserRole.STUDENT),
@@ -580,26 +504,22 @@ const ResetPwBox = () => {
     }
 
     return (
-        <Modal type="main" id="resetPwMail" title="비밀번호 복구">
+        <Modal type='main' id='resetPwMail' title='비밀번호 복구'>
             <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
             <form
-                autoComplete="off"
+                className='cols gap-1'
+                autoComplete='off'
                 onSubmit={e => {
                     e.preventDefault();
                     resetPwMail();
                 }}
             >
-                <input
-                    type="text"
-                    className="input-text"
-                    placeholder="복구할 아이디"
+                <TextInput
+                    setCallback={setId}
+                    placeholder='복구할 아이디'
                     required
-                    onChange={e => {
-                        e.preventDefault();
-                        setId(e.target.value);
-                    }}
                 />
-                <button type="submit" className="button main accent">복구 메일 전송</button>
+                <button type='submit' className='button main accent'>복구 메일 전송</button>
             </form>
         </Modal>
     );

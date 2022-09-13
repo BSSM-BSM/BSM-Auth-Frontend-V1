@@ -9,8 +9,10 @@ import { userState } from '../../store/account.store';
 import { OauthScope } from '../../types/OauthTypes';
 import { useModal } from '../../hooks/useModal';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
+import { titleState } from '../../store/common.store';
 
 const Oauth: NextPage = () => {
+    const [, setTitle] = useRecoilState(titleState);
     const { ajax } = useAjax();
     const { openModal, closeModal } = useModal();
     const router = useRouter();
@@ -18,6 +20,7 @@ const Oauth: NextPage = () => {
     const [user] = useRecoilState(userState);
 
     useEffect(() => {
+        setTitle('BSM OAuth');
         if (!user.isLogin) openModal('login', false);
     }, []);
     

@@ -7,8 +7,11 @@ import { useModal } from '../hooks/useModal';
 import { HttpMethod, useAjax } from '../hooks/useAjax';
 import { useOverlay } from '../hooks/useOverlay';
 import { useInterval } from '../hooks/useInterval';
+import { useRecoilState } from 'recoil';
+import { titleState } from '../store/common.store';
 
 const ResetPwPage: NextPage = () => {
+    const [, setTitle] = useRecoilState(titleState);
     const { ajax } = useAjax();
     const { openModal, closeModal } = useModal();
     const { showAlert, showToast } = useOverlay();
@@ -26,6 +29,10 @@ const ResetPwPage: NextPage = () => {
         used: false,
         expireIn: ''
     });
+
+    useEffect(() => {
+        setTitle('비밀번호 재설정');
+    }, []);
 
     useEffect(() => {
         let flag = false;

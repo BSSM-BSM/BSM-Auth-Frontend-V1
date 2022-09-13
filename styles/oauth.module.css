@@ -14,6 +14,7 @@
 }
 .client {
     background-color: var(--level-1);
+    box-shadow: var(--shadow);
     border-radius: 2rem;
     overflow: hidden;
 }

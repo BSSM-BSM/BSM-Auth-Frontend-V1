@@ -1,10 +1,19 @@
 import type { NextPage } from 'next'
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import { useModal } from '../hooks/useModal';
 import { useOverlay } from '../hooks/useOverlay';
+import { titleState } from '../store/common.store';
 
 const Home: NextPage = () => {
+    const [, setTitle] = useRecoilState(titleState);
     const { openModal } = useModal();
     const { showToast, showAlert } = useOverlay();
+
+    useEffect(() => {
+        setTitle('');
+    }, []);
+
     return (
         <div>
             <button onClick={() => openModal('login')}>로그인 창 열기</button>

@@ -5,6 +5,7 @@ import { useModal } from "../../hooks/useModal";
 import { useOverlay } from "../../hooks/useOverlay";
 import { User, userState } from "../../store/account.store";
 import { decodeBase64 } from "../../utils/util";
+import { TextInput } from "../common/inputs/textInput";
 import Modal from "../common/modal";
 
 export const UserPopup = () => {
@@ -51,25 +52,17 @@ const UpdatePwBox = () => {
                     updatePw();
                 }}
             >
-                <input
-                    type="password"
-                    className="input-text"
+                <TextInput
+                    type='password'
+                    setCallback={setNewPw}
                     placeholder="재설정할 비밀번호"
                     required
-                    onChange={e => {
-                        e.preventDefault();
-                        setNewPw(e.target.value);
-                    }}
                 />
-                <input
-                    type="password"
-                    className="input-text"
+                <TextInput
+                    type='password'
+                    setCallback={setCheckNewPw}
                     placeholder="재설정할 비밀번호 재입력"
                     required
-                    onChange={e => {
-                        e.preventDefault();
-                        setCheckNewPw(e.target.value);
-                    }}
                 />
                 <button type="submit" className="button main accent">비밀번호 재설정</button>
             </form>
@@ -115,15 +108,10 @@ const UpdateNicknameBox = () => {
                     updateNickname();
                 }}
             >
-                <input
-                    type="text"
-                    className="input-text"
+                <TextInput
+                    setCallback={setNewNickname}
                     placeholder="변경할 닉네임"
                     required
-                    onChange={e => {
-                        e.preventDefault();
-                        setNewNickname(e.target.value);
-                    }}
                 />
                 <button type="submit" className="button main accent">닉네임 변경</button>
             </form>

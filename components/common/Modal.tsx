@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRecoilState } from "recoil";
 import { useModal } from "../../hooks/useModal";
@@ -12,7 +12,8 @@ interface ModalProps {
     menuList?: {
         name: string,
         element: ReactNode
-    }[];
+    }[],
+    callback?: Function
 }
 
 const Modal = ({
@@ -20,7 +21,8 @@ const Modal = ({
     id,
     type,
     title,
-    menuList
+    menuList,
+    callback
 }: ModalProps) => {
     const { closeModal } = useModal();
     const [mounted, setMounted] = useState(false);
@@ -31,6 +33,11 @@ const Modal = ({
         setMounted(true);
         return () => setMounted(false);
     }, []);
+
+    useEffect(() => {
+        if (!callback || !mounted || !modalList[id]) return;
+        callback();
+    }, [modalList]);
     
     return mounted? createPortal(
         modalList[id] && (

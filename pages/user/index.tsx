@@ -6,9 +6,10 @@ import { useEffect, useState } from 'react';
 import { UserPopup } from '../../components/user/userPopup';
 import { useModal } from '../../hooks/useModal';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
-import { UserRole } from '../../types/UserRole';
+import { titleState } from '../../store/common.store';
 
 const UserProfilePage: NextPage = () => {
+    const [, setTitle] = useRecoilState(titleState);
     const { ajax } = useAjax();
     const { openModal } = useModal();
     const [user] = useRecoilState(userState);
@@ -34,6 +35,10 @@ const UserProfilePage: NextPage = () => {
             name: string
         }
     }
+
+    useEffect(() => {
+        setTitle('유저 정보');
+    }, []);
 
     useEffect(() => {
         ajax<UserInfo>({
