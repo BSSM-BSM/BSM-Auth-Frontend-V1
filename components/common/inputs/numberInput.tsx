@@ -9,7 +9,8 @@ interface NumberInputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInp
     min?: number,
     max?: number,
     msg?: string,
-    immediately?: boolean
+    immediately?: boolean,
+    full?: boolean
 }
 
 export const NumberInput = (props: NumberInputProps) => {
@@ -22,7 +23,8 @@ export const NumberInput = (props: NumberInputProps) => {
         max,
         msg,
         className = '',
-        immediately
+        immediately,
+        full
     } = props;
     const [tempValue, setTempValue] = useState<string>(String(initial));
     const { showToast } = useOverlay();
@@ -37,10 +39,10 @@ export const NumberInput = (props: NumberInputProps) => {
     }
 
     return (
-        <div className={styles.input_wrap}>
+        <div className={`${styles.input_wrap} ${styles.number} ${full? styles.full: ''}`}>
             <input
                 {...props}
-                className={`input ${className}`}
+                className={`${styles.input} ${className}`}
                 type={type}
                 value={tempValue}
                 onChange={(event) => {

@@ -115,6 +115,14 @@ body, .scroll_bar, .modal--content {
     overflow: overlay !important;
 }
 
+.no-overlay {
+    overflow: auto;
+}
+
+.scroll-bar {
+    overflow: overlay;
+}
+
 :is(
     body,
     .scroll-bar
@@ -128,7 +136,8 @@ body, .scroll_bar, .modal--content {
 
 :is(
     body,
-    .scroll-bar
+    .scroll-bar,
+    .modal--content
 )::-webkit-scrollbar-thumb {
     background-color: var(--text-level-1);
     border-radius: 1rem;
@@ -203,6 +212,7 @@ label, summary{
 
 .center {
     text-align: center !important;
+    justify-content: center;
     margin-left: auto;
     margin-right: auto;
 }
@@ -223,21 +233,10 @@ label, summary{
     flex-direction: column;
 }
 
-.cols.center {
-    align-items: center;
-}
-
-.rows.center {
-    justify-content: center;
-}
-
-.gap-05 {
-    gap: .5rem;
-}
-
-.gap-1 {
-    gap: 1rem;
-}
+.gap-05 {gap: .5rem;}
+.gap-1 {gap: 1rem;}
+.gap-2 {gap: 2rem;}
+.gap-5 {gap: 5rem;}
 
 .space-between {
     justify-content: space-between;
@@ -259,13 +258,9 @@ label, summary{
     align-items: center;
 }
 
-.container._50 {
-    max-width: 50rem;
-}
-
-.container._100 {
-    max-width: 100rem;
-}
+.container._50 {max-width: 50rem;}
+.container._100 {max-width: 100rem;}
+.container._110 {max-width: 110rem;}
 
 .container .title {
     margin-top: 5rem;
@@ -292,7 +287,9 @@ label, summary{
 }
 
 .list-wrap > li > h3 {
-    padding: 2.5rem 1.5rem .5rem;
+    padding: 2rem 1.5rem 1rem;
+    font-size: 1.6rem;
+    color: var(--text-level-1);
 }
 
 .list {
@@ -343,7 +340,6 @@ label, summary{
 }
 
 .list li.picker div {
-    width: auto !important;
     margin: 0 0 0 auto !important;
 }
 
@@ -445,7 +441,6 @@ label, summary{
     padding: 1rem;
     transition: .25s;
     background-color: var(--menu-background);
-    backdrop-filter: blur(5px);
 }
 
 .left-slide-menu .menu-button:hover ~ .menu-list,
@@ -479,6 +474,22 @@ label, summary{
     margin: .25rem 0;
     filter: var(--bright);
     transition: .4s ease-in-out;
+}
+
+.go-back .line:not(:nth-child(2)) {
+    width: 2.5rem;
+}
+
+.go-back .line:nth-child(1) {
+    transform: translateY(.295rem) rotate(-25deg);
+}
+
+.go-back .line:nth-child(2) {
+    opacity: 0;
+}
+
+.go-back .line:nth-child(3) {
+    transform: translateY(-.295rem) rotate(25deg);
 }
 
 .dim {
@@ -663,11 +674,11 @@ label, summary{
 }
 
 .button:active,
-.button_wrap > *:active {
+.button-wrap > *:active {
     transform: scale(.8);
 }
 
-.button_wrap > * {
+.button-wrap > * {
     transition: .25s;
 }
 
@@ -814,7 +825,6 @@ label, summary{
     .modal {
         max-width: calc(100% - 1rem) !important;
         min-width: 0 !important;
-        width: 100% !important;
     }
 }
 
@@ -880,10 +890,6 @@ label, summary{
 
 .modal--bottom-menu-box span {
     cursor: pointer;
-}
-
-.modal.modal .button.main {
-    margin-top: 1rem;
 }
 
 .modal.modal :is(

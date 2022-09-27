@@ -1,5 +1,5 @@
 import styles from '../../../styles/input.module.css';
-import { DetailedHTMLProps, Dispatch, InputHTMLAttributes, SetStateAction, useState } from "react";
+import { DetailedHTMLProps, Dispatch, InputHTMLAttributes, SetStateAction, useEffect, useState } from "react";
 import { useOverlay } from "../../../hooks/useOverlay";
 
 interface TextInputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
@@ -7,21 +7,28 @@ interface TextInputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInput
     initial?: string,
     placeholder?: string,
     immediately?: boolean,
-    inactive?: boolean
+    inactive?: boolean,
+    full?: boolean
 }
 
 export const TextInput = (props: TextInputProps) => {
     const {
+        value,
         setCallback,
         initial = '',
         placeholder,
         type = 'text',
         pattern,
         className = '',
-        immediately
+        immediately,
+        full
     } = props;
     const [tempValue, setTempValue] = useState(initial);
     const { showToast } = useOverlay();
+
+    useEffect(() => {
+        typeof value === 'string' && setTempValue(value);
+    }, [value]);
     
     const applyValue = (value?: string) => {
         if (pattern && !new RegExp(pattern).test(value || tempValue)) {
@@ -32,10 +39,10 @@ export const TextInput = (props: TextInputProps) => {
     }
 
     return (
-        <div className={styles.input_wrap}>
+        <div className={`${styles.input_wrap} ${full? styles.full: ''}`}>
             <input
                 {...props}
-                className={`input ${className}`}
+                className={`${styles.input} ${className}`}
                 type={type}
                 value={tempValue}
                 onChange={(event) => {

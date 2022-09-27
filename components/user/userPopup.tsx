@@ -46,6 +46,7 @@ const UpdatePwBox = () => {
     return (
         <Modal type="main" id="updatePw" title="비밀번호 재설정">
             <form
+                className='cols gap-1'
                 autoComplete="off"
                 onSubmit={e => {
                     e.preventDefault();
@@ -56,12 +57,14 @@ const UpdatePwBox = () => {
                     type='password'
                     setCallback={setNewPw}
                     placeholder="재설정할 비밀번호"
+                    full
                     required
                 />
                 <TextInput
                     type='password'
                     setCallback={setCheckNewPw}
                     placeholder="재설정할 비밀번호 재입력"
+                    full
                     required
                 />
                 <button type="submit" className="button main accent">비밀번호 재설정</button>
@@ -102,6 +105,7 @@ const UpdateNicknameBox = () => {
     return (
         <Modal type="main" id="updateNickname" title="닉네임 변경">
             <form
+                className='cols gap-1'
                 autoComplete="off"
                 onSubmit={e => {
                     e.preventDefault();
@@ -111,6 +115,7 @@ const UpdateNicknameBox = () => {
                 <TextInput
                     setCallback={setNewNickname}
                     placeholder="변경할 닉네임"
+                    full
                     required
                 />
                 <button type="submit" className="button main accent">닉네임 변경</button>

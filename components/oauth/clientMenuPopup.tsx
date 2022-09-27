@@ -75,6 +75,7 @@ const CreateClientBox = (props: CreateClientProps) => {
                         maxLength={63}
                         pattern="^([0-9]{1,3}.){3}[0-9]{1,3}|localhost|([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}?$"
                         required
+                        full
                     />
                 </div>
                 <div className='cols gap-05'>
@@ -86,6 +87,7 @@ const CreateClientBox = (props: CreateClientProps) => {
                         minLength={2}
                         maxLength={32}
                         required
+                        full
                     />
                 </div>
                 <div className='cols gap-05'>
@@ -100,6 +102,7 @@ const CreateClientBox = (props: CreateClientProps) => {
                         maxLength={100}
                         pattern={`(https?://)(${domain})(:(6[0-5]{2}[0-3][0-5]|[1-5][0-9]{4}|[1-9][0-9]{0,3}))?/.*`}
                         required
+                        full
                     />
                 </div>
                 <div className='cols gap-05'>

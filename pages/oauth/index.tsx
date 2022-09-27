@@ -31,13 +31,13 @@ const Oauth: NextPage = () => {
     interface ServiceInfo {
         authorized: boolean,
         domain: string,
-        name: string,
+        serviceName: string,
         scopeList: OauthScope[]
     }
     const [serviceInfo, setServiceInfo] = useState<ServiceInfo>({
         authorized: false,
         domain: '',
-        name: '',
+        serviceName: '',
         scopeList: []
     });
 
@@ -49,19 +49,20 @@ const Oauth: NextPage = () => {
                 openModal('oauthAuthenticateFailed', false);
             },
             callback: data => {
-                if (data.authorized) {
-                    return authorize();
-                }
                 setServiceInfo(data);
-                openModal('oauth', false);
                 closeModal('oauthAuthenticateFailed');
                 closeModal('oauthAuthorizeFailed');
+                if (data.authorized) {
+                    openModal('oauth-continue', false);
+                    return;
+                }
+                openModal('oauth', false);
             }
         })
     }
     
     const authorize = () => {
-        ajax({
+        ajax<{redirectURI: string}>({
             method: HttpMethod.POST,
             url: '/oauth/authorize',
             payload: {
@@ -72,8 +73,8 @@ const Oauth: NextPage = () => {
                 closeModal('oauth');
                 openModal('oauthAuthorizeFailed', false);
             },
-            callback: (data: any) => {
-                window.location = data.redirectURI;
+            callback: (data) => {
+                window.location.href = data.redirectURI;
             }
         })
     }
@@ -91,15 +92,25 @@ const Oauth: NextPage = () => {
             <Head>
                 <title>OAuth 간편로그인 - BSM Auth</title>
             </Head>
-            <Modal id='oauth' title={oauthModalTitle}>
+            <Modal id='oauth-continue' type='main' title={oauthModalTitle}>
                 <p>{serviceInfo.domain}</p>
                 <p>
-                    <span className="accent-text">{serviceInfo.name}</span>
+                    <span className="accent-text">{serviceInfo.serviceName}</span>
+                    <span>에서 인증을 요청합니다.</span>
+                </p>
+                <br/>
+                <button className="button main accent" onClick={() => authorize()}>인증</button>
+            </Modal>
+            <Modal id='oauth' type='main' title={oauthModalTitle}>
+                <p>{serviceInfo.domain}</p>
+                <p>
+                    <span className="accent-text">{serviceInfo.serviceName}</span>
                     <span>에서 다음의 정보들을 요청합니다. 동의하시겠습니까?</span>
                 </p>
                 <br/>
                 <p>제공되는 정보</p>
                 <ul className={styles.scope_list}>{
+                    serviceInfo.scopeList &&
                     serviceInfo.scopeList.map(scope => (
                         <li key={scope.id}>
                             <details>

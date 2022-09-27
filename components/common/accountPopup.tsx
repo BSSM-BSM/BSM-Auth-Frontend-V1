@@ -88,6 +88,7 @@ const LoginBox = () => {
                         key='id'
                         setCallback={setId}
                         placeholder='아이디'
+                        full
                         required
                     />
                     {bottomMenuView()}
@@ -109,6 +110,7 @@ const LoginBox = () => {
                         type='password'
                         setCallback={setPw}
                         placeholder='비밀번호'
+                        full
                         required
                     />
                     {bottomMenuView()}
@@ -195,23 +197,27 @@ const SignUpBox = () => {
             <TextInput
                 setCallback={setId}
                 placeholder="아이디"
+                full
                 required
             />
             <TextInput
                 type='password'
                 setCallback={setPw}
                 placeholder='비밀번호'
+                full
                 required
             />
             <TextInput
                 type='password'
                 setCallback={setCheckPw}
                 placeholder='비밀번호 재입력'
+                full
                 required
             />
             <TextInput
                 setCallback={setNickname}
                 placeholder='닉네임'
+                full
                 required
             />
             {
@@ -219,6 +225,7 @@ const SignUpBox = () => {
                 ? <TextInput
                     setCallback={setName}
                     placeholder='선생님 이름'
+                    full
                     required
                 />
                 : null
@@ -226,6 +233,7 @@ const SignUpBox = () => {
             <TextInput
                 setCallback={setAuthCode}
                 placeholder='인증코드'
+                full
                 required
             />
             <div className='modal--bottom-menu-box'>
@@ -316,7 +324,7 @@ const AuthCodeBox = () => {
     const authCodeInputView = (role: UserRole) => {
         switch (role) {
             case UserRole.STUDENT: return (<>
-                <div className='rows gap-05'>
+                <div className='rows gap-05 center'>
                     <NumberInput
                         setCallback={setGrade}
                         min={1}
@@ -342,6 +350,7 @@ const AuthCodeBox = () => {
                 <TextInput
                     setCallback={setName}
                     placeholder="이름"
+                    full
                     required
                 />
             </>)
@@ -349,6 +358,7 @@ const AuthCodeBox = () => {
                 <TextInput
                     setCallback={setEmail}
                     placeholder="학교 이메일 주소"
+                    full
                     required
                 />
             )
@@ -409,7 +419,7 @@ const FindIdBox = () => {
     const findIdInputView = (role: UserRole) => {
         switch (role) {
             case UserRole.STUDENT: return (<>
-                <div className='rows gap-05'>
+                <div className='rows gap-05 center'>
                     <NumberInput
                         setCallback={setGrade}
                         min={1}
@@ -435,6 +445,7 @@ const FindIdBox = () => {
                 <TextInput
                     setCallback={setName}
                     placeholder="이름"
+                    full
                     required
                 />
             </>)
@@ -442,6 +453,7 @@ const FindIdBox = () => {
                 <TextInput
                     setCallback={setEmail}
                     placeholder='학교 이메일 주소'
+                    full
                     required
                 />
             )
@@ -450,9 +462,8 @@ const FindIdBox = () => {
 
     const findIdFormView = (role: UserRole) => (
         <>
-            <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
             <form
-                className='cols gap-1 center'
+                className='cols gap-1'
                 autoComplete='off'
                 onSubmit={e => {
                     e.preventDefault();
@@ -462,6 +473,7 @@ const FindIdBox = () => {
                 {
                     findIdInputView(role)
                 }
+                <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
                 <button type='submit' className='button main accent'>복구 메일 전송</button>
             </form>
         </>
@@ -505,9 +517,8 @@ const ResetPwBox = () => {
 
     return (
         <Modal type='main' id='resetPwMail' title='비밀번호 복구'>
-            <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
             <form
-                className='cols gap-1'
+                className='cols gap-1 center'
                 autoComplete='off'
                 onSubmit={e => {
                     e.preventDefault();
@@ -517,8 +528,10 @@ const ResetPwBox = () => {
                 <TextInput
                     setCallback={setId}
                     placeholder='복구할 아이디'
+                    full
                     required
                 />
+                <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
                 <button type='submit' className='button main accent'>복구 메일 전송</button>
             </form>
         </Modal>
