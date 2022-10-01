@@ -1,15 +1,36 @@
-.user_profile {
+.user_profile_wrap {
+    position: relative;
+    display: inline-block;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.user_profile_wrap > div,
+.user_profile_wrap img {
+    width: 12.8rem !important;
+    height: 12.8rem !important;
+}
+
+.user_profile_wrap:hover::before {
+    z-index: 1;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000088;
     border-radius: 50%;
-    width: 2rem;
-    height: 2rem;
 }
 
-.user_profile.big {
-    width: 10rem;
-    height: 10rem;
-}
-
-.user_nickname_edit_wrap {
-    margin-left: 1rem;
-    font-size: 2.8rem;
+.user_profile_wrap:hover::after {
+    z-index: 2;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 8.5rem);
+    height: calc(100% - 8.5rem);
+    margin: 4.5rem;
+    background-image: url('/icons/edit.svg');
 }

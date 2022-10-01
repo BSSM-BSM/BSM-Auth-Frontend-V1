@@ -39,22 +39,24 @@ export const NumberInput = (props: NumberInputProps) => {
     }
 
     return (
-        <div className={`${styles.input_wrap} ${styles.number} ${full? styles.full: ''}`}>
-            <input
-                {...props}
-                className={`${styles.input} ${className}`}
-                type={type}
-                value={tempValue}
-                onChange={(event) => {
-                    setTempValue(event.target.value);
-                    if (immediately) applyValue(event.target.value);
-                }}
-                placeholder=''
-                onBlur={() => applyValue()}
-                onKeyDown={e => e.key === 'Enter' && applyValue()}
-            ></input>
-            <span>{msg}</span>
-            <span className={styles.placeholder}>{placeholder}</span>
+        <div className='rows'>
+            <div className={`${styles.input_wrap} ${styles.number} ${full? styles.full: ''}`}>
+                <input
+                    {...props}
+                    className={`${styles.input} ${className}`}
+                    type={type}
+                    value={tempValue}
+                    onChange={(event) => {
+                        setTempValue(event.target.value);
+                        if (immediately) applyValue(event.target.value);
+                    }}
+                    placeholder=''
+                    onBlur={() => applyValue()}
+                    onKeyDown={e => e.key === 'Enter' && applyValue()}
+                ></input>
+                <span className={styles.placeholder}>{placeholder}</span>
+            </div>
+            <div className='cols center'>{msg}</div>
         </div>
     );
 }

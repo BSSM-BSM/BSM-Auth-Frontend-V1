@@ -1,3 +1,4 @@
+import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { Router } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -8,6 +9,7 @@ import { useOverlay } from '../../hooks/useOverlay';
 import { userState } from '../../store/account.store';
 import { titleState } from '../../store/common.store';
 import styles from '../../styles/header.module.css';
+import DefaultProfilePic from '../../public/icons/profile_default.png';
 
 export const Header = () => {
     const [title] = useRecoilState(titleState);
@@ -18,12 +20,17 @@ export const Header = () => {
     const [user] = useRecoilState(userState);
     const resetUser = useResetRecoilState(userState);
     const [sideBar, setSideBar] = useState(false);
+    const [profileSrc, setProfileSrc] = useState<string | StaticImageData>(DefaultProfilePic);
 
     useEffect(() => {
         Router.events.on('routeChangeStart', () => setSideBar(false));
         setMounted(true);
         return () => setMounted(false);
     }, []);
+
+    useEffect(() => {
+        setProfileSrc(`https://auth.bssm.kro.kr/resource/user/profile/${user.code}.png`);
+    }, [user]);
 
     const logout = () => {
         ajax({
@@ -42,8 +49,17 @@ export const Header = () => {
             ?<div className={`dropdown-menu ${styles.dropdown}`}>
                 <span className={`${styles.item} ${styles.user_profile_wrap}`}>
                     <span>{user.nickname}</span>
-                    <img className='user-profile' src={`https://auth.bssm.kro.kr/resource/user/profile/profile_${user.code}.png`} onError={e => e.currentTarget.src = '/icons/profile_default.png'} alt='user profile' />
-                </span>  <ul className='dropdown-content'>
+                    <div className='user-profile'>
+                        <Image
+                            src={profileSrc}
+                            onError={() => setProfileSrc(DefaultProfilePic)}
+                            width='128px'
+                            height='128px'
+                            alt='user profile'
+                        />
+                    </div>
+                </span>
+                <ul className='dropdown-content'>
                     <li><Link href='/user'><a className='option'>유저 정보</a></Link></li>
                     <li><span onClick={logout} className='option'>로그아웃</span></li>
                 </ul>
