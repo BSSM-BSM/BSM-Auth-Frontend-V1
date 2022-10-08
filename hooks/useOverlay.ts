@@ -1,17 +1,17 @@
-import { prepareServerlessUrl } from "next/dist/server/base-server";
+import { v1 as uuidV1 } from 'uuid';
+import { ReactNode } from "react";
 import { useRecoilState } from "recoil";
-import { alertState, alertTimerState, loadingState, toastCountState, toastState } from "../store/overlay.store";
+import { alertState, alertTimerState, loadingState, toastState } from "../store/overlay.store";
 
 interface UseOverlay {
     loading: (flag: boolean) => void;
-    showToast: (msg: string) => Promise<void>;
+    showToast: (msg: string | ReactNode, time?: number) => Promise<void>;
     showAlert: (msg: string) => void;
 }
 
 export const useOverlay = (): UseOverlay => {
     const [, setLoading] = useRecoilState(loadingState);
     const [, setToastList] = useRecoilState(toastState);
-    const [toastCount, setToastCount] = useRecoilState(toastCountState);
     const [, setAlert] = useRecoilState(alertState);
     const [alertTimer, setAlertTimer] = useRecoilState(alertTimerState);
 
@@ -19,30 +19,29 @@ export const useOverlay = (): UseOverlay => {
         setLoading(() => flag);
     }
 
-    const showToast = async (msg: string) => {
-        let index = toastCount;
-        setToastCount(prev => ++prev);
+    const showToast = async (content: string | ReactNode, time: number = 5000) => {
+        let id = uuidV1();
 
         setToastList(prev => {
-            return {...prev, [index]: {
-                id: index,
+            return {...prev, [id]: {
+                id,
                 status: 'active',
-                msg
+                content
             }}
         });
-        await new Promise((resolve) => setTimeout(() => {resolve(true)}, 5000));
+        await new Promise((resolve) => setTimeout(() => {resolve(true)}, time));
         setToastList(prev => {
             return {
                 ...prev,
-                [index]: {
-                    ...prev[index],
+                [id]: {
+                    ...prev[id],
                     status: 'hide'
                 }
             };
         });
         await new Promise((resolve) => setTimeout(() => {resolve(true)}, 200));
         setToastList(prev => {
-            const {[index]: exclude, ...list} = prev;
+            const {[id]: exclude, ...list} = prev;
             return list;
         });
     }

@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { atom } from "recoil";
 
 export const loadingState = atom<boolean>({
@@ -6,19 +7,14 @@ export const loadingState = atom<boolean>({
 });
 
 export const toastState = atom<{
-    [index: number]: {
-        id: number,
+    [index: string]: {
+        id: string,
         status: string,
-        msg: string
+        content: string | ReactNode
     }
 }>({
     key: 'toastState',
     default: {}
-});
-
-export const toastCountState = atom<number>({
-    key: 'toastCountState',
-    default: 0
 });
 
 export const alertState = atom<{

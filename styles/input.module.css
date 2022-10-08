@@ -121,3 +121,18 @@
 .input_wrap.number:active  {
     transform: scale(.8);
 }
+
+.editor {
+    width: 100%;
+    border-radius: 1rem;
+}
+
+.editor .input {
+    width: 100%;
+}
+
+.editor .placeholder {
+    top: 1.5rem;
+    left: 1.5rem;
+    padding: 0;
+}

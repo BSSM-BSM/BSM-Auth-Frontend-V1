@@ -56,8 +56,7 @@ const LoginBox = () => {
             errorCallback: (data: any) => {
                 if (data.statusCode === 400) {
                     setLoginStep(0);
-                    showAlert(data.message);
-                    return true;
+                    return false;
                 }
                 setLoginStep(1);
                 return false;
