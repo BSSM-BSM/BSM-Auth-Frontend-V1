@@ -9,10 +9,10 @@ import { userState } from '../../store/account.store';
 import { OauthScope } from '../../types/OauthTypes';
 import { useModal } from '../../hooks/useModal';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
-import { titleState } from '../../store/common.store';
+import { headerOptionState } from '../../store/common.store';
 
 const Oauth: NextPage = () => {
-    const [, setTitle] = useRecoilState(titleState);
+    const [, setHeaderOption] = useRecoilState(headerOptionState);
     const { ajax } = useAjax();
     const { openModal, closeModal } = useModal();
     const router = useRouter();
@@ -20,7 +20,7 @@ const Oauth: NextPage = () => {
     const [user] = useRecoilState(userState);
 
     useEffect(() => {
-        setTitle('BSM OAuth');
+        setHeaderOption({title: 'BSM OAuth'});
         if (!user.isLogin) openModal('login', false);
     }, []);
     
@@ -79,20 +79,12 @@ const Oauth: NextPage = () => {
         })
     }
 
-    const oauthModalTitle = (
-        <>
-            <img src="/logo/logo.png" alt="logo" className="logo" />
-            <br />
-            <span>BSM 계정으로 계속하기</span>
-        </>
-    );
-
     return (
         <div>
             <Head>
                 <title>OAuth 간편로그인 - BSM Auth</title>
             </Head>
-            <Modal id='oauth-continue' type='main' title={oauthModalTitle}>
+            <Modal id='oauth-continue' type='main' title='BSM 계정으로 계속하기'>
                 <p>{serviceInfo.domain}</p>
                 <p>
                     <span className="accent-text">{serviceInfo.serviceName}</span>
@@ -101,7 +93,7 @@ const Oauth: NextPage = () => {
                 <br/>
                 <button className="button main accent" onClick={() => authorize()}>인증</button>
             </Modal>
-            <Modal id='oauth' type='main' title={oauthModalTitle}>
+            <Modal id='oauth' type='main' title='BSM 계정으로 계속하기'>
                 <p>{serviceInfo.domain}</p>
                 <p>
                     <span className="accent-text">{serviceInfo.serviceName}</span>

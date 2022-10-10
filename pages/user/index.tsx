@@ -6,13 +6,13 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { UserPopup } from '../../components/user/userPopup';
 import { useModal } from '../../hooks/useModal';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
-import { titleState } from '../../store/common.store';
+import { headerOptionState } from '../../store/common.store';
 import { useOverlay } from '../../hooks/useOverlay';
 import Image, { StaticImageData } from 'next/image';
 import DefaultProfilePic from '../../public/icons/profile_default.png';
 
 const UserProfilePage: NextPage = () => {
-    const [, setTitle] = useRecoilState(titleState);
+    const [, setHeaderOption] = useRecoilState(headerOptionState);
     const {ajax} = useAjax();
     const {openModal} = useModal();
     const {showToast} = useOverlay();
@@ -43,7 +43,7 @@ const UserProfilePage: NextPage = () => {
     }
 
     useEffect(() => {
-        setTitle('유저 정보');
+        setHeaderOption({title: '유저 정보'});
     }, []);
 
     useEffect(() => {

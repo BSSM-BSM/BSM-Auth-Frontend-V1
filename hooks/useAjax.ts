@@ -1,15 +1,15 @@
-import axios, { AxiosError, AxiosPromise } from "axios";
+import axios, { AxiosError, AxiosPromise, AxiosRequestConfig } from "axios";
 import { useResetRecoilState } from "recoil";
 import { userState } from "../store/account.store";
 import { useModal } from "./useModal";
 import { useOverlay } from "./useOverlay";
 
 const instance = axios.create({
-    baseURL:'/api',
+    baseURL: '/api',
     headers: {
-        'Pragma': 'no-cache'
+        Pragma: 'no-cache'
     },
-    timeout:3000,
+    timeout: 5000,
 });
 
 export enum HttpMethod {
@@ -19,9 +19,9 @@ export enum HttpMethod {
     DELETE
 }
 
-interface ErrorResType {
-    statusCode: number,
-    message: string
+export interface ErrorResType {
+    statusCode: number;
+    message: string;
 }
 
 export const useAjax = () => {
@@ -40,9 +40,9 @@ export const useAjax = () => {
         method: HttpMethod,
         url: string,
         payload?: object,
-        config?: object,
+        config?: AxiosRequestConfig,
         callback?: (data: T) => void,
-        errorCallback?: (data: ErrorResType | void) => boolean | void
+        errorCallback?: (data: ErrorResType | AxiosError | void) => boolean | void
     }): Promise<void> => {
         loading(true);
     
@@ -67,7 +67,7 @@ export const useAjax = () => {
             };
             if (!err.response.data) {
                 showAlert(err.message);
-                errorCallback && errorCallback();
+                errorCallback && errorCallback(err);
                 return;
             }
             if (!err.response.data.statusCode) {

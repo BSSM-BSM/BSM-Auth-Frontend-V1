@@ -91,14 +91,14 @@ const CreateClientBox = (props: CreateClientProps) => {
                     />
                 </div>
                 <div className='cols gap-05'>
-                    <h3>콜백 URI</h3>
+                    <h3>리다이렉트 URI</h3>
                     <p>
                         사용자가 BSM계정으로 인증된 후 쿼리스트링으로 전달되는 인증코드를 받을 리다이렉트 주소입니다.<br />
-                        예시: https://domain.com/signup/bsm, http://127.0.0.1/afterlogin, http://localhost/oauth/bsm
+                        예시: https://domain.com/signup/bsm, http://127.0.0.1/oauth, http://localhost/oauth/bsm
                     </p>
                     <TextInput
                         setCallback={setRedirectURI}
-                        placeholder="콜백 URI"
+                        placeholder="리다이렉트 URI"
                         maxLength={100}
                         pattern={`(https?://)(${domain})(:(6[0-5]{2}[0-3][0-5]|[1-5][0-9]{4}|[1-9][0-9]{0,3}))?/.*`}
                         required

@@ -1,4 +1,5 @@
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
+import { useOverlay } from '../../hooks/useOverlay';
 import styles from '../../styles/oauth.module.css';
 import { Client, OauthScopeList } from '../../types/OauthTypes';
 
@@ -7,8 +8,9 @@ export const OauthClientList = (props: {
     scopeInfoList: OauthScopeList,
     getClientList: Function
 }) => {
-    const { client, scopeInfoList, getClientList } = props;
-    const { ajax } = useAjax();
+    const {client, scopeInfoList, getClientList} = props;
+    const {ajax} = useAjax();
+    const {showToast} = useOverlay();
     const accessType: {
         [index: string]: string
     } = {
@@ -24,6 +26,8 @@ export const OauthClientList = (props: {
             callback: () => getClientList()
         })
     }
+
+    const oauthUri = `https://auth.bssm.kro.kr/oauth?clientId=${client.clientId}&redirectURI=${client.redirectURI}`;
     
     return (
         <li className={`${styles.client} rows`}>
@@ -31,17 +35,30 @@ export const OauthClientList = (props: {
                 <div className={`${styles.top_wrap} left`}>
                     <h2 className={`${styles.service_name} bold`}>{client.serviceName}</h2>
                     <div className='rows gap-1'>
-                        <span className={`${styles.client_id}`}>{client.clientId}</span>
-                        <span>허용대상: {accessType[client.access]}</span>
+                        <span
+                            onClick={async () => {
+                                await navigator.clipboard.writeText(oauthUri);
+                                showToast('OAuth 인증 주소가 클립보드에 복사되었습니다');
+                            }}
+                        >
+                            OAuth 주소 복사
+                        </span>
+                        <span>허용 대상: {accessType[client.access]}</span>
                     </div>
                 </div>
-                <div className={`${styles.bottom_wrap} left`}>
+                <div className='left'>
                     <p className='accent-text'>{client.domain}</p>
-                    <p className={styles.service_redirect_uri}>{client.redirectURI}</p>
                 </div>
                 <details className='left'>
-                    {client.clientSecret}
-                    <summary>Client Secret</summary>
+                    <div>
+                        <span className={`${styles.client_id}`}>{client.clientId}</span>
+                        <p className={styles.service_redirect_uri}>{client.redirectURI}</p>
+                    </div>
+                    <details className='left'>
+                        {client.clientSecret}
+                        <summary>Client Secret</summary>
+                    </details>
+                    <summary>자세히 보기</summary>
                 </details>
                 <details>
                     <ul className={`${styles.scope_list} ${styles._25} left`}>{

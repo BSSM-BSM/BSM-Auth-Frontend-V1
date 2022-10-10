@@ -3,15 +3,15 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { useModal } from '../hooks/useModal';
 import { useOverlay } from '../hooks/useOverlay';
-import { titleState } from '../store/common.store';
+import { headerOptionState } from '../store/common.store';
 
 const Home: NextPage = () => {
-    const [, setTitle] = useRecoilState(titleState);
+    const [, setHeaderOption] = useRecoilState(headerOptionState);
     const { openModal } = useModal();
     const { showToast, showAlert } = useOverlay();
 
     useEffect(() => {
-        setTitle('');
+        setHeaderOption({title: ''});
     }, []);
 
     return (

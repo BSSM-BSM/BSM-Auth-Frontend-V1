@@ -24,7 +24,6 @@ export const AccountBox = () => {
 
 const LoginBox = () => {
     const { ajax } = useAjax();
-    const { showAlert } = useOverlay();
     const { openModal, closeModal } = useModal();
     const [, setUser] = useRecoilState(userState);
     const [loginStep, setLoginStep] = useState(0);
@@ -121,8 +120,7 @@ const LoginBox = () => {
 
     const title = (
         <>
-            <img src='/logo/logo.png' alt='logo' className='logo' />
-            <br/>
+            <h2 className='logo'>BSM</h2>
             <span>{
                 loginStep === 0?
                 '로그인'
@@ -244,8 +242,7 @@ const SignUpBox = () => {
 
     const title = (
         <>
-            <img src='/logo/logo.png' alt='logo' className='logo' />
-            <br/>
+            <h2 className='logo'>BSM</h2>
             <span>회원가입</span>
         </>
     )

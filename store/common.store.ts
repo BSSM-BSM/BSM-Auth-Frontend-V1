@@ -13,7 +13,27 @@ export const screenScaleState = atom<number>({
     effects: [localStorageEffect('screenScale', 'number')?? 100]
 });
 
-export const titleState = atom<string>({
+export interface headerOption {
+    title: string,
+    allMenu?: {
+        goBack?: boolean;
+        dropdownMenu?: DropdownMenuOption[];
+    },
+    optionMenu?: {
+        dropdownMenu?: DropdownMenuOption[];
+    }
+}
+
+export interface DropdownMenuOption {
+    text: string,
+    callback: () => void
+};
+
+export const headerOptionState = atom<headerOption>({
     key: 'title',
-    default: ''
+    default: {
+        title: '',
+        allMenu: undefined,
+        optionMenu: undefined
+    }
 });

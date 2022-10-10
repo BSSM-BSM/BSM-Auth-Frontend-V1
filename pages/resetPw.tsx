@@ -8,10 +8,10 @@ import { HttpMethod, useAjax } from '../hooks/useAjax';
 import { useOverlay } from '../hooks/useOverlay';
 import { useInterval } from '../hooks/useInterval';
 import { useRecoilState } from 'recoil';
-import { titleState } from '../store/common.store';
+import { headerOptionState } from '../store/common.store';
 
 const ResetPwPage: NextPage = () => {
-    const [, setTitle] = useRecoilState(titleState);
+    const [, setHeaderOption] = useRecoilState(headerOptionState);
     const { ajax } = useAjax();
     const { openModal, closeModal } = useModal();
     const { showAlert, showToast } = useOverlay();
@@ -31,7 +31,7 @@ const ResetPwPage: NextPage = () => {
     });
 
     useEffect(() => {
-        setTitle('비밀번호 재설정');
+        setHeaderOption({title: '비밀번호 재설정'});
     }, []);
 
     useEffect(() => {
