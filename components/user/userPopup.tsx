@@ -3,7 +3,8 @@ import { useRecoilState } from "recoil";
 import { HttpMethod, useAjax } from "../../hooks/useAjax";
 import { useModal } from "../../hooks/useModal";
 import { useOverlay } from "../../hooks/useOverlay";
-import { User, userState } from "../../store/account.store";
+import { userState } from "../../store/account.store";
+import { getUserInfo } from "../../utils/userUtil";
 import { decodeBase64 } from "../../utils/util";
 import { TextInput } from "../common/inputs/textInput";
 import Modal from "../common/modal";
@@ -92,11 +93,7 @@ const UpdateNicknameBox = () => {
             },
             callback: (data) => {
                 showToast('닉네임 변경이 완료되었습니다');
-                const userInfo = JSON.parse(decodeBase64(data.accessToken.split('.')[1])) as User;
-                setUser({
-                    ...userInfo,
-                    isLogin: true
-                });
+                getUserInfo(ajax, setUser);
                 closeModal('updateNickname')
             }
         });

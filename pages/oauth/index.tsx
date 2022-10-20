@@ -21,11 +21,10 @@ const Oauth: NextPage = () => {
 
     useEffect(() => {
         setHeaderOption({title: 'BSM OAuth'});
-        if (!user.isLogin) openModal('login', false);
     }, []);
     
     useEffect(() => {
-        if (clientId && user.isLogin) authenticate();
+        if (clientId) authenticate();
     }, [user, clientId]);
 
     interface ServiceInfo {
@@ -45,7 +44,10 @@ const Oauth: NextPage = () => {
         ajax<ServiceInfo>({
             method: HttpMethod.GET,
             url: `/oauth/authenticate?clientId=${clientId}&redirectURI=${redirectURI}`,
-            errorCallback:() => {
+            errorCallback:(data) => {
+                if (data && 'statusCode' in data && data.statusCode === 401) {
+                    return true;
+                }
                 openModal('oauthAuthenticateFailed', false);
             },
             callback: data => {
@@ -58,7 +60,7 @@ const Oauth: NextPage = () => {
                 }
                 openModal('oauth', false);
             }
-        })
+        });
     }
     
     const authorize = () => {
@@ -69,8 +71,11 @@ const Oauth: NextPage = () => {
                 clientId,
                 redirectURI
             },
-            errorCallback: () => {
+            errorCallback: (data) => {
                 closeModal('oauth');
+                if (data && 'statusCode' in data && data.statusCode === 401) {
+                    return true;
+                }
                 openModal('oauthAuthorizeFailed', false);
             },
             callback: (data) => {

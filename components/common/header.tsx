@@ -10,6 +10,8 @@ import { userState } from '../../store/account.store';
 import { DropdownMenuOption, headerOptionState } from '../../store/common.store';
 import styles from '../../styles/header.module.css';
 import DefaultProfilePic from '../../public/icons/profile_default.png';
+import { getProfileSrc } from '../../utils/util';
+import { getUserInfo } from '../../utils/userUtil';
 
 export const Header = () => {
     const [mounted, setMounted] = useState(false);
@@ -17,7 +19,7 @@ export const Header = () => {
     const { openModal } = useModal();
     const { ajax } = useAjax();
     const { showToast } = useOverlay();
-    const [user] = useRecoilState(userState);
+    const [user, setUser] = useRecoilState(userState);
     const resetUser = useResetRecoilState(userState);
     const [sideBar, setSideBar] = useState(false);
     const [headerOption] = useRecoilState(headerOptionState);
@@ -26,11 +28,12 @@ export const Header = () => {
     useEffect(() => {
         Router.events.on('routeChangeStart', () => setSideBar(false));
         setMounted(true);
+        getUserInfo(ajax, setUser);
         return () => setMounted(false);
     }, []);
 
     useEffect(() => {
-        setProfileSrc(`https://auth.bssm.kro.kr/resource/user/profile/${user.code}.png`);
+        setProfileSrc(getProfileSrc(user.isLogin? user.code: 0));
     }, [user]);
 
     const logout = () => {
@@ -41,7 +44,7 @@ export const Header = () => {
                 resetUser();
                 showToast('로그아웃 되었습니다');
             }
-        })
+        });
     }
 
     const userMenuView = () => (

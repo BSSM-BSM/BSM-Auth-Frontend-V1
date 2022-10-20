@@ -3,9 +3,9 @@ import { useRecoilState } from 'recoil';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
 import { useModal } from '../../hooks/useModal';
 import { useOverlay } from '../../hooks/useOverlay';
-import { User, userState } from '../../store/account.store';
-import { UserRole } from '../../types/UserRole';
-import { decodeBase64 } from '../../utils/util';
+import { userState } from '../../store/account.store';
+import { UserRole } from '../../types/userType';
+import { getUserInfo } from '../../utils/userUtil';
 import { NumberInput } from './inputs/numberInput';
 import { TextInput } from './inputs/textInput';
 import Modal from './modal';
@@ -44,12 +44,7 @@ const LoginBox = () => {
                 pw
             },
             callback: data => {
-                const userInfo = {
-                    ...JSON.parse(decodeBase64(data.accessToken.split('.')[1])),
-                    isLogin: true
-                } as User;
-                localStorage.setItem('user', JSON.stringify(userInfo));
-                setUser(userInfo);
+                getUserInfo(ajax, setUser);
                 closeModal('login');
             },
             errorCallback: (data: any) => {

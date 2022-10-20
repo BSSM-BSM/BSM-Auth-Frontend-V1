@@ -10,6 +10,7 @@ import { headerOptionState } from '../../store/common.store';
 import { useOverlay } from '../../hooks/useOverlay';
 import Image, { StaticImageData } from 'next/image';
 import DefaultProfilePic from '../../public/icons/profile_default.png';
+import { Student, Teacher, UserRole } from '../../types/userType';
 
 const UserProfilePage: NextPage = () => {
     const [, setHeaderOption] = useRecoilState(headerOptionState);
@@ -17,37 +18,17 @@ const UserProfilePage: NextPage = () => {
     const {openModal} = useModal();
     const {showToast} = useOverlay();
     const [user] = useRecoilState(userState);
-    const [userInfo, setUserInfo] = useState<UserInfo>({
-        code: 0,
-        createdAt: '',
-        nickname: ''
-    });
+    const [userInfo, setUserInfo] = useState<null | Student | Teacher>(null);
     const [detailDate, setDetailDate] = useState(false);
     const profileInputRef = useRef<HTMLInputElement>(null);
     const [profileSrc, setProfileSrc] = useState<string | StaticImageData>(DefaultProfilePic);
-
-    interface UserInfo {
-        code: number,
-        createdAt: string,
-        nickname: string,
-        student?: {
-            enrolledAt: number,
-            grade: number,
-            classNo: number,
-            studentNo: number,
-            name: string
-        },
-        teacher?: {
-            name: string
-        }
-    }
 
     useEffect(() => {
         setHeaderOption({title: '유저 정보'});
     }, []);
 
     useEffect(() => {
-        ajax<UserInfo>({
+        ajax<Student | Teacher>({
             method: HttpMethod.GET,
             url: 'user',
             callback(data) {
@@ -77,7 +58,7 @@ const UserProfilePage: NextPage = () => {
         <div className='container _50'>
             <UserPopup />
         {
-            userInfo.code !== 0 &&
+            userInfo &&
             <div>
                 <div className={styles.user_profile_wrap} onClick={() => profileInputRef.current?.click()}>
                     <div className='user-profile'>
@@ -110,7 +91,7 @@ const UserProfilePage: NextPage = () => {
                                 }</span>
                                 {!detailDate && <span onClick={() => setDetailDate(true)}>자세히 보기</span>}
                             </li>
-                            {userInfo.student && <>
+                            {userInfo.role === UserRole.STUDENT && <>
                                 <li>
                                     <span>이름</span>
                                     <span>{userInfo.student.name}</span>
@@ -124,7 +105,7 @@ const UserProfilePage: NextPage = () => {
                                     <span>{`${userInfo.student.enrolledAt}년`}</span>
                                 </li>
                             </>}
-                            {userInfo.teacher && <>
+                            {userInfo.role === UserRole.TEACHER && <>
                                 <li>
                                     <span>이름</span>
                                     <span>{userInfo.teacher.name}</span>

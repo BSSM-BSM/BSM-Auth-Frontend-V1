@@ -11,20 +11,18 @@ import { Header } from '../components/common/header'
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
-        <>
-            <RecoilRoot>
-                <Component {...pageProps} />
-                <>
-                    <Header />
-                    <Toast />
-                    <Alert />
-                    <LoadingDim />
-                    <ModalDim />
-                    <AccountBox />
-                    <SettingBox />
-                </>
-            </RecoilRoot>
-        </>
+        <RecoilRoot>
+            <Component {...pageProps} />
+            <>
+                <Header />
+                <Toast />
+                <Alert />
+                <LoadingDim />
+                <ModalDim />
+                <AccountBox />
+                <SettingBox />
+            </>
+        </RecoilRoot>
     )
 }
 
