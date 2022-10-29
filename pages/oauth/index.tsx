@@ -46,7 +46,7 @@ const Oauth: NextPage = () => {
             url: `/oauth/authenticate?clientId=${clientId}&redirectURI=${redirectURI}`,
             errorCallback:(data) => {
                 if (data && 'statusCode' in data && data.statusCode === 401) {
-                    return true;
+                    return false;
                 }
                 openModal('oauthAuthenticateFailed', false);
             },
@@ -74,7 +74,7 @@ const Oauth: NextPage = () => {
             errorCallback: (data) => {
                 closeModal('oauth');
                 if (data && 'statusCode' in data && data.statusCode === 401) {
-                    return true;
+                    return false;
                 }
                 openModal('oauthAuthorizeFailed', false);
             },

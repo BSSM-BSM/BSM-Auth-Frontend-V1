@@ -11,5 +11,10 @@ export const getUserInfo = (ajax: Ajax, setUser: SetterOrUpdater<NoLoginUser| St
             const userInfo: (Student| Teacher) = {...data, isLogin: true};
             setUser(userInfo);
         },
+        errorCallback(data) {
+            if (data && 'statusCode' in data && data.statusCode === 401) {
+                return true;
+            }
+        }
     });
 }

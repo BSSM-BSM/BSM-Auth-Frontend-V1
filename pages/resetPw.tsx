@@ -9,6 +9,7 @@ import { useOverlay } from '../hooks/useOverlay';
 import { useInterval } from '../hooks/useInterval';
 import { useRecoilState } from 'recoil';
 import { headerOptionState } from '../store/common.store';
+import { TextInput } from '../components/common/inputs/textInput';
 
 const ResetPwPage: NextPage = () => {
     const [, setHeaderOption] = useRecoilState(headerOptionState);
@@ -101,31 +102,26 @@ const ResetPwPage: NextPage = () => {
             <Modal type="main" id="resetPw" title="비밀번호 재설정">
                 <h3>남은 시간 {leftTime}</h3>
                 <form
+                    className='cols gap-1'
                     autoComplete="off"
                     onSubmit={e => {
                         e.preventDefault();
                         resetPw();
                     }}
                 >
-                    <input
-                        type="password"
-                        className="input-text"
-                        placeholder="재설정할 비밀번호"
+                    <TextInput
+                        type='password'
+                        setCallback={setNewPw}
+                        placeholder='재설정할 비밀번호'
+                        full
                         required
-                        onChange={e => {
-                            e.preventDefault();
-                            setNewPw(e.target.value);
-                        }}
                     />
-                    <input
-                        type="password"
-                        className="input-text"
-                        placeholder="재설정할 비밀번호 재입력"
+                    <TextInput
+                        type='password'
+                        setCallback={setCheckNewPw}
+                        placeholder='재설정할 비밀번호 재입력'
+                        full
                         required
-                        onChange={e => {
-                            e.preventDefault();
-                            setCheckNewPw(e.target.value);
-                        }}
                     />
                     <button type="submit" className="button main accent">비밀번호 재설정</button>
                 </form>

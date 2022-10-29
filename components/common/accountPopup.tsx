@@ -168,7 +168,7 @@ const SignUpBox = () => {
         })();
         ajax({
             method: HttpMethod.POST,
-            url: `user/${role}`,
+            url: `user/${role.toLowerCase()}`,
             payload,
             callback: () => {
                 showToast('회원가입이 완료되었습니다');
@@ -284,7 +284,7 @@ const AuthCodeBox = () => {
         })();
         ajax({
             method: HttpMethod.POST,
-            url: `user/mail/authcode/${role}`,
+            url: `user/mail/authcode/${role.toLowerCase()}`,
             payload,
             callback: () => {
                 showToast('인증코드 전송이 완료되었습니다\n메일함을 확인해주세요');
@@ -398,7 +398,7 @@ const FindIdBox = () => {
         })();
         ajax({
             method: HttpMethod.POST,
-            url: `user/mail/id/${role}`,
+            url: `user/mail/id/${role.toLowerCase()}`,
             payload,
             callback: () => {
                 showToast('ID 복구 메일 전송이 완료되었습니다.\n메일함을 확인해주세요.');
