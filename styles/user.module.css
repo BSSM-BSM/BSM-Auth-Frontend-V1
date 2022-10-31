@@ -11,7 +11,7 @@
     height: 12.8rem !important;
 }
 
-.user_profile_wrap:hover::before {
+.user_profile_wrap.edit:hover::before {
     z-index: 1;
     content: '';
     position: absolute;
@@ -23,7 +23,7 @@
     border-radius: 50%;
 }
 
-.user_profile_wrap:hover::after {
+.user_profile_wrap.edit:hover::after {
     z-index: 2;
     content: '';
     position: absolute;

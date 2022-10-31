@@ -10,7 +10,8 @@ import { headerOptionState } from '../../store/common.store';
 import { useOverlay } from '../../hooks/useOverlay';
 import Image, { StaticImageData } from 'next/image';
 import DefaultProfilePic from '../../public/icons/profile_default.png';
-import { Student, Teacher, UserRole } from '../../types/userType';
+import { Student, Teacher } from '../../types/userType';
+import { UserInfoList } from '../../components/user/userInfoList';
 
 const UserProfilePage: NextPage = () => {
     const [, setHeaderOption] = useRecoilState(headerOptionState);
@@ -19,12 +20,11 @@ const UserProfilePage: NextPage = () => {
     const {showToast} = useOverlay();
     const [user] = useRecoilState(userState);
     const [userInfo, setUserInfo] = useState<null | Student | Teacher>(null);
-    const [detailDate, setDetailDate] = useState(false);
     const profileInputRef = useRef<HTMLInputElement>(null);
     const [profileSrc, setProfileSrc] = useState<string | StaticImageData>(DefaultProfilePic);
 
     useEffect(() => {
-        setHeaderOption({title: '유저 정보'});
+        setHeaderOption({title: '내 정보'});
     }, []);
 
     useEffect(() => {
@@ -60,7 +60,7 @@ const UserProfilePage: NextPage = () => {
         {
             userInfo &&
             <div>
-                <div className={styles.user_profile_wrap} onClick={() => profileInputRef.current?.click()}>
+                <div className={`${styles.user_profile_wrap} ${styles.edit}`} onClick={() => profileInputRef.current?.click()}>
                     <div className='user-profile'>
                         <Image
                             src={profileSrc}
@@ -75,44 +75,7 @@ const UserProfilePage: NextPage = () => {
                 <br /><br />
                 <h2 className='bold'>{userInfo.nickname}</h2>
                 <ul className='list-wrap left'>
-                    <li>
-                        <h3>유저 정보</h3>
-                        <ul className='list'>
-                            <li>
-                                <span>유저 코드</span>
-                                <span>{userInfo.code}</span>
-                            </li>
-                            <li>
-                                <span>가입 날짜</span>
-                                <span>{
-                                    detailDate?
-                                    new Date(userInfo.createdAt).toLocaleString():
-                                    new Date(userInfo.createdAt).toLocaleDateString()
-                                }</span>
-                                {!detailDate && <span onClick={() => setDetailDate(true)}>자세히 보기</span>}
-                            </li>
-                            {userInfo.role === UserRole.STUDENT && <>
-                                <li>
-                                    <span>이름</span>
-                                    <span>{userInfo.student.name}</span>
-                                </li>
-                                <li>
-                                    <span>학반번호</span>
-                                    <span>{`${userInfo.student.grade}학년 ${userInfo.student.classNo}반 ${userInfo.student.studentNo}번`}</span>
-                                </li>
-                                <li>
-                                    <span>입학 연도</span>
-                                    <span>{`${userInfo.student.enrolledAt}년`}</span>
-                                </li>
-                            </>}
-                            {userInfo.role === UserRole.TEACHER && <>
-                                <li>
-                                    <span>이름</span>
-                                    <span>{userInfo.teacher.name}</span>
-                                </li>
-                            </>}
-                        </ul>
-                    </li>
+                    {userInfo && <UserInfoList userInfo={userInfo} />}
                     <li>
                         <h3>설정</h3>
                         <ul className='list'>
@@ -136,7 +99,8 @@ const UserProfilePage: NextPage = () => {
                     </li>
                 </ul>
             </div>
-        }</div>
+        }
+        </div>
     );
 }
 

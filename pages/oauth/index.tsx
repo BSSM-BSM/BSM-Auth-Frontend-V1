@@ -131,7 +131,7 @@ const Oauth: NextPage = () => {
                 <button className="button main accent" onClick={() => authorize()}>다시 시도</button>
             </Modal>
         </div>
-    )
+    );
 }
 
-export default Oauth
+export default Oauth;
