@@ -10,6 +10,7 @@ import { useInterval } from '../hooks/useInterval';
 import { useRecoilState } from 'recoil';
 import { headerOptionState } from '../store/common.store';
 import { TextInput } from '../components/common/inputs/textInput';
+import { Button } from '../components/common/buttons/button';
 
 const ResetPwPage: NextPage = () => {
     const [, setHeaderOption] = useRecoilState(headerOptionState);
@@ -123,7 +124,7 @@ const ResetPwPage: NextPage = () => {
                         full
                         required
                     />
-                    <button type="submit" className="button main accent">비밀번호 재설정</button>
+                    <Button type="submit" className="accent" full>비밀번호 재설정</Button>
                 </form>
             </Modal>
         </>

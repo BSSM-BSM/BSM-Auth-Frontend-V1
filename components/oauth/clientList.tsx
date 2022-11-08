@@ -1,6 +1,6 @@
+import styles from '../../styles/oauth.module.css';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
 import { useOverlay } from '../../hooks/useOverlay';
-import styles from '../../styles/oauth.module.css';
 import { Client, OauthScopeList } from '../../types/OauthTypes';
 
 export const OauthClientList = (props: {
@@ -36,6 +36,7 @@ export const OauthClientList = (props: {
                     <h2 className={`${styles.service_name} bold`}>{client.serviceName}</h2>
                     <div className='rows gap-1'>
                         <span
+                            className={styles.auth_url}
                             onClick={async () => {
                                 await navigator.clipboard.writeText(oauthUri);
                                 showToast('OAuth 인증 주소가 클립보드에 복사되었습니다');

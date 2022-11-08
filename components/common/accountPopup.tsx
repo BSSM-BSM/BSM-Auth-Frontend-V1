@@ -6,6 +6,7 @@ import { useOverlay } from '../../hooks/useOverlay';
 import { userState } from '../../store/account.store';
 import { UserRole } from '../../types/userType';
 import { getUserInfo } from '../../utils/userUtil';
+import { Button } from './buttons/button';
 import { NumberInput } from './inputs/numberInput';
 import { TextInput } from './inputs/textInput';
 import Modal from './modal';
@@ -85,7 +86,7 @@ const LoginBox = () => {
                         required
                     />
                     {bottomMenuView()}
-                    <button type='submit' className='button main accent'>다음</button>
+                    <Button type='submit' className='accent' full>다음</Button>
                 </form>
             )
             case 1: return (
@@ -107,7 +108,7 @@ const LoginBox = () => {
                         required
                     />
                     {bottomMenuView()}
-                    <button type='submit' className='button main accent'>로그인</button>
+                    <Button type='submit' className='accent' full>로그인</Button>
                 </form>
             )
         }
@@ -126,7 +127,7 @@ const LoginBox = () => {
         </>
     );
     return (
-        <Modal type='main' id='login' title={title}>
+        <Modal type='main' id='login' title={title} callback={() => setLoginStep(0)}>
             {loginView()}
         </Modal>
     );
@@ -231,7 +232,7 @@ const SignUpBox = () => {
             <div className='modal--bottom-menu-box'>
                 <span onClick={() => openModal('authCode')}>인증코드 발급</span>
             </div>
-            <button type='submit' className='button main accent'>가입하기</button>
+            <Button type='submit' className='accent' full>가입하기</Button>
         </form>
     )
 
@@ -307,7 +308,7 @@ const AuthCodeBox = () => {
                     authCodeInputView(role)
                 }
                 <p>인증코드는 학교 이메일 계정으로 보내드립니다</p>
-                <button type='submit' className='button main accent'>인증코드 발급</button>
+                <Button type='submit' className='accent' full>인증코드 발급</Button>
             </form>
         </>
     )
@@ -465,7 +466,7 @@ const FindIdBox = () => {
                     findIdInputView(role)
                 }
                 <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
-                <button type='submit' className='button main accent'>복구 메일 전송</button>
+                <Button type='submit' className='accent' full>복구 메일 전송</Button>
             </form>
         </>
     )
@@ -523,7 +524,7 @@ const ResetPwBox = () => {
                     required
                 />
                 <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
-                <button type='submit' className='button main accent'>복구 메일 전송</button>
+                <Button type='submit' className='accent' full>복구 메일 전송</Button>
             </form>
         </Modal>
     );

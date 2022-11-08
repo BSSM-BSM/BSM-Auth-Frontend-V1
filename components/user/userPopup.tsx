@@ -6,6 +6,7 @@ import { useOverlay } from "../../hooks/useOverlay";
 import { userState } from "../../store/account.store";
 import { getUserInfo } from "../../utils/userUtil";
 import { decodeBase64 } from "../../utils/util";
+import { Button } from "../common/buttons/button";
 import { TextInput } from "../common/inputs/textInput";
 import Modal from "../common/modal";
 
@@ -68,7 +69,7 @@ const UpdatePwBox = () => {
                     full
                     required
                 />
-                <button type="submit" className="button main accent">비밀번호 재설정</button>
+                <Button type="submit" className="accent" full>비밀번호 재설정</Button>
             </form>
         </Modal>
     );
@@ -115,7 +116,7 @@ const UpdateNicknameBox = () => {
                     full
                     required
                 />
-                <button type="submit" className="button main accent">닉네임 변경</button>
+                <Button type="submit" className="accent" full>닉네임 변경</Button>
             </form>
         </Modal>
     );

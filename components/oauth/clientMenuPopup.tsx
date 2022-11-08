@@ -5,6 +5,7 @@ import Modal from "../common/modal";
 import { useModal } from '../../hooks/useModal';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
 import { TextInput } from '../common/inputs/textInput';
+import { Button } from '../common/buttons/button';
 
 interface ClientMenuPopopProps {
     getClientList: () => void,
@@ -160,7 +161,7 @@ const CreateClientBox = (props: CreateClientProps) => {
                         ))
                     }</ul>
                 </div>
-                <button type="submit" className="button main accent">생성</button>
+                <Button type="submit" className="accent" full>생성</Button>
             </form>
         </Modal>
     );

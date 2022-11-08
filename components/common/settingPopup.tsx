@@ -42,7 +42,7 @@ export const SettingBox = () => {
                                         localStorage.setItem('theme', 'white');
                                     }
                                 }
-                                initial={theme === 'dark'}
+                                value={theme === 'dark'}
                             />
                         </li>
                         <li className='picker'>
