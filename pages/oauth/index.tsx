@@ -92,7 +92,7 @@ const Oauth: NextPage = () => {
             </Head>
             {
                 user.isLogin &&
-                <Modal id='oauth-continue' type='main' title={<h3>{`${user.nickname}(으)로 계속`}</h3>}>
+                <Modal id='oauth-continue' type='main' title={`${user.nickname}(으)로 계속`}>
                     <p>{serviceInfo.domain}</p>
                     <p>
                         <span className="accent-text">{serviceInfo.serviceName}</span>
@@ -111,7 +111,7 @@ const Oauth: NextPage = () => {
             }
             {
                 user.isLogin &&
-                <Modal id='oauth' type='main' title={<h3>{`${user.nickname}(으)로 계속`}</h3>}>
+                <Modal id='oauth' type='main' title={`${user.nickname}(으)로 계속`}>
                     <p>{serviceInfo.domain}</p>
                     <p>
                         <span className="accent-text">{serviceInfo.serviceName}</span>

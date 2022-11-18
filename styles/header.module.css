@@ -10,6 +10,7 @@
     font-size: 1.6rem;
     font-weight: bold;
     user-select: none;
+    pointer-events: none;
 }
 
 .top_menu_bar .dropdown:first-child :global(.dropdown-content) {
@@ -25,9 +26,10 @@
     max-width: 132rem;
     width: 100%;
     border-radius: 1rem;
-    background-color: var(--menu-background);
+    background-color: var(--level-3-opacity);
     backdrop-filter: blur(3px);
     box-shadow: var(--shadow);
+    pointer-events: all;
 }
 
 .item {
@@ -81,20 +83,30 @@
     display: flex;
 }
 
+.top_menu_bar .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    padding: 0 1rem;
+    overflow: hidden;
+}
+
+.top_menu_bar .title h2 {
+    font-size: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .top_menu_bar > .title {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     font-size: 2.2rem;
-    display: none;
-    display: block;
+    display: flex;
 }
 
 .top_menu_bar .left .title {
     font-size: 2rem;
     display: none;
-    align-items: center;
 }
 
 @media screen and (min-width: 0px) and (max-width: 720px) {
@@ -110,6 +122,7 @@
     .top_menu_bar .left {
         width: 100%;
         justify-content: space-between;
+        align-items: center;
     }
 
     .top_menu_bar > .title {
@@ -215,19 +228,28 @@
 }
 
 .user_profile_wrap {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
     padding: 0;
     height: 100%;
 }
 
+.user_profile_wrap > div {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    max-width: 18rem;
+    padding: 0 1rem;
+}
+
 .user_profile_wrap span {
-    margin-left: auto;
+    flex: 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-left: 1rem;
+    font-size: 1.6rem;
 }
 
 .user_profile_wrap :global(.user-profile) {
-    margin-right: 2rem;
     height: 5.2rem;
     width: 5.2rem;
 }

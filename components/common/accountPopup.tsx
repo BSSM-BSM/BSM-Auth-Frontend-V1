@@ -115,16 +115,13 @@ const LoginBox = () => {
     }
 
     const title = (
-        <>
-            <h2 className='logo'>BSM</h2>
-            <span>{
-                loginStep === 0?
-                '로그인'
-                : loginStep === 1?
-                `${id}(으)로 계속`
-                : '인증 중...'
-            }</span>
-        </>
+        <p>{
+            loginStep === 0?
+            '로그인'
+            : loginStep === 1?
+            `${id}(으)로 계속`
+            : '인증 중...'
+        }</p>
     );
     return (
         <Modal type='main' id='login' title={title} callback={() => setLoginStep(0)}>
@@ -234,16 +231,10 @@ const SignUpBox = () => {
             </div>
             <Button type='submit' className='accent' full>가입하기</Button>
         </form>
-    )
+    );
 
-    const title = (
-        <>
-            <h2 className='logo'>BSM</h2>
-            <span>회원가입</span>
-        </>
-    )
     return (
-        <Modal type='main' id='signUp' title={title} menuList={
+        <Modal type='main' id='signUp' title='회원가입' menuList={
             [
                 {
                     element: signUpFormView(UserRole.STUDENT),

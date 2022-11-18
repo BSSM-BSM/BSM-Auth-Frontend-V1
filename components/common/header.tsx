@@ -50,25 +50,27 @@ export const Header = () => {
     const userMenuView = () => (
         mounted && (
             user.isLogin
-            ?<div className={`dropdown-menu ${styles.dropdown}`}>
+            ? <div className={`dropdown-menu ${styles.dropdown}`}>
                 <span className={`${styles.item} ${styles.user_profile_wrap}`}>
-                    <span>{user.nickname}</span>
-                    <div className='user-profile'>
-                        <Image
-                            src={profileSrc}
-                            onError={() => setProfileSrc(DefaultProfilePic)}
-                            width='128px'
-                            height='128px'
-                            alt='user profile'
-                        />
+                    <div>
+                        <span>{user.nickname}</span>
+                        <div className='user-profile'>
+                            <Image
+                                src={profileSrc}
+                                onError={() => setProfileSrc(DefaultProfilePic)}
+                                width='128px'
+                                height='128px'
+                                alt='user profile'
+                            />
+                        </div>
                     </div>
                 </span>
                 <ul className='dropdown-content'>
-                    <li><Link href='/user'><a className='option'>유저 정보</a></Link></li>
+                    <li><a href='https://auth.bssm.kro.kr/user' className='option'>유저 정보</a></li>
                     <li><span onClick={() => {logout(); setSideBar(false);}} className='option'>로그아웃</span></li>
                 </ul>
             </div>
-            :(<span className={styles.item} onClick={() => {openModal('login'); setSideBar(false);}}>로그인</span>)
+            : <span className={styles.item} onClick={() => {openModal('login'); setSideBar(false);}}>로그인</span>
         )
     );
 
@@ -135,21 +137,20 @@ export const Header = () => {
                 <nav className={styles.top_menu_bar}>
                     <ul className={styles.left}>
                         <li className={styles.home}>
-                            <Link href='/'><a className={`${styles.item} ${styles.home}`}>BSM</a></Link>
+                            <Link href='https://bssm.kro.kr'><a className={`${styles.item} ${styles.home}`}>BSM</a></Link>
                         </li>
                         {allMenuView()}
-                        <h2 className={styles.title}>
-                            {headerOption.title}
-                        </h2>
+                        <div className={styles.title}>
+                            <h2>{headerOption.title}</h2>
+                        </div>
                         {optionMenuView()}
                     </ul>
-                    <h2 className={styles.title}>
-                        {headerOption.title}
-                    </h2>
+                    <div className={styles.title}>
+                        <h2>{headerOption.title}</h2>
+                    </div>
                     <ul className={styles.right}>
-                        <li>
-                            <Link href='/oauth/manage'><a className={`option ${styles.item}`}>OAuth</a></Link>
-                        </li>
+                        <li><Link href='/oauth/manage'><a className={`option ${styles.item}`}>OAuth</a></Link></li>
+                        <li><Link href='/'><a className={`option ${styles.item}`}>BSM Auth</a></Link></li>
                     </ul>
                 </nav>
             </div>
@@ -157,7 +158,7 @@ export const Header = () => {
                 <div className={`close_button ${styles.close_button}`} onClick={() => setSideBar(false)}></div>
                 <div className={`dim ${styles.dim}`} onClick={() => setSideBar(false)}></div>
                 <ul className={styles.menus}>
-                <li><Link href='/'><a className={`${styles.item} ${styles.home}`}>BSM</a></Link></li>
+                <li><Link href='https://bssm.kro.kr'><a className={`${styles.item} ${styles.home}`}>BSM</a></Link></li>
                     <li>{userMenuView()}</li>
                     <li><Link href='/oauth/manage'><a className={styles.item}>OAuth</a></Link></li>
                     <li><a href='https://github.com/BSSM-BSM' className={styles.item}>깃허브</a></li>
