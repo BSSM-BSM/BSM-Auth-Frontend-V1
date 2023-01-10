@@ -1,8 +1,4 @@
-.button-wrap > *:active {
-    transform: scale(.8);
-}
-
 .button-wrap > * {
-    cursor: pointer;
-    transition: .25s;
+  cursor: pointer;
+  transition: .25s;
 }

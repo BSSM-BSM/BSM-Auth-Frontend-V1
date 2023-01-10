@@ -8,21 +8,27 @@ import Toast from '../components/common/overlay/toast'
 import Alert from '../components/common/overlay/alert'
 import { SettingBox } from '../components/common/settingPopup'
 import { Header } from '../components/common/header'
+import Sidebar from '../components/common/sidebar/sidebar'
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
+        <div className='wrap'>
         <RecoilRoot>
+          <Sidebar />
+          <main className='scroll-bar'>
             <Component {...pageProps} />
-            <>
-                <Header />
-                <Toast />
-                <Alert />
-                <LoadingDim />
-                <ModalDim />
-                <AccountBox />
-                <SettingBox />
-            </>
+          </main>
+          <>
+            <Header />
+            <Toast />
+            <Alert />
+            <LoadingDim />
+            <ModalDim />
+            <AccountBox />
+            <SettingBox />
+          </>
         </RecoilRoot>
+      </div>
     )
 }
 

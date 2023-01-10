@@ -1,26 +1,19 @@
 import type { NextPage } from 'next'
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { useModal } from '../hooks/useModal';
-import { useOverlay } from '../hooks/useOverlay';
 import { headerOptionState } from '../store/common.store';
 
 const Home: NextPage = () => {
-    const [, setHeaderOption] = useRecoilState(headerOptionState);
-    const { openModal } = useModal();
-    const { showToast, showAlert } = useOverlay();
+  const [, setHeaderOption] = useRecoilState(headerOptionState);
+  const router = useRouter();
 
-    useEffect(() => {
-        setHeaderOption({title: ''});
-    }, []);
+  useEffect(() => {
+    setHeaderOption({ title: '' });
+    router.replace('/oauth/manage')
+  }, []);
 
-    return (
-        <div>
-            <button onClick={() => openModal('login')}>로그인 창 열기</button>
-            <button onClick={() => showToast('test\nmessage')}>토스트 메시지 테스트</button>
-            <button onClick={() => showAlert('test\nmessage')}>알림 메시지 테스트</button>
-        </div>
-    )
+  return (<></>)
 }
 
 export default Home

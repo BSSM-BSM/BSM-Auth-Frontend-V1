@@ -1,36 +1,36 @@
 .user_profile_wrap {
-    position: relative;
-    display: inline-block;
-    margin: 5rem auto 0 auto;
-    cursor: pointer;
+  position: relative;
+  display: inline-block;
+  margin: 5rem auto 0 auto;
+  cursor: pointer;
 }
 
 .user_profile_wrap > div,
 .user_profile_wrap img {
-    width: 12.8rem !important;
-    height: 12.8rem !important;
+  width: 12.8rem !important;
+  height: 12.8rem !important;
 }
 
 .user_profile_wrap.edit:hover::before {
-    z-index: 1;
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #00000088;
-    border-radius: 50%;
+  z-index: 1;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00000088;
+  border-radius: 50%;
 }
 
 .user_profile_wrap.edit:hover::after {
-    z-index: 2;
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: calc(100% - 8.5rem);
-    height: calc(100% - 8.5rem);
-    margin: 4.5rem;
-    background-image: url('/icons/edit.svg');
+  z-index: 2;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 8.5rem);
+  height: calc(100% - 8.5rem);
+  margin: 4.5rem;
+  background-image: url('/icons/edit.svg');
 }
