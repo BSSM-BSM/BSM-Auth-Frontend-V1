@@ -12,21 +12,25 @@
   gap: 1rem;
   margin-top: 1rem;
 }
+
 .client {
   background-color: var(--level-3);
   box-shadow: var(--shadow);
   border-radius: .5rem;
   overflow: hidden;
 }
+
 .client {
   display: flex;
   flex-direction: column;
-  padding: 1rem 0 1rem 2rem;
+  padding: 1rem .5rem 1rem 2rem;
 }
+
 .client :is(.top_wrap, .bottom_wrap) {
   display: flex;
   justify-content: space-between;
 }
+
 .service_name {
   font-size: 2.2rem;
   font-weight: bold;
@@ -34,17 +38,21 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .client_id::before {
   content: '클라이언트 ID: ';
 }
+
 .service_redirect_uri {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .service_redirect_uri::before {
   content: 'Callback URI: ';
 }
+
 .auth_url {
   cursor: pointer;
 }
@@ -58,16 +66,16 @@
   text-align: left;
 }
 
-.scope_list li{
+.scope_list li {
   width: calc(50% - .5rem);
   color: var(--text-level-2);
 }
 
-.scope_list._25 li{
+.scope_list._25 li {
   width: calc(25% - .75rem);
 }
 
-.scope_list li summary{
+.scope_list li summary {
   color: var(--text);
 }
 
@@ -76,17 +84,60 @@
   gap: .5rem;
 }
 
-@media screen and (min-width: 0) and (max-width: 920px)  {
+.uri_list {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: .5rem;
+  text-align: left;
+  margin-right: 1.5rem;
+}
+
+.uri_list li {
+  padding: .5rem 1rem;
+  border-radius: .5rem;
+  transition: .25s;
+  cursor: pointer;
+  background-color: var(--level-5);
+}
+
+.uri_list li:hover {
+  background-color: var(--hover);
+}
+
+.redirect_uri_list {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  max-height: 20rem;
+  padding: .5rem 0;
+}
+
+.redirect_uri_list li {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
+
+.redirect_uri_list li svg {
+  cursor: pointer;
+}
+
+@media screen and (min-width: 0) and (max-width: 920px) {
   #oauth_client_list {
     margin: 1rem 0;
   }
+
   .service_name {
     font-size: 2.2rem;
   }
+
   .client :is(.top_wrap, .bottom_wrap) {
     text-align: left;
     flex-direction: column;
   }
+
   .scope_list._25 li {
     width: calc(50% - .5rem);
   }

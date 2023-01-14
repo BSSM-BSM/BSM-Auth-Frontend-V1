@@ -6,20 +6,19 @@ import { useModal } from '../../hooks/useModal';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
 import { TextInput } from '../common/inputs/textInput';
 import { Button } from '../common/buttons/button';
+import RedirectInputItem from './clientRedirectInputItem';
+import { v1 } from 'uuid';
 
 interface ClientMenuPopopProps {
   getClientList: () => void,
   scopeList: OauthScopeList
 }
 
-export const ClientMenuPopup = (props: ClientMenuPopopProps) => {
-
-  return (
-    <div className="user-popup">
-      <CreateClientBox scopeList={props.scopeList} getClientList={props.getClientList} />
-    </div>
-  );
-}
+export const ClientMenuPopup = (props: ClientMenuPopopProps) => (
+  <div className="user-popup">
+    <CreateClientBox scopeList={props.scopeList} getClientList={props.getClientList} />
+  </div>
+);
 
 interface CreateClientProps {
   getClientList: () => void,
@@ -31,8 +30,8 @@ const CreateClientBox = (props: CreateClientProps) => {
   const { closeModal } = useModal();
   const { getClientList, scopeList: scopeInfoList } = props;
   const [domain, setDomain] = useState('');
-  const [redirectURI, setRedirectURI] = useState('');
   const [serviceName, setServiceName] = useState('');
+  const [redirectUriList, setRedirectUriList] = useState<{uri: string, key: string}[]>([{uri: '', key: v1()}]);
   const [selectScopeList, setSelectScopeList] = useState<string[]>([]);
   const [access, setAccess] = useState('ALL');
 
@@ -42,8 +41,8 @@ const CreateClientBox = (props: CreateClientProps) => {
       url: '/oauth/client',
       payload: {
         domain,
-        redirectURI,
         serviceName,
+        redirectUriList: redirectUriList.map(redirect => redirect.uri),
         scopeList: selectScopeList,
         access
       }
@@ -54,6 +53,8 @@ const CreateClientBox = (props: CreateClientProps) => {
     closeModal('createClient');
   }
 
+  const addRedirectUriInput = () => setRedirectUriList(prev => prev.concat([{uri: '', key: v1()}]));
+
   return (
     <Modal id='createClient' title="클라이언트 생성">
       <form
@@ -62,14 +63,11 @@ const CreateClientBox = (props: CreateClientProps) => {
           e.preventDefault();
           createClient();
         }}
-        className='left cols gap-1'
+        className='left cols gap-2'
       >
         <div className='cols gap-05'>
           <h3>도메인 주소</h3>
-          <p>
-            서비스중인 도메인 주소 또는 IP 주소를 입력해주세요.<br />
-            예시: domain.com, 127.0.0.1, localhost
-          </p>
+          <p>서비스중인 도메인 주소 또는 IP 주소를 입력해주세요.</p>
           <TextInput
             setCallback={setDomain}
             placeholder="도메인 또는 IP 주소"
@@ -95,16 +93,19 @@ const CreateClientBox = (props: CreateClientProps) => {
           <h3>리다이렉트 URI</h3>
           <p>
             사용자가 BSM계정으로 인증된 후 쿼리스트링으로 전달되는 인증코드를 받을 리다이렉트 주소입니다.<br />
-            예시: https://domain.com/signup/bsm, http://127.0.0.1/oauth, http://localhost/oauth/bsm
+            예시: https://domain.com/oauth/bsm, http://127.0.0.1/oauth
           </p>
-          <TextInput
-            setCallback={setRedirectURI}
-            placeholder="리다이렉트 URI"
-            maxLength={100}
-            pattern={`(https?://)(${domain})(:(6[0-5]{2}[0-3][0-5]|[1-5][0-9]{4}|[1-9][0-9]{0,3}))?/.*`}
-            required
-            full
-          />
+          <div className={`${styles.redirect_uri_list} scroll-bar`}>
+            {redirectUriList.map((value, i) => (
+              <RedirectInputItem
+                key={value.key}
+                i={i}
+                domain={domain}
+                setRedirectUriList={setRedirectUriList}
+              />
+            ))}
+            <Button onClick={addRedirectUriInput} full>리다이렉트 URI 추가</Button>
+          </div>
         </div>
         <div className='cols gap-05'>
           <h3>허용 대상</h3>

@@ -48,7 +48,7 @@
 }
 
 .toast:hover {
-  background-color: var(--hover);
+  background-color: var(--level-4);
 }
 
 .toast.hide {

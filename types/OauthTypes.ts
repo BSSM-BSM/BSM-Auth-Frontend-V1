@@ -3,7 +3,7 @@ export interface Client {
     clientSecret: string,
     domain: string,
     serviceName: string,
-    redirectURI: string,
+    redirectUriList: string[],
     scopeList: string[],
     access: string
 }

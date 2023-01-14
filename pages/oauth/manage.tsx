@@ -61,7 +61,7 @@ const OauthManagePage: NextPage = () => {
           {!clientList.length && <p>클라이언트가 없습니다, 여기를 눌러 생성하세요</p>}
           <Button onClick={() => openModal('createClient')}>클라이언트 추가</Button>
           {
-            clientList.length &&
+            clientList.length > 0 &&
             clientList.map(client => (
               <OauthClientItem
                 key={client.clientId}
