@@ -3,20 +3,26 @@ import { HttpMethod, useAjax } from '../../hooks/useAjax';
 import { useOverlay } from '../../hooks/useOverlay';
 import { Client, OauthScopeList } from '../../types/OauthTypes';
 import { DropdownMenu } from '../common/dropdownMenu';
+import { Dispatch, SetStateAction } from 'react';
+import { useModal } from '../../hooks/useModal';
 
 interface OauthClientItemProps {
   client: Client,
   scopeInfoList: OauthScopeList,
-  getClientList: Function
+  getClientList: () => void,
+  setSelectClient: Dispatch<SetStateAction<Client | null>>
 }
 
 const OauthClientItem = ({
   client,
   scopeInfoList,
-  getClientList
+  getClientList,
+  setSelectClient
 }: OauthClientItemProps) => {
   const { ajax } = useAjax();
   const { showToast } = useOverlay();
+  const { openModal } = useModal();
+
   const accessType: {
     [index: string]: string
   } = {
@@ -42,6 +48,10 @@ const OauthClientItem = ({
           <span>허용 대상: {accessType[client.access]}</span>
           <DropdownMenu
             menus={[
+              {text: '수정', callback() {
+                setSelectClient(client);
+                openModal('updateClient');
+              }},
               {text: '삭제', callback() {
                 if (confirm('정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다!')) {
                   deleteClient();

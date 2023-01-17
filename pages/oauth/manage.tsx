@@ -17,6 +17,9 @@ const OauthManagePage: NextPage = () => {
   const { ajax } = useAjax();
   const { openModal } = useModal();
   const [user] = useRecoilState(userState);
+  const [selectClient, setSelectClient] = useState<Client | null>(null);
+  const [clientList, setClientList] = useState<Client[]>([]);
+  const [scopeInfoList, setScopeInfoList] = useState<OauthScopeList>([]);
 
   useEffect(() => {
     setHeaderOption({
@@ -28,9 +31,6 @@ const OauthManagePage: NextPage = () => {
     getClientList();
     getScopeInfoList();
   }, [user]);
-
-  const [clientList, setClientList] = useState<Client[]>([]);
-  const [scopeInfoList, setScopeInfoList] = useState<OauthScopeList>([]);
 
   const getClientList = async () => {
     const [data, error] = await ajax<Client[]>({
@@ -55,7 +55,11 @@ const OauthManagePage: NextPage = () => {
       <Head>
         <title>OAuth 클라이언트 - BSM Auth</title>
       </Head>
-      <ClientMenuPopup getClientList={getClientList} scopeList={scopeInfoList} />
+      <ClientMenuPopup
+        selectClient={selectClient}
+        getClientList={getClientList}
+        scopeList={scopeInfoList}
+      />
       <div className={styles.client_manage}>
         <ul className={styles.client_list}>
           {!clientList.length && <p>클라이언트가 없습니다, 여기를 눌러 생성하세요</p>}
@@ -68,6 +72,7 @@ const OauthManagePage: NextPage = () => {
                 client={client}
                 scopeInfoList={scopeInfoList}
                 getClientList={getClientList}
+                setSelectClient={setSelectClient}
               />
             ))
           }

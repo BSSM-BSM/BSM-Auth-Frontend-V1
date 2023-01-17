@@ -124,7 +124,7 @@ const LoginBox = () => {
     }</p>
   );
   return (
-    <Modal type='main' id='login' title={title} callback={() => setLoginStep(0)}>
+    <Modal type='main' id='login' title={title} onOpen={() => setLoginStep(0)}>
       {loginView()}
     </Modal>
   );
