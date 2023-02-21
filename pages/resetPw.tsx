@@ -59,7 +59,7 @@ const ResetPwPage: NextPage = () => {
   const getTokenInfo = async () => {
     const [data, error] = await ajax<TokenInfo>({
       method: HttpMethod.GET,
-      url: `/user/pw/token?token=${token}`
+      url: `/auth/pw/token?token=${token}`
     });
     if (error) return;
 
@@ -82,7 +82,7 @@ const ResetPwPage: NextPage = () => {
   const resetPw = async () => {
     const [, error] = await ajax({
       method: HttpMethod.POST,
-      url: '/user/pw/token',
+      url: '/auth/pw/token',
       payload: {
         token,
         newPw,

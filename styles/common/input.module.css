@@ -93,7 +93,7 @@
   :focus,
   .active)~.placeholder:not(:has(*)) {
   padding: 0 .5rem;
-  background-color: var(--level-0);
+  background-color: var(--level-1);
 }
 
 .input_wrap.number .input:is(

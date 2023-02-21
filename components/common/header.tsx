@@ -40,7 +40,7 @@ export const Header = () => {
   const logout = async () => {
     const [, error] = await ajax({
       method: HttpMethod.DELETE,
-      url: 'user/logout',
+      url: 'auth/logout',
     });
     if (error) return;
 

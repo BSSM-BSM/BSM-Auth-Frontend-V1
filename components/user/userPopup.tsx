@@ -28,12 +28,12 @@ const UpdatePwBox = () => {
   const [checkNewPw, setCheckNewPw] = useState('');
 
   const updatePw = async () => {
-    if (!confirm('닉네임을 변경하시겠습니까?')) {
+    if (!confirm('비밀번호를 재설정하시겠습니까?')) {
       return;
     }
     const [, error] = await ajax<{ accessToken: string }>({
       method: HttpMethod.PUT,
-      url: '/user/pw',
+      url: '/auth/pw',
       payload: {
         newPw,
         checkNewPw

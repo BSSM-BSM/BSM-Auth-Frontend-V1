@@ -39,7 +39,7 @@ const LoginBox = () => {
   const login = async () => {
     const [, error] = await ajax<LoginRes>({
       method: HttpMethod.POST,
-      url: 'user/login',
+      url: 'auth/login',
       payload: {
         id,
         pw
@@ -166,7 +166,7 @@ const SignUpBox = () => {
     })();
     const [, error] = await ajax({
       method: HttpMethod.POST,
-      url: `user/${role.toLowerCase()}`,
+      url: `auth/${role.toLowerCase()}`,
       payload
     });
     if (error) return;
@@ -211,14 +211,13 @@ const SignUpBox = () => {
         required
       />
       {
-        role === UserRole.TEACHER
-          ? <TextInput
-            setCallback={setName}
-            placeholder='선생님 이름'
-            full
-            required
-          />
-          : null
+        role === UserRole.TEACHER &&
+        <TextInput
+          setCallback={setName}
+          placeholder='선생님 이름'
+          full
+          required
+        />
       }
       <TextInput
         setCallback={setAuthCode}
@@ -276,7 +275,7 @@ const AuthCodeBox = () => {
     })();
     const [, error] = await ajax({
       method: HttpMethod.POST,
-      url: `user/mail/authcode/${role.toLowerCase()}`,
+      url: `auth/mail/authcode/${role.toLowerCase()}`,
       payload
     });
     if (error) return;
@@ -390,7 +389,7 @@ const FindIdBox = () => {
     })();
     const [, error] = await ajax({
       method: HttpMethod.POST,
-      url: `user/mail/id/${role.toLowerCase()}`,
+      url: `auth/mail/id/${role.toLowerCase()}`,
       payload
     });
     if (error) return;
@@ -487,7 +486,7 @@ const ResetPwBox = () => {
   const resetPwMail = async () => {
     const [, error] = await ajax({
       method: HttpMethod.POST,
-      url: 'user/mail/pw',
+      url: 'auth/mail/pw',
       payload: {
         id
       }
