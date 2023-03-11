@@ -44,7 +44,7 @@ const RedirectInputItem = ({
         value={redirectUri}
         placeholder="리다이렉트 URI"
         maxLength={100}
-        pattern={`(https?://)(${domain})(:(6[0-5]{2}[0-3][0-5]|[1-5][0-9]{4}|[1-9][0-9]{0,3}))?/.*`}
+        pattern={`(https?://)(${domain}|localhost)(:(6[0-5]{2}[0-3][0-5]|[1-5][0-9]{4}|[1-9][0-9]{0,3}))?/.*`}
         required
         full
       />
