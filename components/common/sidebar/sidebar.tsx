@@ -1,6 +1,7 @@
 import * as S from '../../../styles/common/sidebar.style';
 import { AiFillGithub } from 'react-icons/ai';
 import { BiServer } from 'react-icons/bi';
+import { HiOutlineDocumentText } from 'react-icons/hi2';
 import SidebarItem from './sidebarItem';
 import SidebarUserMenu from './sidebarUserMenu';
 import { useRouter } from 'next/router';
@@ -20,9 +21,16 @@ const Sidebar = () => {
           OAuth 클라이언트
         </SidebarItem>
         <SidebarItem
+          Icon={HiOutlineDocumentText}
+          iconSize={26}
+          onClick={() => window.open('https://bssm.kro.kr/board/doc-oauth', '_blank')}
+        >
+          BSM OAuth 공식 문서
+        </SidebarItem>
+        <SidebarItem
           Icon={AiFillGithub}
           iconSize={26}
-          onClick={() => window.location.href = 'https://github.com/BSSM-BSM'}
+          onClick={() => window.open('https://github.com/BSSM-BSM', '_blank')}
         >
           깃허브
         </SidebarItem>
