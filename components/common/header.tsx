@@ -136,7 +136,7 @@ export const Header = () => {
         <nav className={styles.top_menu_bar}>
           <ul className={styles.left}>
             <li className={styles.home}>
-              <Link href='https://bssm.kro.kr'><a className={`${styles.item} ${styles.home}`}>BSM</a></Link>
+              <Link href='https://bssm.kro.kr' className={`${styles.item} ${styles.home}`}>BSM</Link>
             </li>
             {allMenuView()}
             <div className={styles.title}>
@@ -153,9 +153,9 @@ export const Header = () => {
         <div className={`close_button ${styles.close_button}`} onClick={() => setSideBar(false)}></div>
         <div className={`dim ${styles.dim}`} onClick={() => setSideBar(false)}></div>
         <ul className={styles.menus}>
-          <li><Link href='https://bssm.kro.kr'><a className={`${styles.item} ${styles.home}`}>BSM</a></Link></li>
+          <li><Link href='https://bssm.kro.kr' className={`${styles.item} ${styles.home}`}>BSM</Link></li>
           <li>{userMenuView()}</li>
-          <li><Link href='/oauth/manage'><a className={styles.item}>OAuth</a></Link></li>
+          <li><Link href='/oauth/manage' className={styles.item}>OAuth</Link></li>
           <li><a href='https://github.com/BSSM-BSM' className={styles.item}>깃허브</a></li>
         </ul>
       </div>
