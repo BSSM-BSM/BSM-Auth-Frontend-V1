@@ -1,10 +1,10 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
 import { useModal } from '../../hooks/useModal';
 import { useOverlay } from '../../hooks/useOverlay';
 import { userState } from '../../store/account.store';
-import { UserRole } from '../../types/userType';
+import { UserRole } from '../../types/user.type';
 import { getUserInfo } from '../../utils/userUtil';
 import { Button } from './buttons/button';
 import { NumberInput } from './inputs/numberInput';

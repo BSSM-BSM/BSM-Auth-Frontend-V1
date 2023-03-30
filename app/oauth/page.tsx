@@ -1,27 +1,31 @@
+'use client';
+
 import styles from '../../styles/oauth.module.css';
-import type { NextPage } from 'next'
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import Modal from '../../components/common/modal';
 import { userState } from '../../store/account.store';
-import { OauthScope } from '../../types/OauthTypes';
+import { OauthScope } from '../../types/oauth.type';
 import { useModal } from '../../hooks/useModal';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
-import { headerOptionState } from '../../store/common.store';
+import { headerOptionState, pageState } from '../../store/common.store';
 import { Button } from '../../components/common/buttons/button';
 
-const Oauth: NextPage = () => {
-  const [, setHeaderOption] = useRecoilState(headerOptionState);
+const Oauth = () => {
+  const setHeaderOption = useSetRecoilState(headerOptionState);
+  const setPage = useSetRecoilState(pageState);
   const { ajax } = useAjax();
   const { openModal, closeModal } = useModal();
-  const router = useRouter();
-  const { clientId, redirectURI } = router.query;
+  const searchParams = useSearchParams();
+  const clientId = searchParams.get('clientId');
+  const redirectURI = searchParams.get('redirectURI');
   const [user] = useRecoilState(userState);
 
   useEffect(() => {
-    setHeaderOption({ title: 'BSM OAuth' });
+    setHeaderOption({ title: 'BSM OAuth', headTitle: 'BSM OAuth - BSM Auth' });
+    setPage({ id: 'oauth' })
   }, []);
 
   useEffect(() => {

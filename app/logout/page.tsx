@@ -1,22 +1,24 @@
+'use client';
+
 import { NextPage } from 'next';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
-import { headerOptionState } from '../store/common.store';
-import { useModal } from '../hooks/useModal';
-import { HttpMethod, useAjax } from '../hooks/useAjax';
-import { userState } from '../store/account.store';
-import Modal from '../components/common/modal';
-import { Button } from '../components/common/buttons/button';
+import { headerOptionState, pageState } from '../../store/common.store';
+import { useModal } from '../../hooks/useModal';
+import { HttpMethod, useAjax } from '../../hooks/useAjax';
+import { userState } from '../../store/account.store';
+import Modal from '../../components/common/modal';
+import { Button } from '../../components/common/buttons/button';
 
 const UserProfilePage: NextPage = () => {
-  const [, setHeaderOption] = useRecoilState(headerOptionState);
+  const setHeaderOption = useSetRecoilState(headerOptionState);
   const { ajax } = useAjax();
   const { openModal, closeModal } = useModal();
   const user = useRecoilValue(userState);
   const resetUser = useResetRecoilState(userState);
 
   useEffect(() => {
-    setHeaderOption({ title: '로그아웃' });
+    setHeaderOption({ title: '로그아웃', headTitle: '로그아웃 - BSM Auth' });
   }, []);
 
   useEffect(() => {

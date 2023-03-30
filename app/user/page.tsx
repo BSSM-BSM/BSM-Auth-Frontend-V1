@@ -1,20 +1,22 @@
+'use client';
+
 import styles from '../../styles/user.module.css';
-import { NextPage } from 'next';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userState } from '../../store/account.store';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { UserPopup } from '../../components/user/userPopup';
 import { useModal } from '../../hooks/useModal';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
-import { headerOptionState } from '../../store/common.store';
+import { headerOptionState, pageState } from '../../store/common.store';
 import { useOverlay } from '../../hooks/useOverlay';
 import Image, { StaticImageData } from 'next/image';
 import DefaultProfilePic from '../../public/icons/profile_default.png';
-import { Student, Teacher } from '../../types/userType';
+import { Student, Teacher } from '../../types/user.type';
 import { UserInfoList } from '../../components/user/userInfoList';
 
-const UserProfilePage: NextPage = () => {
-  const [, setHeaderOption] = useRecoilState(headerOptionState);
+const UserProfilePage = () => {
+  const setHeaderOption = useSetRecoilState(headerOptionState);
+  const setPage = useSetRecoilState(pageState);
   const { ajax } = useAjax();
   const { openModal } = useModal();
   const { showToast } = useOverlay();
@@ -24,7 +26,8 @@ const UserProfilePage: NextPage = () => {
   const [profileSrc, setProfileSrc] = useState<string | StaticImageData>(DefaultProfilePic);
 
   useEffect(() => {
-    setHeaderOption({ title: '내 정보' });
+    setHeaderOption({ title: '내 정보', headTitle: '내 정보 - BSM Auth' });
+    setPage({id: 'user_info', subId: 'self'});
   }, []);
 
   useEffect(() => {

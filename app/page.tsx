@@ -1,10 +1,10 @@
-import type { NextPage } from 'next'
-import { useRouter } from 'next/router';
+'use client';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { headerOptionState } from '../store/common.store';
 
-const Home: NextPage = () => {
+const Home = () => {
   const [, setHeaderOption] = useRecoilState(headerOptionState);
   const router = useRouter();
 
@@ -13,7 +13,7 @@ const Home: NextPage = () => {
     router.replace('/oauth/manage')
   }, []);
 
-  return (<></>)
+  return (<></>);
 }
 
 export default Home

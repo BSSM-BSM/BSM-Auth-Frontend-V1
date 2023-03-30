@@ -4,8 +4,11 @@ const nextConfig = {
     domains: ['auth.bssm.kro.kr'],
     minimumCacheTTL: 1
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
+  experimental: {
+    appDir: true
+  },
   rewrites() {
     return [
       {

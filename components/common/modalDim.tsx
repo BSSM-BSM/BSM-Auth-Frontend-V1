@@ -15,9 +15,9 @@ const ModalDim = () => {
     }, []);
     
     return mounted? createPortal(
-        Object.keys(modalList).length > 0 && (
+        Object.keys(modalList).length? (
             <div className='dim' onClick={closeAllModal}></div>
-        ),
+        ): null,
         document.querySelector('#modal-wrap') as HTMLElement
     ): null;
 };

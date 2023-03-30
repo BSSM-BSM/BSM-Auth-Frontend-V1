@@ -1,6 +1,6 @@
 import styles from '../../styles/oauth.module.css';
 import { useState } from "react";
-import { Client, OauthScopeList } from "../../types/OauthTypes";
+import { Client, OauthScopeList } from "../../types/oauth.type";
 import Modal from "../common/modal";
 import { useModal } from '../../hooks/useModal';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
@@ -103,7 +103,7 @@ const CreateClientBox = ({
             사용자가 BSM계정으로 인증된 후 쿼리스트링으로 전달되는 인증코드를 받을 리다이렉트 주소입니다.<br />
             예시: https://domain.com/oauth/bsm, http://127.0.0.1/oauth
           </p>
-          <div className={`${styles.redirect_uri_list} scroll-bar`}>
+          <div className={`${styles.redirect_uri_list} scroll-bar no-overlay`}>
             {redirectUriList.map((value, i) => (
               <RedirectInputItem
                 key={value.key}

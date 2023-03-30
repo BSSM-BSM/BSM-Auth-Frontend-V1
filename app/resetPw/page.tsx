@@ -1,24 +1,28 @@
-import type { NextPage } from 'next'
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import Modal from '../components/common/modal';
-import { useModal } from '../hooks/useModal';
-import { HttpMethod, useAjax } from '../hooks/useAjax';
-import { useOverlay } from '../hooks/useOverlay';
-import { useInterval } from '../hooks/useInterval';
-import { useRecoilState } from 'recoil';
-import { headerOptionState } from '../store/common.store';
-import { TextInput } from '../components/common/inputs/textInput';
-import { Button } from '../components/common/buttons/button';
+'use client';
 
-const ResetPwPage: NextPage = () => {
-  const [, setHeaderOption] = useRecoilState(headerOptionState);
+import Head from 'next/head';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import Modal from '../../components/common/modal';
+import { useModal } from '../../hooks/useModal';
+import { HttpMethod, useAjax } from '../../hooks/useAjax';
+import { useOverlay } from '../../hooks/useOverlay';
+import { useInterval } from '../../hooks/useInterval';
+import { useSetRecoilState } from 'recoil';
+import { headerOptionState } from '../../store/common.store';
+import { TextInput } from '../../components/common/inputs/textInput';
+import { Button } from '../../components/common/buttons/button';
+
+const ResetPwPage = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
+  
+  const setHeaderOption = useSetRecoilState(headerOptionState);
   const { ajax } = useAjax();
   const { openModal, closeModal } = useModal();
   const { showAlert, showToast } = useOverlay();
-  const router = useRouter();
-  const { token } = router.query;
+
   const [newPw, setNewPw] = useState('');
   const [checkNewPw, setCheckNewPw] = useState('');
   const [leftTime, setLeftTime] = useState('');
@@ -33,7 +37,7 @@ const ResetPwPage: NextPage = () => {
   });
 
   useEffect(() => {
-    setHeaderOption({ title: '비밀번호 재설정' });
+    setHeaderOption({ title: '비밀번호 재설정', headTitle: '비밀번호 재설정 - BSM Auth' });
   }, []);
 
   useEffect(() => {
@@ -48,7 +52,7 @@ const ResetPwPage: NextPage = () => {
     }
 
     if (flag) {
-      closeModal('resetPw')
+      closeModal('resetPw');
     }
   }, [leftTime]);
 
@@ -92,7 +96,7 @@ const ResetPwPage: NextPage = () => {
     if (error) return;
 
     showToast('비밀번호 재설정이 완료되었습니다');
-    window.location.href = '/';
+    router.replace('/');
   }
 
   return (

@@ -1,39 +1,45 @@
 import { atom } from "recoil";
-import { localStorageEffect } from "../utils/localStorage";
+import { HeaderOptionState } from "../types/common/header.type";
+import { PageState } from "../types/page.type";
+import { localStorageEffect, LocalStorageType } from "../utils/localStorage";
 
 export const themeState = atom<string>({
+  key: 'theme',
+  default: 'dark',
+  effects: [localStorageEffect({
     key: 'theme',
-    default: 'dark',
-    effects: [localStorageEffect('theme', 'string')?? 'dark']
+    type: LocalStorageType.string,
+    defaultValue: 'dark'
+  })]
 });
 
 export const screenScaleState = atom<number>({
+  key: 'screenScale',
+  default: 100,
+  effects: [localStorageEffect({
     key: 'screenScale',
-    default: 100,
-    effects: [localStorageEffect('screenScale', 'number')?? 100]
+    type: LocalStorageType.number,
+    defaultValue: 100
+  })]
 });
 
-export interface headerOption {
-    title: string,
-    allMenu?: {
-        goBack?: boolean;
-        dropdownMenu?: DropdownMenuOption[];
-    },
-    optionMenu?: {
-        dropdownMenu?: DropdownMenuOption[];
-    }
-}
+export const headerOptionState = atom<HeaderOptionState>({
+  key: 'title',
+  default: {
+    title: '',
+    headTitle: '',
+    optionMenu: undefined
+  }
+});
 
-export interface DropdownMenuOption {
-    text: string,
-    callback: () => void
-};
+export const pageState = atom<PageState>({
+  key: 'page',
+  default: {
+    id: null
+  }
+});
 
-export const headerOptionState = atom<headerOption>({
-    key: 'title',
-    default: {
-        title: '',
-        allMenu: undefined,
-        optionMenu: undefined
-    }
+export const sideBarState = atom<boolean>({
+  key: 'sideBar',
+  default: false
 });

@@ -1,19 +1,25 @@
 import * as S from '../../../styles/common/sidebar.style';
 import { AiFillGithub } from 'react-icons/ai';
 import { BiServer } from 'react-icons/bi';
-import { HiOutlineDocumentText } from 'react-icons/hi2';
+import { HiOutlineDocumentText } from 'react-icons/hi';
 import SidebarItem from './sidebarItem';
 import SidebarUserMenu from './sidebarUserMenu';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
+import { useRecoilValue } from 'recoil';
+import { pageState, sideBarState } from '../../../store/common.store';
 
 const Sidebar = () => {
   const router = useRouter();
+  const _page = useRecoilValue(pageState); // 페이지 이동 감지용 state
+  const sideBar = useRecoilValue(sideBarState);
 
   return (
-    <S.Sidebar>
+    <S.Sidebar isOpen={sideBar}>
       <S.SidebarItemList>
         <SidebarUserMenu />
         <SidebarItem
+          id='oauth'
+          subId='manage'
           Icon={BiServer}
           iconSize={22}
           onClick={() => router.push('/oauth/manage')}

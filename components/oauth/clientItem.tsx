@@ -1,7 +1,7 @@
 import styles from '../../styles/oauth.module.css';
 import { HttpMethod, useAjax } from '../../hooks/useAjax';
 import { useOverlay } from '../../hooks/useOverlay';
-import { Client, OauthScopeList } from '../../types/OauthTypes';
+import { Client, OauthScopeList } from '../../types/oauth.type';
 import { DropdownMenu } from '../common/dropdownMenu';
 import { Dispatch, SetStateAction } from 'react';
 import { useModal } from '../../hooks/useModal';

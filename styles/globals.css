@@ -65,6 +65,8 @@ body {
   --hover-transition: background .25s;
   --bright: brightness(0);
   --visited: #800080;
+
+  --background: var(--level-2);
 }
 
 body.dark {
@@ -89,7 +91,7 @@ body.dark {
   --text-level-2: #888a8d;
   --text-level-3: #585a5d;
   
-  --level-0: #202020;
+  --level-0: #1a1a1a;
   --level-1: #282828;
   --level-2: #303030;
   --level-3: #383838;
@@ -111,35 +113,32 @@ body.dark {
   --hover: #a8aaad66;
   --bright: brightness(20);
   --visited: #f4a4ff;
+
+  --background: var(--level-0);
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
+:root {
+  --vh: 100%
 }
 
 html {
   /* 1rem == 10px */
   --scale: 62.5%;
   font-size: var(--scale);
-  height: 100%;
+  height: calc(var(--vh) * 100);
   scroll-behavior: smooth;
   scroll-snap-type: y proximity;
 }
 
 body {
-  background-color: var(--level-2);
+  height: 100%;
+  background-color: var(--background);
   color: var(--text);
   font-size: 1.5rem;
-  transition: background-color .5s;
   vertical-align: middle;
   line-height: 1.2;
   font-family: NotoSans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
   Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-body.dark {
-  background-color: var(--level-0);
 }
 
 .wrap {
@@ -147,35 +146,39 @@ body.dark {
   grid-template-areas: 
     "header header"
     "sidebar content";
-  grid-template-rows: 5.4rem;
-  grid-template-columns: 25rem;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   width: 100%;
-  height: calc(1vh * 100);
-}
-
-@media screen and (max-width: 650px) {
-  .wrap {
-    grid-template-areas: 
-    "header header"
-    "content content";
-  }
+  height: 100%;
 }
   
 main {
   position: relative;
   grid-area: content;
   border-radius: 1rem 0 0;
-  background-color: var(--level-0);
+  background-color: var(--level-1);
   box-shadow: var(--shadow);
-  overflow: hidden !important;
-  overflow-y: overlay !important;
+  overflow: hidden;
+  overflow-y: auto;
+  overflow-y: overlay;
+  width: calc(100vw - 25rem);
 }
 
-body.dark main {
-  background-color: var(--level-1);
+@media screen and (max-width: 650px) {
+  .wrap {
+    grid-template-areas: 
+    "header header"
+    "sidebar content"
+    "navbar navbar";
+    overflow: hidden;
+  }
+  main {
+    width: 100vw;
+  }
 }
 
 body, .scroll-bar {
+  overflow: auto;
   overflow: overlay;
 }
 
@@ -264,15 +267,15 @@ label, summary{
 }
 
 .left {
-  text-align: left !important;
+  text-align: left;
 }
 
 .right {
-  text-align: right !important;
+  text-align: right;
 }
 
 .center {
-  text-align: center !important;
+  text-align: center;
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
@@ -346,7 +349,7 @@ label, summary{
   justify-content: center;
   cursor: pointer;
   border-radius: 1rem;
-  transition: all .25s;
+  transition: var(--hover-transition);
 }
 
 .menu-button:hover {
@@ -486,6 +489,6 @@ label, summary{
 
 .user-profile img {
   border-radius: 50%;
-  width: 2rem !important;
-  height: 2rem !important;
+  width: 2rem;
+  height: 2rem;
 }

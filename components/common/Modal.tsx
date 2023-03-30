@@ -15,6 +15,7 @@ interface ModalProps {
   }[],
   onOpen?: () => void;
   onClose?: () => void;
+  onSelectMenu?: (i: number) => void
 }
 
 const Modal = ({
@@ -24,7 +25,8 @@ const Modal = ({
   title,
   menuList,
   onOpen,
-  onClose
+  onClose,
+  onSelectMenu
 }: ModalProps) => {
   const { closeModal } = useModal();
   const [mounted, setMounted] = useState(false);
@@ -55,10 +57,19 @@ const Modal = ({
           {title}
         </p>
         {modalList[id].closeable && <div className="close_button" onClick={() => closeModal(id)}></div>}
-        <div className="modal--content">
+        <div className="modal--content scroll-bar">
           <ul className="modal--menu">{
             menuList?.map((menu, i) => (
-              <li key={menu.name} className={i === menuIdx ? 'active' : ''} onClick={() => setMenuIdx(i)}>{menu.name}</li>
+              <li
+                key={menu.name}
+                className={i === menuIdx ? 'active' : ''}
+                onClick={() => {
+                  setMenuIdx(i);
+                  onSelectMenu && onSelectMenu(i);
+                }}
+              >
+                {menu.name}
+              </li>
             ))
           }</ul>
           {menuList && menuList[menuIdx]?.element}
