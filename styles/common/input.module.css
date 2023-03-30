@@ -3,7 +3,6 @@
   display: inline-flex;
   align-items: center;
   width: 37.5rem;
-  transition: .25s;
 }
 
 .input_wrap.number {
@@ -25,7 +24,7 @@
   background-color: var(--input);
   border-radius: .5rem;
   text-align: left;
-  transition: .25s;
+  transition: box-shadow .25s;
 }
 
 .input_wrap.number .input {
@@ -50,7 +49,7 @@
   pointer-events: none;
   color: var(--text);
   white-space: nowrap;
-  transition: .15s;
+  transition: var(--hover-transition), transform .15s, padding .15s, left .15s, font-size .15s;
 }
 
 .placeholder>* {
@@ -89,9 +88,11 @@
   :focus,
   .active
 )~.placeholder > *,
-.input:is( :valid,
+.input:is(
+  :valid,
   :focus,
-  .active)~.placeholder:not(:has(*)) {
+  .active
+)~.placeholder:not(:has(*)) {
   padding: 0 .5rem;
   background-color: var(--level-1);
 }
@@ -100,7 +101,7 @@
   :valid,
   :focus,
   .active
-) ~ .placeholder {
+)~.placeholder {
   transform: translate(.5rem, -1.8rem);
 }
 
@@ -134,14 +135,6 @@
 
 .input_wrap .input[disabled]~.placeholder {
   opacity: .3;
-}
-
-.input_wrap:active {
-  transform: scale(.95);
-}
-
-.input_wrap.number:active {
-  transform: scale(.8);
 }
 
 .editor {

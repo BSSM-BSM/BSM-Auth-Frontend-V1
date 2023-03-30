@@ -24,7 +24,7 @@ export const SidebarItem = styled.li`
   cursor: pointer;
   color: var(--text-level-1);
   font-weight: bold;
-  transition: .25s;
+  transition: var(--hover-transition);
   svg {
     transition: color .25s;
     color: var(--text);

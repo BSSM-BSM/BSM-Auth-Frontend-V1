@@ -96,7 +96,7 @@
 .uri_list li {
   padding: .5rem 1rem;
   border-radius: .5rem;
-  transition: .25s;
+  transition: var(--hover-transition);
   cursor: pointer;
   background-color: var(--level-5);
 }
