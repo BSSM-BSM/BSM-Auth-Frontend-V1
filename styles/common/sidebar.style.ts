@@ -121,6 +121,7 @@ export const SidebarDropdownButtom = styled.div<{
   align-items: center;
   font-size: 2.6rem;
   & > svg {
+    transition: transform .25s;
     ${({isOpen}) => isOpen
     ? 'transform: rotate(180deg);'
     : 'transform: rotate(0deg);'}

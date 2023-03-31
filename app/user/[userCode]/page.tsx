@@ -10,14 +10,21 @@ import Image, { StaticImageData } from 'next/image';
 import DefaultProfilePic from '../../../public/icons/profile_default.png';
 import { Student, Teacher } from '../../../types/user.type';
 import { UserInfoList } from '../../../components/user/userInfoList';
-import { useSearchParams } from 'next/navigation';
 
-const OtherUserProfilePage = () => {
+interface OtherUserProfilePageProps {
+  params: {
+    userCode: number
+  }
+}
+
+const OtherUserProfilePage = ({
+  params: {
+    userCode
+  }
+}: OtherUserProfilePageProps) => {
   const setHeaderOption = useSetRecoilState(headerOptionState);
   const setPage = useSetRecoilState(pageState);
   const { ajax } = useAjax();
-  const searchParams = useSearchParams();
-  const userCode = searchParams.get('userCode');
 
   const [user] = useRecoilState(userState);
   const [userInfo, setUserInfo] = useState<null | Student | Teacher>(null);
@@ -29,8 +36,8 @@ const OtherUserProfilePage = () => {
   }, []);
 
   useEffect(() => {
-    if (!userCode) return;
-    loadUserInfo(Number(userCode));
+    if (!user.isLogin) return;
+    loadUserInfo(userCode);
   }, [user, userCode]);
 
   const loadUserInfo = async (userCode: number) => {
