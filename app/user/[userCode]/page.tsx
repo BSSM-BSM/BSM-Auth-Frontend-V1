@@ -36,7 +36,6 @@ const OtherUserProfilePage = ({
   }, []);
 
   useEffect(() => {
-    if (!user.isLogin) return;
     loadUserInfo(userCode);
   }, [user, userCode]);
 
