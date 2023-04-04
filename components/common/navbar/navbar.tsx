@@ -1,5 +1,5 @@
 import * as S from '../../../styles/common/navbar.style';
-import { AiOutlineUser } from 'react-icons/ai';
+import { AiOutlineUser, AiOutlineSearch } from 'react-icons/ai';
 import { BiServer } from 'react-icons/bi';
 import NavbarItem from './navbarItem';
 import { useRouter } from 'next/navigation';
@@ -21,6 +21,14 @@ const Navbar = () => {
           onClick={() => router.push('/oauth/manage')}
         >
           OAuth 클라이언트
+        </NavbarItem>
+        <NavbarItem
+          id='search_user'
+          Icon={AiOutlineSearch}
+          iconSize={22}
+          onClick={() => router.push('/user/search')}
+        >
+          유저 검색
         </NavbarItem>
         <NavbarItem
           id='user_info'

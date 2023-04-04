@@ -13,17 +13,20 @@ interface LoginUser {
   nickname: string,
   email: string,
   createdAt: string,
-  role: UserRole
+  role: UserRole,
+  profileUrl: string
 }
 
 export interface Student extends LoginUser {
   role: UserRole.STUDENT,
-  student: StudentInfo
+  student: StudentInfo,
+  nicknameHistory?: NicknameHistory[]
 }
 
 export interface Teacher extends LoginUser {
   role: UserRole.TEACHER,
-  teacher: TeacherInfo
+  teacher: TeacherInfo,
+  nicknameHistory?: NicknameHistory[]
 }
 
 export interface StudentInfo {
@@ -36,4 +39,9 @@ export interface StudentInfo {
 
 export interface TeacherInfo {
   name: string
+}
+
+export interface NicknameHistory {
+  nickname: string,
+  modifiedAt: string
 }

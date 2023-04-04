@@ -1,5 +1,5 @@
 import * as S from '../../../styles/common/sidebar.style';
-import { AiFillGithub } from 'react-icons/ai';
+import { AiFillGithub, AiOutlineSearch } from 'react-icons/ai';
 import { BiServer } from 'react-icons/bi';
 import { HiOutlineDocumentText } from 'react-icons/hi';
 import SidebarItem from './sidebarItem';
@@ -17,6 +17,14 @@ const Sidebar = () => {
     <S.Sidebar isOpen={sideBar}>
       <S.SidebarItemList>
         <SidebarUserMenu />
+        <SidebarItem
+          id='search_user'
+          Icon={AiOutlineSearch}
+          iconSize={26}
+          onClick={() => router.push('/user/search')}
+        >
+          유저 검색
+        </SidebarItem>
         <SidebarItem
           id='oauth'
           subId='manage'

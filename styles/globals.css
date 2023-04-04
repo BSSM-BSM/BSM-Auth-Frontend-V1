@@ -177,7 +177,7 @@ main {
   }
 }
 
-body, .scroll-bar {
+main, .scroll-bar {
   overflow: auto;
   overflow: overlay;
 }
@@ -187,7 +187,7 @@ body, .scroll-bar {
 }
 
 :is(
-  body,
+  main,
   .scroll-bar
 )::-webkit-scrollbar {
   width: 2rem;
@@ -198,7 +198,7 @@ body, .scroll-bar {
 }
 
 :is(
-  body,
+  main,
   .scroll-bar
 )::-webkit-scrollbar-thumb {
   background-color: var(--text-level-1);
@@ -323,6 +323,7 @@ label, summary{
 }
 
 .container._50 {max-width: 50rem;}
+.container._70 {max-width: 70rem;}
 .container._100 {max-width: 100rem;}
 .container._110 {max-width: 110rem;}
 
