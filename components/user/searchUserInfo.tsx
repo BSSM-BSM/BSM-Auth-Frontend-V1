@@ -33,7 +33,7 @@ export const SearchUserInfo = ({
   </div>
   <ul className='list-wrap left'>
     <li>
-      <h3>닉네임 변경 기록</h3>
+      <h3>닉네임 기록</h3>
       <ul className='list'>
         {user.nicknameHistory?.map(history => (
           <li key={`${history.nickname}-${history.modifiedAt}`}>
