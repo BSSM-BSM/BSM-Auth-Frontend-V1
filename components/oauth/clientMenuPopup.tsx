@@ -1,12 +1,12 @@
-import styles from '../../styles/oauth.module.css';
+import styles from '@/styles/oauth.module.css';
 import { useState } from "react";
-import { Client, OauthScopeList } from "../../types/oauth.type";
-import Modal from "../common/modal";
-import { useModal } from '../../hooks/useModal';
-import { HttpMethod, useAjax } from '../../hooks/useAjax';
-import { TextInput } from '../common/inputs/textInput';
-import { Button } from '../common/buttons/button';
-import RedirectInputItem from './clientRedirectInputItem';
+import { Client, OauthScopeList } from "@/types/oauth.type";
+import Modal from "@/components/common/modal";
+import { useModal } from '@/hooks/useModal';
+import { HttpMethod, useAjax } from '@/hooks/useAjax';
+import { TextInput } from '@/components/common/inputs/textInput';
+import { Button } from '@/components/common/buttons/button';
+import RedirectInputItem from '@/components/oauth/clientRedirectInputItem';
 import { v4 } from 'uuid';
 
 interface ClientMenuPopopProps {

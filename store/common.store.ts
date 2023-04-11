@@ -1,7 +1,7 @@
 import { atom } from "recoil";
-import { HeaderOptionState } from "../types/common/header.type";
-import { PageState } from "../types/page.type";
-import { localStorageEffect, LocalStorageType } from "../utils/localStorage";
+import { HeaderOptionState } from "@/types/common/header.type";
+import { PageState } from "@/types/page.type";
+import { localStorageEffect, LocalStorageType } from "@/utils/localStorage";
 
 export const themeState = atom<string>({
   key: 'theme',

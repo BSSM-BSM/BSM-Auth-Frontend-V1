@@ -1,17 +1,17 @@
 'use client';
 
-import styles from '../../styles/oauth.module.css';
+import styles from '@/styles/oauth.module.css';
 import Head from 'next/head';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import Modal from '../../components/common/modal';
-import { userState } from '../../store/account.store';
-import { OauthScope } from '../../types/oauth.type';
-import { useModal } from '../../hooks/useModal';
-import { HttpMethod, useAjax } from '../../hooks/useAjax';
-import { headerOptionState, pageState } from '../../store/common.store';
-import { Button } from '../../components/common/buttons/button';
+import Modal from '@/components/common/modal';
+import { userState } from '@/store/account.store';
+import { OauthScope } from '@/types/oauth.type';
+import { useModal } from '@/hooks/useModal';
+import { HttpMethod, useAjax } from '@/hooks/useAjax';
+import { headerOptionState, pageState } from '@/store/common.store';
+import { Button } from '@/components/common/buttons/button';
 
 const Oauth = () => {
   const setHeaderOption = useSetRecoilState(headerOptionState);

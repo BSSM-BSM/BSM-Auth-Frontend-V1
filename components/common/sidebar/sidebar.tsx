@@ -1,12 +1,12 @@
-import * as S from '../../../styles/common/sidebar.style';
+import * as S from '@/styles/common/sidebar.style';
 import { AiFillGithub, AiOutlineSearch } from 'react-icons/ai';
 import { BiServer } from 'react-icons/bi';
 import { HiOutlineDocumentText } from 'react-icons/hi';
-import SidebarItem from './sidebarItem';
-import SidebarUserMenu from './sidebarUserMenu';
+import SidebarItem from '@/components/common/sidebar/sidebarItem';
+import SidebarUserMenu from '@/components/common/sidebar/sidebarUserMenu';
 import { useRouter } from 'next/navigation';
 import { useRecoilValue } from 'recoil';
-import { pageState, sideBarState } from '../../../store/common.store';
+import { pageState, sideBarState } from '@/store/common.store';
 
 const Sidebar = () => {
   const router = useRouter();

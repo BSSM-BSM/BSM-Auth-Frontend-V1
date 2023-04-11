@@ -3,15 +3,15 @@
 import Head from 'next/head';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Modal from '../../components/common/modal';
-import { useModal } from '../../hooks/useModal';
-import { HttpMethod, useAjax } from '../../hooks/useAjax';
-import { useOverlay } from '../../hooks/useOverlay';
-import { useInterval } from '../../hooks/useInterval';
+import Modal from '@/components/common/modal';
+import { useModal } from '@/hooks/useModal';
+import { HttpMethod, useAjax } from '@/hooks/useAjax';
+import { useOverlay } from '@/hooks/useOverlay';
+import { useInterval } from '@/hooks/useInterval';
 import { useSetRecoilState } from 'recoil';
-import { headerOptionState } from '../../store/common.store';
-import { TextInput } from '../../components/common/inputs/textInput';
-import { Button } from '../../components/common/buttons/button';
+import { headerOptionState } from '@/store/common.store';
+import { TextInput } from '@/components/common/inputs/textInput';
+import { Button } from '@/components/common/buttons/button';
 
 const ResetPwPage = () => {
   const router = useRouter();

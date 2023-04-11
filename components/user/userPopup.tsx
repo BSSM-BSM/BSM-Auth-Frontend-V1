@@ -1,24 +1,20 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { HttpMethod, useAjax } from "../../hooks/useAjax";
-import { useModal } from "../../hooks/useModal";
-import { useOverlay } from "../../hooks/useOverlay";
-import { userState } from "../../store/account.store";
-import { getUserInfo } from "../../utils/userUtil";
-import { decodeBase64 } from "../../utils/util";
-import { Button } from "../common/buttons/button";
-import { TextInput } from "../common/inputs/textInput";
-import Modal from "../common/modal";
+import { HttpMethod, useAjax } from "@/hooks/useAjax";
+import { useModal } from "@/hooks/useModal";
+import { useOverlay } from "@/hooks/useOverlay";
+import { userState } from "@/store/account.store";
+import { getUserInfo } from "@/utils/userUtil";
+import { Button } from "@/components/common/buttons/button";
+import { TextInput } from "@/components/common/inputs/textInput";
+import Modal from "@/components/common/modal";
 
-export const UserPopup = () => {
-
-  return (
-    <>
-      <UpdatePwBox />
-      <UpdateNicknameBox />
-    </>
-  );
-}
+export const UserPopup = () =>  (
+  <>
+    <UpdatePwBox />
+    <UpdateNicknameBox />
+  </>
+);
 
 const UpdatePwBox = () => {
   const { ajax } = useAjax();

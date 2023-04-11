@@ -1,18 +1,18 @@
 'use client';
 
-import styles from '../../styles/user.module.css';
+import styles from '@/styles/user.module.css';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userState } from '../../store/account.store';
+import { userState } from '@/store/account.store';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { UserPopup } from '../../components/user/userPopup';
-import { useModal } from '../../hooks/useModal';
-import { HttpMethod, useAjax } from '../../hooks/useAjax';
-import { headerOptionState, pageState } from '../../store/common.store';
-import { useOverlay } from '../../hooks/useOverlay';
+import { UserPopup } from '@/components/user/userPopup';
+import { useModal } from '@/hooks/useModal';
+import { HttpMethod, useAjax } from '@/hooks/useAjax';
+import { headerOptionState, pageState } from '@/store/common.store';
+import { useOverlay } from '@/hooks/useOverlay';
 import Image, { StaticImageData } from 'next/image';
-import DefaultProfilePic from '../../public/icons/profile_default.png';
-import { Student, Teacher } from '../../types/user.type';
-import { UserInfoList } from '../../components/user/userInfoList';
+import DefaultProfilePic from '@/public/icons/profile_default.png';
+import { Student, Teacher } from '@/types/user.type';
+import { UserInfoList } from '@/components/user/userInfoList';
 
 const UserProfilePage = () => {
   const setHeaderOption = useSetRecoilState(headerOptionState);

@@ -1,4 +1,4 @@
-import * as S from '../../../styles/common/navbar.style';
+import * as S from '@/styles/common/navbar.style';
 import { IconType } from "react-icons/lib/esm/iconBase";
 import { ReactNode } from 'react';
 
@@ -23,7 +23,7 @@ const NavbarItem = ({
 }: NavbarItemProps) => (
   <S.NavbarItem id={id} subId={subId} onClick={onClick}>
     {
-      (Icon || IconElement) && 
+      (Icon || IconElement) &&
       <S.NavbarIconWrap>
         {Icon && <Icon size={iconSize} />}
         {IconElement}

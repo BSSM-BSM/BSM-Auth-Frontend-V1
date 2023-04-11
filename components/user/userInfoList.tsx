@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Student, Teacher, UserRole } from "../../types/user.type";
+import { Student, Teacher, UserRole } from "@/types/user.type";
 
 interface UserInfoListProps {
   userInfo: Student | Teacher

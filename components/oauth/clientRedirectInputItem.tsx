@@ -1,5 +1,5 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { TextInput } from '../common/inputs/textInput';
+import { TextInput } from '@/components/common/inputs/textInput';
 import { CgClose } from 'react-icons/cg';
 
 interface RedirectInputItemProps {

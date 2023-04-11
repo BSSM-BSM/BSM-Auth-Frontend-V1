@@ -1,8 +1,8 @@
-import { SetterOrUpdater } from "recoil";
-import { Ajax, HttpMethod } from "../hooks/useAjax";
-import { NoLoginUser, Student, Teacher } from "../types/user.type";
+import { SetterOrUpdater } from 'recoil';
+import { Ajax, HttpMethod } from '@/hooks/useAjax';
+import { NoLoginUser, Student, Teacher } from '@/types/user.type';
 import { StaticImageData } from 'next/image';
-import DefaultProfilePic from '../public/icons/profile_default.png';
+import DefaultProfilePic from '@/public/icons/profile_default.png';
 
 
 export const getUserInfo = async (ajax: Ajax, setUser: SetterOrUpdater<NoLoginUser| Student| Teacher>) => {

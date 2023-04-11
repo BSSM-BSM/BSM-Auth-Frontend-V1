@@ -1,8 +1,7 @@
-import styles from '../../styles/user-search.module.css';
-import { useState } from "react";
-import { Student, Teacher, UserRole } from "../../types/user.type";
+import styles from '@/styles/user-search.module.css';
+import { Student, Teacher, UserRole } from "@/types/user.type";
 import Image from 'next/image';
-import DefaultProfilePic from '../../public/icons/profile_default.png';
+import DefaultProfilePic from '@/public/icons/profile_default.png';
 
 interface SearchUserInfoProps {
   user: Student | Teacher

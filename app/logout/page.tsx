@@ -3,12 +3,12 @@
 import { NextPage } from 'next';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
-import { headerOptionState, pageState } from '../../store/common.store';
-import { useModal } from '../../hooks/useModal';
-import { HttpMethod, useAjax } from '../../hooks/useAjax';
-import { userState } from '../../store/account.store';
-import Modal from '../../components/common/modal';
-import { Button } from '../../components/common/buttons/button';
+import { headerOptionState } from '@/store/common.store';
+import { useModal } from '@/hooks/useModal';
+import { HttpMethod, useAjax } from '@/hooks/useAjax';
+import { userState } from '@/store/account.store';
+import Modal from '@/components/common/modal';
+import { Button } from '@/components/common/buttons/button';
 
 const UserProfilePage: NextPage = () => {
   const setHeaderOption = useSetRecoilState(headerOptionState);

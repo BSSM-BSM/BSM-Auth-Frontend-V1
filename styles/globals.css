@@ -386,6 +386,7 @@ label, summary{
 }
 
 .loading {
+  pointer-events: all;
   display: flex;
   flex-direction: column;
   justify-content: center;

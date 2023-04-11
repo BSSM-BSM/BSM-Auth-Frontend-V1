@@ -1,10 +1,10 @@
-import * as S from '../../../styles/common/navbar.style';
+import * as S from '@/styles/common/navbar.style';
 import { AiOutlineUser, AiOutlineSearch } from 'react-icons/ai';
 import { BiServer } from 'react-icons/bi';
-import NavbarItem from './navbarItem';
+import NavbarItem from '@/components/common/navbar/navbarItem';
 import { useRouter } from 'next/navigation';
 import { useRecoilValue } from 'recoil';
-import { pageState } from '../../../store/common.store';
+import { pageState } from '@/store/common.store';
 
 const Navbar = () => {
   const router = useRouter();

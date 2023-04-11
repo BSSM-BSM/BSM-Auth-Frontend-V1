@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { screenScaleState, themeState } from "../../store/common.store";
-import { ToggleButton } from "./buttons/toggleButton";
-import { NumberInput } from "./inputs/numberInput";
-import Modal from "./modal";
+import { screenScaleState, themeState } from "@/store/common.store";
+import { ToggleButton } from "@/components/common/buttons/toggleButton";
+import { NumberInput } from "@/components/common/inputs/numberInput";
+import Modal from "@/components/common/modal";
 
 export const SettingBox = () => {
   const [theme, setTheme] = useRecoilState(themeState);

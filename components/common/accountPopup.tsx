@@ -1,15 +1,15 @@
 import { ReactNode, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { HttpMethod, useAjax } from '../../hooks/useAjax';
-import { useModal } from '../../hooks/useModal';
-import { useOverlay } from '../../hooks/useOverlay';
-import { userState } from '../../store/account.store';
-import { UserRole } from '../../types/user.type';
-import { getUserInfo } from '../../utils/userUtil';
-import { Button } from './buttons/button';
-import { NumberInput } from './inputs/numberInput';
-import { TextInput } from './inputs/textInput';
-import Modal from './modal';
+import { HttpMethod, useAjax } from '@/hooks/useAjax';
+import { useModal } from '@/hooks/useModal';
+import { useOverlay } from '@/hooks/useOverlay';
+import { userState } from '@/store/account.store';
+import { UserRole } from '@/types/user.type';
+import { getUserInfo } from '@/utils/userUtil';
+import { Button } from '@/components/common/buttons/button';
+import { NumberInput } from '@/components/common/inputs/numberInput';
+import { TextInput } from '@/components/common/inputs/textInput';
+import Modal from '@/components/common/modal';
 
 export const AccountBox = () => {
   return (

@@ -1,18 +1,18 @@
 'use client';
 
-import styles from '../../../styles/oauth.module.css';
+import styles from '@/styles/oauth.module.css';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { Client, OauthScopeList } from '../../../types/oauth.type';
-import { ClientMenuPopup } from '../../../components/oauth/clientMenuPopup';
-import { useModal } from '../../../hooks/useModal';
-import { HttpMethod, useAjax } from '../../../hooks/useAjax';
+import { Client, OauthScopeList } from '@/types/oauth.type';
+import { ClientMenuPopup } from '@/components/oauth/clientMenuPopup';
+import { useModal } from '@/hooks/useModal';
+import { HttpMethod, useAjax } from '@/hooks/useAjax';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userState } from '../../../store/account.store';
-import { headerOptionState, pageState } from '../../../store/common.store';
-import { Button } from '../../../components/common/buttons/button';
-import OauthClientItem from '../../../components/oauth/clientItem';
+import { userState } from '@/store/account.store';
+import { headerOptionState, pageState } from '@/store/common.store';
+import { Button } from '@/components/common/buttons/button';
+import OauthClientItem from '@/components/oauth/clientItem';
 
 const OauthManagePage: NextPage = () => {
   const setHeaderOption = useSetRecoilState(headerOptionState);

@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { headerOptionState } from '../store/common.store';
+import { headerOptionState } from '@/store/common.store';
 
 const Home = () => {
   const [, setHeaderOption] = useRecoilState(headerOptionState);

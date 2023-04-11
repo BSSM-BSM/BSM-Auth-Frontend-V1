@@ -1,13 +1,13 @@
 'use client';
 
-import styles from '../../../styles/user-search.module.css';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { HttpMethod, useAjax } from '../../../hooks/useAjax';
-import { headerOptionState, pageState } from '../../../store/common.store';
-import { Student, Teacher } from '../../../types/user.type';
-import { TextInput } from '../../../components/common/inputs/textInput';
-import { SearchUserInfo } from '../../../components/user/searchUserInfo';
+import styles from '@/styles/user-search.module.css';
+import { useSetRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
+import { HttpMethod, useAjax } from '@/hooks/useAjax';
+import { headerOptionState, pageState } from '@/store/common.store';
+import { Student, Teacher } from '@/types/user.type';
+import { TextInput } from '@/components/common/inputs/textInput';
+import { SearchUserInfo } from '@/components/user/searchUserInfo';
 
 const UserProfilePage = () => {
   const setHeaderOption = useSetRecoilState(headerOptionState);

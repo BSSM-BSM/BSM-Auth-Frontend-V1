@@ -1,15 +1,15 @@
 'use client';
 
-import styles from '../../../styles/user.module.css';
+import styles from '@/styles/user.module.css';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userState } from '../../../store/account.store';
+import { userState } from '@/store/account.store';
 import { useEffect, useState } from 'react';
-import { HttpMethod, useAjax } from '../../../hooks/useAjax';
-import { headerOptionState, pageState } from '../../../store/common.store';
+import { HttpMethod, useAjax } from '@/hooks/useAjax';
+import { headerOptionState, pageState } from '@/store/common.store';
 import Image, { StaticImageData } from 'next/image';
-import DefaultProfilePic from '../../../public/icons/profile_default.png';
-import { Student, Teacher } from '../../../types/user.type';
-import { UserInfoList } from '../../../components/user/userInfoList';
+import DefaultProfilePic from '@/public/icons/profile_default.png';
+import { Student, Teacher } from '@/types/user.type';
+import { UserInfoList } from '@/components/user/userInfoList';
 
 interface OtherUserProfilePageProps {
   params: {
