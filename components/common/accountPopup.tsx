@@ -26,6 +26,7 @@ export const AccountBox = () => {
 const LoginBox = () => {
   const { ajax } = useAjax();
   const { openModal, closeModal } = useModal();
+  const { showAlert } = useOverlay();
   const [, setUser] = useRecoilState(userState);
   const [loginStep, setLoginStep] = useState(0);
   const [id, setId] = useState('');
@@ -44,12 +45,16 @@ const LoginBox = () => {
         id,
         pw
       },
-      errorCallback: (data: any) => {
-        if (data.statusCode === 400) {
-          setLoginStep(0);
+      errorCallback(data) {
+        if (typeof data !== 'object' || !('statusCode' in data)) {
+          setLoginStep(1);
           return false;
         }
-        setLoginStep(1);
+        setLoginStep(0);
+        if ((data.statusCode === 401 || data.statusCode === 403)) {
+          showAlert(data.message);
+          return true;
+        }
         return false;
       }
     });
