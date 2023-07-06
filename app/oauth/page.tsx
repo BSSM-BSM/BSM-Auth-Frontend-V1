@@ -12,12 +12,14 @@ import { useModal } from '@/hooks/useModal';
 import { HttpMethod, useAjax } from '@/hooks/useAjax';
 import { headerOptionState, pageState } from '@/store/common.store';
 import { Button } from '@/components/common/buttons/button';
+import { useOverlay } from '@/hooks/useOverlay';
 
 const Oauth = () => {
   const setHeaderOption = useSetRecoilState(headerOptionState);
   const setPage = useSetRecoilState(pageState);
   const { ajax } = useAjax();
   const { openModal, closeModal } = useModal();
+  const { loading } = useOverlay();
   const searchParams = useSearchParams();
   const clientId = searchParams.get('clientId');
   const redirectURI = searchParams.get('redirectURI');
@@ -87,6 +89,7 @@ const Oauth = () => {
     if (error) return;
 
     window.location.href = data.redirectURI;
+    loading(true);
   }
 
   return (
@@ -97,20 +100,24 @@ const Oauth = () => {
       {
         user.isLogin &&
         <Modal id='oauth-continue' type='main' title={`${user.nickname}(으)로 계속`}>
-          <p>{serviceInfo.domain}</p>
-          <p>
-            <span className="accent-text">{serviceInfo.serviceName}</span>
-            <span>에서 인증을 요청합니다.</span>
-          </p>
-          <br />
-          <p onClick={() => {
-            openModal('login', false);
-            closeModal('oauth-continue');
-          }}>
-            다른 계정 사용
-          </p>
-          <br />
-          <Button className="accent" full onClick={() => authorize()}>인증</Button>
+          <div className='cols gap-1'>
+            <div>
+              <p>{serviceInfo.domain}</p>
+              <p>
+                <span className="accent-text">{serviceInfo.serviceName}</span>
+                <span>에서 인증을 요청합니다.</span>
+              </p>
+            </div>
+            <div className='modal--bottom-menu-box'>
+              <span onClick={() => {
+                openModal('login', false);
+                closeModal('oauth-continue');
+              }}>
+                다른 계정 사용
+              </span>
+            </div>
+            <Button className="accent" full onClick={() => authorize()}>인증</Button>
+          </div>
         </Modal>
       }
       {
