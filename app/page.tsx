@@ -9,7 +9,7 @@ const Home = () => {
   const router = useRouter();
 
   useEffect(() => {
-    setHeaderOption({ title: '' });
+    setHeaderOption({ title: 'ㅈ소가기 싫으면 공부하자' });
     router.replace('/oauth/manage')
   }, []);
 

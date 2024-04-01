@@ -17,7 +17,7 @@ const UserProfilePage = () => {
   const [userList, setUserList] = useState<(Student | Teacher)[]>([]);
 
   useEffect(() => {
-    setHeaderOption({ title: '유저 검색', headTitle: '유저 검색 - BSM Auth' });
+    setHeaderOption({ title: '유저 검색 - ㅈ소가기 싫으면 공부하자', headTitle: '유저 검색 - BSM Auth' });
     setPage({ id: 'search_user' });
   }, []);
 

@@ -43,3 +43,13 @@ export const sideBarState = atom<boolean>({
   key: 'sideBar',
   default: false
 });
+
+export const aprilFool2024State = atom<boolean>({
+  key: 'aprilFool2024',
+  default: false,
+  effects: [localStorageEffect({
+    key: 'aprilFool2024',
+    type: LocalStorageType.boolean,
+    defaultValue: false
+  })]
+});

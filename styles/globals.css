@@ -2,6 +2,7 @@
 @import url(common/alert.css);
 @import url(common/list.css);
 @import url(common/modal.css);
+@import url('https://webfontworld.github.io/ChosunGs/ChosunGs.css');
 
 a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, button, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, input, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, textarea, tfoot, th, thead, time, tr, tt, u, ul, var, video
 {
@@ -117,8 +118,59 @@ body.dark {
   --background: var(--level-0);
 }
 
+body.aprilFool2024 {
+  color-scheme: dark;
+
+  --gray: #000000;
+  --white: #ff0000;
+  --red: #ff0000;
+  --yellow: #ff0000;
+  --green: #ff0000;
+  --blue: #ff0000;
+  --red-level-1: #ff0000;
+  --yellow-level-1: #ff0000;
+  --green-level-1: #ff0000;
+  --blue-level-1: #ff0000;
+  
+  --main: #ff0000;
+  --accent: #ff0000;
+  --text: #ff0000;
+  --accent-text: #000000;
+  --text-level-1: #ff0000;
+  --text-level-2: #ff0000;
+  --text-level-3: #ff0000;
+  
+  --level-0: #000000;
+  --level-1: #000000;
+  --level-2: #000000;
+  --level-3: #000000;
+  --level-4: #000000;
+  --level-5: #000000;
+  --level-6: #000000;
+  --level-7: #000000;
+
+  --level-0-opacity: #1a1a1a88;
+  --level-1-opacity: #20202088;
+  --level-2-opacity: #2a2a2a88;
+  --level-3-opacity: #30303088;
+  --level-4-opacity: #3a3a3a88;
+  --level-5-opacity: #40404088;
+  
+  --dim: rgba(0, 0, 0, .4);
+  --shadow: none;
+  --shadow-level-1: none;
+  --hover: #a8aaad66;
+  --bright: brightness(20);
+  --visited: #f4a4ff;
+
+  --background: var(--level-0);
+
+  font-family: 궁서체, ChosunGs;
+  font-weight: bold;
+}
+
 :root {
-  --vh: 100%
+  --vh: 1vw;
 }
 
 html {
@@ -162,6 +214,9 @@ main {
   overflow-y: auto;
   overflow-y: overlay;
   width: calc(100vw - 25rem);
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://bssm.kro.kr/resource/background/%EC%B7%A8%EC%97%85%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4_%EB%A7%A4%EC%9A%B4%EB%A7%9B.png');
+  background-size: cover;
+  background-position: center;
 }
 
 @media screen and (max-width: 650px) {

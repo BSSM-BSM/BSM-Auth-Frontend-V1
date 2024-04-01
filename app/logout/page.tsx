@@ -18,7 +18,7 @@ const UserProfilePage: NextPage = () => {
   const resetUser = useResetRecoilState(userState);
 
   useEffect(() => {
-    setHeaderOption({ title: '로그아웃', headTitle: '로그아웃 - BSM Auth' });
+    setHeaderOption({ title: '로그아웃 - ㅈ소가기 싫으면 공부하자', headTitle: '로그아웃 - BSM Auth' });
   }, []);
 
   useEffect(() => {

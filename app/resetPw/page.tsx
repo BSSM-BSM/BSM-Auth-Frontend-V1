@@ -37,7 +37,7 @@ const ResetPwPage = () => {
   });
 
   useEffect(() => {
-    setHeaderOption({ title: '비밀번호 재설정', headTitle: '비밀번호 재설정 - BSM Auth' });
+    setHeaderOption({ title: '비밀번호 재설정 - ㅈ소가기 싫으면 공부하자', headTitle: '비밀번호 재설정 - BSM Auth' });
   }, []);
 
   useEffect(() => {

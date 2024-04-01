@@ -25,7 +25,7 @@ const OauthManagePage: NextPage = () => {
   const [scopeInfoList, setScopeInfoList] = useState<OauthScopeList>([]);
 
   useEffect(() => {
-    setHeaderOption({ title: 'OAuth 클라이언트', headTitle: 'OAuth 클라이언트 - BSM Auth' });
+    setHeaderOption({ title: 'OAuth 클라이언트 - ㅈ소가기 싫으면 공부하자', headTitle: 'OAuth 클라이언트 - BSM Auth' });
     setPage({ id: 'oauth', subId: 'manage' })
   }, []);
 

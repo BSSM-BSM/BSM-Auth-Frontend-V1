@@ -10,9 +10,10 @@ import { userState } from '@/store/account.store';
 import { OauthScope } from '@/types/oauth.type';
 import { useModal } from '@/hooks/useModal';
 import { HttpMethod, useAjax } from '@/hooks/useAjax';
-import { headerOptionState, pageState } from '@/store/common.store';
+import { aprilFool2024State, headerOptionState, pageState } from '@/store/common.store';
 import { Button } from '@/components/common/buttons/button';
 import { useOverlay } from '@/hooks/useOverlay';
+import { UserRole } from '@/types/user.type';
 
 const Oauth = () => {
   const setHeaderOption = useSetRecoilState(headerOptionState);
@@ -24,9 +25,10 @@ const Oauth = () => {
   const clientId = searchParams.get('clientId');
   const redirectURI = searchParams.get('redirectURI');
   const [user] = useRecoilState(userState);
+  const [aprilFool2024, setAprilFool2024] = useRecoilState(aprilFool2024State);
 
   useEffect(() => {
-    setHeaderOption({ title: 'BSM OAuth', headTitle: 'BSM OAuth - BSM Auth' });
+    setHeaderOption({ title: 'BSM OAuth - ㅈ소가기 싫으면 공부하자', headTitle: 'BSM OAuth - BSM Auth' });
     setPage({ id: 'oauth' })
   }, []);
 
@@ -99,26 +101,57 @@ const Oauth = () => {
       </Head>
       {
         user.isLogin &&
-        <Modal id='oauth-continue' type='main' title={`${user.nickname}(으)로 계속`}>
-          <div className='cols gap-1'>
-            <div>
-              <p>{serviceInfo.domain}</p>
-              <p>
-                <span className="accent-text">{serviceInfo.serviceName}</span>
-                <span>에서 인증을 요청합니다.</span>
-              </p>
-            </div>
-            <div className='modal--bottom-menu-box'>
-              <span onClick={() => {
-                openModal('login', false);
-                closeModal('oauth-continue');
-              }}>
-                다른 계정 사용
-              </span>
-            </div>
-            <Button className="accent" full onClick={() => authorize()}>인증</Button>
-          </div>
-        </Modal>
+        (
+          user.role === UserRole.STUDENT
+            ? <Modal id='oauth-continue' type='main' title={`${user.student.name}, 공부안하고 뭐해?`}>
+              <div className='cols gap-1'>
+                <div>
+                  <p>{serviceInfo.domain}</p>
+                  <p>
+                    <span className="accent-text">{serviceInfo.serviceName}</span>
+                    <span>에서 인증을 요청합니다.</span>
+                  </p>
+                  <p>로그인 하지말고 공부하십시오</p>
+                </div>
+                <div className='modal--bottom-menu-box'>
+                  <span onClick={() => {
+                    openModal('login', false);
+                    closeModal('oauth-continue');
+                  }}>
+                    공부말고 다른 계정 사용
+                  </span>
+                </div>
+                <Button className="accent" full onClick={() => authorize()}>공부하지말고 로그인 후 ㅈ소가기</Button>
+                {
+                  !aprilFool2024 && <Button full onClick={() => {
+                    openModal('joatSo', false);
+                    setAprilFool2024(true);
+                  }}>알빠노?</Button>
+                }
+              </div>
+            </Modal>
+            : <Modal id='oauth-continue' type='main' title={`${user.teacher.name} 선생님 어서오십시오`}>
+              <div className='cols gap-1'>
+                <div>
+                  <p>{serviceInfo.domain}</p>
+                  <p>
+                    <span className="accent-text">{serviceInfo.serviceName}</span>
+                    <span>에서 인증을 요청합니다.</span>
+                  </p>
+                  <p>학생들이 공부안하고 놀고있습니다</p>
+                </div>
+                <div className='modal--bottom-menu-box'>
+                  <span onClick={() => {
+                    openModal('login', false);
+                    closeModal('oauth-continue');
+                  }}>
+                    다른 계정 사용
+                  </span>
+                </div>
+                <Button className="accent" full onClick={() => authorize()}>인증</Button>
+              </div>
+            </Modal>
+        )
       }
       {
         user.isLogin &&
@@ -152,6 +185,10 @@ const Oauth = () => {
           <Button className="accent" full onClick={() => authorize()}>동의</Button>
         </Modal>
       }
+      <Modal id='joatSo' title="ㅈ소가 장난이야?">
+        <br />
+        <Button className="accent" full onClick={() => closeModal('joatSo')}>...</Button>
+      </Modal>
       <Modal id='oauthAuthenticateFailed' title="OAuth 인증에 실패하였습니다">
         <p>정보를 요청하는 클라이언트 서버가 인증에 실패하였습니다</p>
         <p>정말 안전한 인증된 사이트인지 확인해주세요.</p>
