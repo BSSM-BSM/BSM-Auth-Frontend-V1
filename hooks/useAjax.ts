@@ -1,8 +1,11 @@
 import axios, { AxiosError, AxiosPromise, AxiosRequestConfig } from "axios";
 import { useResetRecoilState } from "recoil";
+import { SignJWT } from "jose";
 import { userState } from "@/store/account.store";
 import { useModal } from "@/hooks/useModal";
 import { useOverlay } from "@/hooks/useOverlay";
+
+const apiTokenSecretKey = new TextEncoder().encode(process.env.NEXT_PUBLIC_API_TOKEN_SECRET_KEY ?? '');
 
 const instance = axios.create({
   baseURL: '/api',
@@ -49,12 +52,23 @@ export const useAjax = () => {
     method,
     url,
     payload,
-    config,
+    config = {},
     errorCallback,
   }: AjaxType<T>) => {
     loading(true);
 
     try {
+      const clientDateTime = new Date().toISOString();
+      const apiToken = await new SignJWT({ dateTime: clientDateTime })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setExpirationTime('60s')
+        .sign(apiTokenSecretKey);
+      if (config.headers) {
+        config.headers['x-api-token'] = apiToken;
+      } else {
+        config.headers = { 'x-api-token': apiToken };
+      }
+      
       const rawRes = (await ((): AxiosPromise<T> => {
         switch (method) {
           case HttpMethod.GET: return instance.get(url, config);
