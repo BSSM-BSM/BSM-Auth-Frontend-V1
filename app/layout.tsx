@@ -18,11 +18,6 @@ export default function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js");
-    }
-  }, []);
 
   useEffect(() => {
     upadteScreenHeight();
