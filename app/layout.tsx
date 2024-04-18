@@ -1,28 +1,18 @@
 'use client';
 
 import '@/styles/globals.css'
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { RecoilRoot } from "recoil";
 import RecoilNexus from 'recoil-nexus';
 import StyledComponentsRegistry from '@/lib/registry';
 import Script from 'next/script';
 import { Main } from '@/components/common/main';
 
-const upadteScreenHeight = () => {
-  const vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty("--vh", `${vh}px`);
-}
-
 export default function RootLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-
-  useEffect(() => {
-    upadteScreenHeight();
-    window.addEventListener('resize', () => upadteScreenHeight());
-  }, []);
 
   return (
     <html lang="kr">

@@ -4,6 +4,7 @@ import { SignJWT } from "jose";
 import { userState } from "@/store/account.store";
 import { useModal } from "@/hooks/useModal";
 import { useOverlay } from "@/hooks/useOverlay";
+import { leftTime } from "@/utils/util";
 
 const apiTokenSecretKey = new TextEncoder().encode(process.env.NEXT_PUBLIC_API_TOKEN_SECRET_KEY ?? '');
 
@@ -61,7 +62,6 @@ export const useAjax = () => {
       const clientDateTime = new Date().toISOString();
       const apiToken = await new SignJWT({ dateTime: clientDateTime })
         .setProtectedHeader({ alg: 'HS256' })
-        .setExpirationTime('60s')
         .sign(apiTokenSecretKey);
       if (config.headers) {
         config.headers['x-api-token'] = apiToken;
@@ -115,6 +115,9 @@ export const useAjax = () => {
       }
       case 400: {
         const fields = errorData.fields as { [filed: string]: string };
+        if (fields['errorType'] === 'apiTokenFail') {
+          return apiTokenErrorHandler(fields);
+        }
         Object.entries(fields).forEach(field => {
           showToast(`${field[0]}: ${field[1]}`);
         });
@@ -126,6 +129,17 @@ export const useAjax = () => {
       }
       default: showAlert(`에러코드: ${statusCode} ${errorData.message}`);
     }
+  }
+
+  const apiTokenErrorHandler = (data: { serverTime?: string, clientTime?: string }) => {
+    if (!data.serverTime || !data.clientTime) {
+      return showAlert('API 요청이 유효하지 않습니다.');
+    }
+    const serverTime = new Date(data.serverTime);
+    const clientTime = new Date(data.clientTime);
+    const formatedTime = leftTime(Math.abs(serverTime.getTime() - clientTime.getTime()));
+    const timeMessage = `현재 기기의 시간이 서버보다 ${formatedTime} ${serverTime > clientTime ? '느립니다' : '빠릅니다'}`;
+    return showAlert(`API 요청이 만료되었습니다.\n${timeMessage}`);
   }
 
   return {
