@@ -90,17 +90,17 @@ const UserProfilePage = () => {
                 <li className='pointer' onClick={() => profileInputRef.current?.click()}>
                   <span>프로필 사진 변경</span>
                 </li>
-                <li className='pointer' onClick={() => openModal('updateNickname')}>
+                <li className='pointer' onClick={() => openModal({ key: 'updateNickname' })}>
                   <span>닉네임 변경</span>
                 </li>
-                <li className='pointer' onClick={() => openModal('updatePw')}>
+                <li className='pointer' onClick={() => openModal({ key: 'updatePw' })}>
                   <span>비밀번호 변경</span>
                 </li>
                 <li>
                   <span>연결된 서비스 관리</span>
                   <span>(준비중)</span>
                 </li>
-                <li className='pointer' onClick={() => openModal('setting')}>
+                <li className='pointer' onClick={() => openModal({ key: 'setting' })}>
                   <span>다른 설정</span>
                 </li>
               </ul>

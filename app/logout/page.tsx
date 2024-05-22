@@ -23,7 +23,7 @@ const UserProfilePage: NextPage = () => {
 
   useEffect(() => {
     if (!user.isLogin) return;
-    openModal('logout', false);
+    openModal({ key: 'logout', closeable: false });
   }, [user]);
 
   const logout = async () => {
@@ -35,7 +35,7 @@ const UserProfilePage: NextPage = () => {
 
     resetUser();
     closeModal('logout');
-    openModal('logout_success', false);
+    openModal({ key: 'logout_success', closeable: false });
     setTimeout(() => {
       window.close();
     }, 3000);

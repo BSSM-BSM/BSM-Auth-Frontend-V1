@@ -66,9 +66,9 @@ const LoginBox = () => {
 
   const bottomMenuView = (): ReactNode => (
     <div className='modal--bottom-menu-box'>
-      <span onClick={() => openModal('signUp')}>회원가입</span>
-      <span onClick={() => openModal('resetPwMail')}>비밀번호 복구</span>
-      <span onClick={() => openModal('findIdMail')}>ID 찾기</span>
+      <span onClick={() => openModal({ key: 'signUp' })}>회원가입</span>
+      <span onClick={() => openModal({ key: 'resetPwMail' })}>비밀번호 복구</span>
+      <span onClick={() => openModal({ key: 'findIdMail' })}>ID 찾기</span>
     </div>
   )
 
@@ -231,7 +231,7 @@ const SignUpBox = () => {
         required
       />
       <div className='modal--bottom-menu-box'>
-        <span onClick={() => openModal('authCode')}>인증코드 발급</span>
+        <span onClick={() => openModal({ key: 'authCode' })}>인증코드 발급</span>
       </div>
       <Button type='submit' className='accent' full>가입하기</Button>
     </form>

@@ -4,7 +4,6 @@ import { SignJWT } from "jose";
 import { userState } from "@/store/account.store";
 import { useModal } from "@/hooks/useModal";
 import { useOverlay } from "@/hooks/useOverlay";
-import { leftTime } from "@/utils/util";
 
 const apiTokenSecretKey = new TextEncoder().encode(process.env.NEXT_PUBLIC_API_TOKEN_SECRET_KEY ?? '');
 
@@ -110,7 +109,7 @@ export const useAjax = () => {
     switch (statusCode) {
       case 401: {
         resetUser();
-        openModal('login');
+        openModal({ key: 'login' });
         break;
       }
       case 400: {
@@ -137,9 +136,7 @@ export const useAjax = () => {
     }
     const serverTime = new Date(data.serverTime);
     const clientTime = new Date(data.clientTime);
-    const formatedTime = leftTime(Math.abs(serverTime.getTime() - clientTime.getTime()));
-    const timeMessage = `현재 기기의 시간이 서버보다 ${formatedTime} ${serverTime > clientTime ? '느립니다' : '빠릅니다'}`;
-    return showAlert(`API 요청이 만료되었습니다.\n${timeMessage}`);
+    openModal({ key: 'invalidClientTime' }, { serverTime, clientTime });
   }
 
   return {

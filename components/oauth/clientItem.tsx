@@ -50,7 +50,7 @@ const OauthClientItem = ({
             menus={[
               {text: '수정', callback() {
                 setSelectClient(client);
-                openModal('updateClient');
+                openModal({ key: 'updateClient' });
               }},
               {text: '삭제', callback() {
                 if (confirm('정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다!')) {

@@ -3,7 +3,8 @@ import { atom } from "recoil";
 export interface ModalState {
   [index: string]: {
     isOpen: boolean,
-    closeable: boolean
+    closeable: boolean,
+    props?: unknown
   }
 }
 
