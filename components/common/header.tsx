@@ -29,7 +29,7 @@ export const Header = () => {
     if (headerOption.optionMenu?.dropdownMenu) {
       return dropdownMenuView(headerOption.optionMenu.dropdownMenu);
     }
-    return <li onClick={() => openModal('setting')} className={`${styles.item} ${styles.setting}`}><img src="/icons/setting.svg" alt="setting" /></li>;
+    return <li onClick={() => openModal({ key: 'setting' })} className={`${styles.item} ${styles.setting}`}><img src="/icons/setting.svg" alt="setting" /></li>;
   }
 
   const dropdownMenuView = (dropdownMenu: DropdownMenuOption[]) => (

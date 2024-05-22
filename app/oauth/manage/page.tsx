@@ -65,7 +65,7 @@ const OauthManagePage: NextPage = () => {
       <div className={styles.client_manage}>
         <ul className={styles.client_list}>
           {!clientList.length && <p>클라이언트가 없습니다, 여기를 눌러 생성하세요</p>}
-          <Button onClick={() => openModal('createClient')}>클라이언트 추가</Button>
+          <Button onClick={() => openModal({ key: 'createClient' })}>클라이언트 추가</Button>
           {
             clientList.length > 0 &&
             clientList.map(client => (

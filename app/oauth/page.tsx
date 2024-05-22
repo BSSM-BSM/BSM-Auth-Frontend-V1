@@ -55,7 +55,7 @@ const Oauth = () => {
         if (data && 'statusCode' in data && data.statusCode === 401) {
           return false;
         }
-        openModal('oauthAuthenticateFailed', false);
+        openModal({ key: 'oauthAuthenticateFailed', closeable: false });
       }
     });
     if (error) return;
@@ -64,10 +64,10 @@ const Oauth = () => {
     closeModal('oauthAuthenticateFailed');
     closeModal('oauthAuthorizeFailed');
     if (data.authorized) {
-      openModal('oauth-continue', false);
+      openModal({ key: 'oauth-continue', closeable: false });
       return;
     }
-    openModal('oauth', false);
+    openModal({ key: 'oauth', closeable: false });
   }
 
   const authorize = async () => {
@@ -83,7 +83,7 @@ const Oauth = () => {
         if (data && 'statusCode' in data && data.statusCode === 401) {
           return false;
         }
-        openModal('oauthAuthorizeFailed', false);
+        openModal({ key: 'oauthAuthorizeFailed', closeable: false });
       }
     });
     if (error) return;
@@ -110,7 +110,7 @@ const Oauth = () => {
             </div>
             <div className='modal--bottom-menu-box'>
               <span onClick={() => {
-                openModal('login', false);
+                openModal({ key: 'login', closeable: false });
                 closeModal('oauth-continue');
               }}>
                 다른 계정 사용
@@ -143,7 +143,7 @@ const Oauth = () => {
           }</ul>
           <br />
           <p onClick={() => {
-            openModal('login', false);
+            openModal({ key: 'login', closeable: false });
             closeModal('oauth');
           }}>
             다른 계정 사용

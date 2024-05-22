@@ -68,7 +68,7 @@ const ResetPwPage = () => {
     if (error) return;
 
     setTokenInfo(data);
-    openModal('resetPw', false);
+    openModal({ key: 'resetPw', closeable: false });
   }
 
   const calcLeftTime = (): number => {

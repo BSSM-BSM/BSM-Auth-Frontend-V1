@@ -9,6 +9,7 @@ import Alert from '@/components/common/overlay/alert';
 import LoadingDim from '@/components/common/overlay/loadingDim';
 import { Header } from '@/components/common/header';
 import { AccountBox } from '@/components/common/accountPopup';
+import { InvalidClientTimeBox } from './invalidClientTimePopup';
 
 export const Main = ({
   children,
@@ -40,6 +41,7 @@ export const Main = ({
         <LoadingDim />
         <AccountBox />
         <SettingBox />
+        <InvalidClientTimeBox />
       </>
     </div>
   );
