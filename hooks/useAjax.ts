@@ -8,7 +8,7 @@ import { useOverlay } from "@/hooks/useOverlay";
 const apiTokenSecretKey = new TextEncoder().encode(process.env.NEXT_PUBLIC_API_TOKEN_SECRET_KEY ?? '');
 
 const instance = axios.create({
-  baseURL: '/api',
+  baseURL: `${process.env.NEXT_PUBLIC_API_HOST}/api`,
   headers: {
     Pragma: 'no-cache'
   },
