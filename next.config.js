@@ -5,7 +5,7 @@ const RESOURCE_BASE_URL = process.env.NEXT_PUBLIC_RESOURCE_BASE_URL;
 
 const nextConfig = {
   images: {
-    domains: ['auth.bssm.kro.kr'],
+    domains: ['auth.bssm.app'],
     minimumCacheTTL: 1
   },
   reactStrictMode: false,

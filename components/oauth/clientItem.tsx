@@ -110,6 +110,6 @@ const OauthClientItem = ({
 }
 
 const getOauthUri = (clientId: string, uri: string) =>
-  `https://auth.bssm.kro.kr/oauth?clientId=${clientId}&redirectURI=${uri}`;
+  `https://auth.bssm.app/oauth?clientId=${clientId}&redirectURI=${uri}`;
 
 export default OauthClientItem;

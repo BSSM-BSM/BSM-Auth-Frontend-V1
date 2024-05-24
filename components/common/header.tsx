@@ -51,7 +51,7 @@ export const Header = () => {
         <nav className={styles.top_menu_bar}>
           <ul className={styles.left}>
             <li className={styles.home}>
-              <Link href='https://bssm.kro.kr' className={`${styles.item} ${styles.home}`}>BSM</Link>
+              <Link href='https://bssm.app' className={`${styles.item} ${styles.home}`}>BSM</Link>
             </li>
             <li
               className={`${styles.item} ${styles.all_menu} menu-button`}

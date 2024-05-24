@@ -37,7 +37,7 @@ const Sidebar = () => {
         <SidebarItem
           Icon={HiOutlineDocumentText}
           iconSize={26}
-          onClick={() => window.open('https://bssm.kro.kr/board/doc-oauth', '_blank')}
+          onClick={() => window.open('https://bssm.app/board/doc-oauth', '_blank')}
         >
           BSM OAuth 공식 문서
         </SidebarItem>
