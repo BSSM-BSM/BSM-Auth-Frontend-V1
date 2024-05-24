@@ -42,7 +42,7 @@ const UserProfilePage = () => {
     if (error) return;
 
     setUserInfo(data);
-    setProfileSrc(`https://auth.bssm.kro.kr/resource/user/profile/${data.code}.png`);
+    setProfileSrc(`/resource/user/profile/${data.code}.png`);
   }
 
 

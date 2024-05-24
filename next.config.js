@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const RESOURCE_BASE_URL = process.env.NEXT_PUBLIC_RESOURCE_BASE_URL;
+
 const nextConfig = {
   images: {
     domains: ['auth.bssm.kro.kr'],
@@ -13,7 +17,11 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:8080/api/:path*'
+        destination: `${API_BASE_URL}/:path*`
+      },
+      {
+        source: '/resource/:path*',
+        destination: `${RESOURCE_BASE_URL}/:path*`
       }
     ]
   }
