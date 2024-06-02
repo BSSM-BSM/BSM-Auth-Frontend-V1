@@ -52,7 +52,10 @@ const Oauth = () => {
       method: HttpMethod.GET,
       url: `/oauth/authenticate?clientId=${clientId}&redirectURI=${redirectURI}`,
       errorCallback: (data) => {
-        if (data && 'statusCode' in data && data.statusCode === 401) {
+        if (!data || !('fields' in data)) {
+          return false;
+        }
+        if (!data.fields?.redirectURI) {
           return false;
         }
         openModal({ key: 'oauthAuthenticateFailed', closeable: false });
@@ -80,7 +83,10 @@ const Oauth = () => {
       },
       errorCallback: (data) => {
         closeModal('oauth');
-        if (data && 'statusCode' in data && data.statusCode === 401) {
+        if (!data || !('fields' in data)) {
+          return false;
+        }
+        if (!data.fields?.redirectURI) {
           return false;
         }
         openModal({ key: 'oauthAuthorizeFailed', closeable: false });

@@ -25,6 +25,7 @@ export enum HttpMethod {
 export interface ErrorResType {
   statusCode: number;
   message: string;
+  fields?: Record<string, unknown>
 }
 
 export type Ajax = <T>({
