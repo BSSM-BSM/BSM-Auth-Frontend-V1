@@ -1,7 +1,7 @@
 'use client';
 
 import Head from 'next/head';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Modal from '@/components/common/modal';
 import { useModal } from '@/hooks/useModal';
@@ -13,10 +13,12 @@ import { headerOptionState } from '@/store/common.store';
 import { TextInput } from '@/components/common/inputs/textInput';
 import { Button } from '@/components/common/buttons/button';
 
-const ResetPwPage = () => {
+const ResetPwPage = ({
+  searchParams: { token },
+}: {
+  searchParams: { token?: string };
+}) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token');
   
   const setHeaderOption = useSetRecoilState(headerOptionState);
   const { ajax } = useAjax();
