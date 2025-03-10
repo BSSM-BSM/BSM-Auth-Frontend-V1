@@ -143,6 +143,10 @@ body {
   Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .wrap {
   display: grid;
   grid-template-areas: 

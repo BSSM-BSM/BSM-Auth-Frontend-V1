@@ -37,6 +37,12 @@ const LoginBox = () => {
     refreshToken: string
   }
 
+  const clearLoginInput = () => {
+    setId('');
+    setPw('');
+    setLoginStep(0);
+  }
+
   const login = async () => {
     const [, error] = await ajax<LoginRes>({
       method: HttpMethod.POST,
@@ -50,12 +56,13 @@ const LoginBox = () => {
           setLoginStep(1);
           return false;
         }
-        setLoginStep(0);
         if ((data.statusCode === 401 || data.statusCode === 403)) {
+          clearLoginInput();
           showAlert(data.message);
           return true;
+        } else {
+          setLoginStep(1);
         }
-        return false;
       }
     });
     if (error) return;
@@ -85,10 +92,20 @@ const LoginBox = () => {
         >
           <TextInput
             key='id'
+            autoComplete='username'
             setCallback={setId}
             placeholder='아이디'
             full
             required
+            immediately
+          />
+          <TextInput
+            key='pw'
+            type='password'
+            autoComplete='password'
+            setCallback={setPw}
+            hidden
+            immediately
           />
           {bottomMenuView()}
           <Button type='submit' className='accent' full>다음</Button>
@@ -105,12 +122,21 @@ const LoginBox = () => {
           }}
         >
           <TextInput
+            key='id'
+            autoComplete='username'
+            setCallback={setId}
+            hidden
+            immediately
+          />
+          <TextInput
             key='pw'
             type='password'
+            autoComplete='password'
             setCallback={setPw}
             placeholder='비밀번호'
             full
             required
+            immediately
           />
           {bottomMenuView()}
           <Button type='submit' className='accent' full>로그인</Button>
@@ -129,7 +155,7 @@ const LoginBox = () => {
     }</p>
   );
   return (
-    <Modal type='main' id='login' title={title} onOpen={() => setLoginStep(0)}>
+    <Modal type='main' id='login' title={title} onOpen={clearLoginInput}>
       {loginView()}
     </Modal>
   );
