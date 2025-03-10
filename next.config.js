@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 
-const RESOURCE_BASE_URL = process.env.NEXT_PUBLIC_RESOURCE_BASE_URL;
-
 const nextConfig = {
+  output: 'standalone',
   compiler: {
     styledComponents: true
   },
@@ -16,15 +15,7 @@ const nextConfig = {
     minimumCacheTTL: 60
   },
   reactStrictMode: false,
-  swcMinify: true,
-  rewrites() {
-    return [
-      {
-        source: '/resource/:path*',
-        destination: `${RESOURCE_BASE_URL}/:path*`
-      }
-    ]
-  }
+  swcMinify: true
 };
 
 module.exports = nextConfig
