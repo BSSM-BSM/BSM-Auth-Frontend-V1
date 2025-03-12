@@ -13,13 +13,13 @@ import { UserInfoList } from '@/components/user/userInfoList';
 
 interface OtherUserProfilePageProps {
   params: {
-    userCode: number
+    userId: number
   }
 }
 
 const OtherUserProfilePage = ({
   params: {
-    userCode
+    userId
   }
 }: OtherUserProfilePageProps) => {
   const setHeaderOption = useSetRecoilState(headerOptionState);
@@ -36,18 +36,18 @@ const OtherUserProfilePage = ({
   }, []);
 
   useEffect(() => {
-    loadUserInfo(userCode);
-  }, [user, userCode]);
+    loadUserInfo(userId);
+  }, [user, userId]);
 
-  const loadUserInfo = async (userCode: number) => {
+  const loadUserInfo = async (userId: number) => {
     const [data, error] = await ajax<Student | Teacher>({
       method: HttpMethod.GET,
-      url: `user/${userCode}`
+      url: `user/${userId}`
     });
     if (error) return;
 
     setUserInfo(data);
-    setProfileSrc(`/resource/user/profile/${data.code}.png`);
+    setProfileSrc(`/resource/user/profile/${data.id}.png`);
   }
 
   return (

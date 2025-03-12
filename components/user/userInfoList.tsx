@@ -16,7 +16,7 @@ export const UserInfoList = ({
       <ul className='list'>
         <li>
           <span>유저 코드</span>
-          <span>{userInfo.code}</span>
+          <span>{userInfo.id}</span>
         </li>
         <li>
           <span>가입 날짜</span>

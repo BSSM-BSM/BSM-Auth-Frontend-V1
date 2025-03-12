@@ -17,7 +17,7 @@ export const AccountBox = () => {
       <LoginBox />
       <SignUpBox />
       <AuthCodeBox />
-      <FindIdBox />
+      <FindAuthIdBox />
       <ResetPwBox />
     </>
   )
@@ -75,7 +75,7 @@ const LoginBox = () => {
     <div className='modal--bottom-menu-box'>
       <span onClick={() => openModal({ key: 'signUp' })}>회원가입</span>
       <span onClick={() => openModal({ key: 'resetPwMail' })}>비밀번호 복구</span>
-      <span onClick={() => openModal({ key: 'findIdMail' })}>ID 찾기</span>
+      <span onClick={() => openModal({ key: 'findAuthIdMail' })}>ID 찾기</span>
     </div>
   )
 
@@ -165,7 +165,7 @@ const SignUpBox = () => {
   const { ajax } = useAjax();
   const { showToast } = useOverlay();
   const { openModal, closeModal } = useModal();
-  const [id, setId] = useState('');
+  const [authId, setAuthId] = useState('');
   const [pw, setPw] = useState('');
   const [checkPw, setCheckPw] = useState('');
   const [nickname, setNickname] = useState('');
@@ -179,14 +179,14 @@ const SignUpBox = () => {
     const payload = (() => {
       switch (role) {
         case UserRole.STUDENT: return {
-          id,
+          authId,
           pw,
           checkPw,
           nickname,
           authCode
         }
         case UserRole.TEACHER: return {
-          id,
+          authId,
           pw,
           checkPw,
           nickname,
@@ -216,7 +216,7 @@ const SignUpBox = () => {
       }}
     >
       <TextInput
-        setCallback={setId}
+        setCallback={setAuthId}
         placeholder="아이디"
         full
         required
@@ -394,7 +394,7 @@ const AuthCodeBox = () => {
   );
 }
 
-const FindIdBox = () => {
+const FindAuthIdBox = () => {
   const { ajax } = useAjax();
   const { showToast } = useOverlay();
   const { closeModal } = useModal();
@@ -404,7 +404,7 @@ const FindIdBox = () => {
   const [studentNo, setStudentNo] = useState(0);
   const [name, setName] = useState('');
 
-  const findIdMail = async (role: UserRole) => {
+  const findAuthIdMail = async (role: UserRole) => {
     const payload = (() => {
       switch (role) {
         case UserRole.STUDENT: return {
@@ -420,16 +420,16 @@ const FindIdBox = () => {
     })();
     const [, error] = await ajax({
       method: HttpMethod.POST,
-      url: `auth/mail/id/${role.toLowerCase()}`,
+      url: `auth/mail/auth-id/${role.toLowerCase()}`,
       payload
     });
     if (error) return;
 
     showToast('ID 복구 메일 전송이 완료되었습니다.\n메일함을 확인해주세요.');
-    closeModal('findIdMail');
+    closeModal('findAuthIdMail');
   }
 
-  const findIdInputView = (role: UserRole) => {
+  const findAuthIdInputView = (role: UserRole) => {
     switch (role) {
       case UserRole.STUDENT: return (<>
         <div className='rows gap-05 center'>
@@ -473,18 +473,18 @@ const FindIdBox = () => {
     }
   }
 
-  const findIdFormView = (role: UserRole) => (
+  const findAuthIdFormView = (role: UserRole) => (
     <>
       <form
         className='cols gap-1'
         autoComplete='off'
         onSubmit={e => {
           e.preventDefault();
-          findIdMail(role);
+          findAuthIdMail(role);
         }}
       >
         {
-          findIdInputView(role)
+          findAuthIdInputView(role)
         }
         <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
         <Button type='submit' className='accent' full>복구 메일 전송</Button>
@@ -493,14 +493,14 @@ const FindIdBox = () => {
   )
 
   return (
-    <Modal type='main' id='findIdMail' title='ID 찾기' menuList={
+    <Modal type='main' id='findAuthIdMail' title='ID 찾기' menuList={
       [
         {
-          element: findIdFormView(UserRole.STUDENT),
+          element: findAuthIdFormView(UserRole.STUDENT),
           name: '학생'
         },
         {
-          element: findIdFormView(UserRole.TEACHER),
+          element: findAuthIdFormView(UserRole.TEACHER),
           name: '선생님'
         }
       ]

@@ -67,7 +67,7 @@ const UserProfilePage = () => {
           userList.length
           ? <>
             <p className={styles.result_msg}>{userList.length} 명 검색 됨</p>
-            {userList.map(user => <SearchUserInfo key={user.code} user={user} />)}
+            {userList.map(user => <SearchUserInfo key={user.id} user={user} />)}
           </>
           : <p>해당 닉네임의 유저를 찾을 수 없습니다</p>
         }
