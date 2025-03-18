@@ -512,14 +512,14 @@ const ResetPwBox = () => {
   const { ajax } = useAjax();
   const { showToast } = useOverlay();
   const { closeModal } = useModal();
-  const [id, setId] = useState('');
+  const [authId, setAuthId] = useState('');
 
   const resetPwMail = async () => {
     const [, error] = await ajax({
       method: HttpMethod.POST,
       url: 'auth/mail/pw',
       payload: {
-        id
+        authId
       }
     });
     if (error) return;
@@ -539,7 +539,7 @@ const ResetPwBox = () => {
         }}
       >
         <TextInput
-          setCallback={setId}
+          setCallback={setAuthId}
           placeholder='복구할 아이디'
           full
           required
