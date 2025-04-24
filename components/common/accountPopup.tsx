@@ -355,7 +355,7 @@ const AuthCodeBox = () => {
           <NumberInput
             setCallback={setStudentNo}
             min={1}
-            max={16}
+            max={17}
             placeholder='번호'
             required
           />
@@ -450,7 +450,7 @@ const FindAuthIdBox = () => {
           <NumberInput
             setCallback={setStudentNo}
             min={1}
-            max={16}
+            max={17}
             placeholder='번호'
             required
           />
