@@ -25,41 +25,23 @@ const ResetPwPage = (
 
   const setHeaderOption = useSetAtom(headerOptionState);
   const { ajax } = useAjax();
-  const { openModal, closeModal } = useModal();
-  const { showAlert, showToast } = useOverlay();
+  const { openModal } = useModal();
+  const { showToast } = useOverlay();
 
   const [newPw, setNewPw] = useState('');
   const [checkNewPw, setCheckNewPw] = useState('');
-  const [leftTime, setLeftTime] = useState('');
+  const [tokenLeftTime, setTokenLeftTime] = useState('');
+  const [isExpired, setIsExpired] = useState(false);
 
   interface TokenInfo {
     used: boolean,
     expireIn: string
   }
-  const [tokenInfo, setTokenInfo] = useState<TokenInfo>({
-    used: false,
-    expireIn: ''
-  });
+  const [tokenInfo, setTokenInfo] = useState<null | TokenInfo>(null);
 
   useEffect(() => {
     setHeaderOption({ title: '비밀번호 재설정', headTitle: '비밀번호 재설정 - BSM Auth' });
   }, []);
-
-  useEffect(() => {
-    let flag = false;
-    if (tokenInfo.used) {
-      flag = true;
-      showAlert('이미 사용된 토큰입니다');
-    }
-    if (calcLeftTime() < 0) {
-      flag = true;
-      showAlert('토큰이 만료되었습니다');
-    }
-
-    if (flag) {
-      closeModal('resetPw');
-    }
-  }, [leftTime]);
 
   useEffect(() => {
     token && getTokenInfo();
@@ -77,13 +59,16 @@ const ResetPwPage = (
   }
 
   const calcLeftTime = (): number => {
-    if (!tokenInfo.expireIn) return 1;
-    const leftTime = new Date(
-      new Date(tokenInfo.expireIn).getTime() - new Date().getTime()
-    );
+    if (!tokenInfo || tokenInfo.used) return 0;
+    const leftTimeMs = new Date(tokenInfo.expireIn).getTime() - new Date().getTime();
+    if (leftTimeMs <= 0) {
+      setIsExpired(true);
+      return 0;
+    }
 
-    setLeftTime(`${String(leftTime.getMinutes()).padStart(2, '0')}:${String(leftTime.getSeconds()).padStart(2, '0')}`);
-    return leftTime.getTime();
+    const leftTimeDate = new Date(leftTimeMs);
+    setTokenLeftTime(`${String(leftTimeDate.getMinutes()).padStart(2, '0')}:${String(leftTimeDate.getSeconds()).padStart(2, '0')}`);
+    return leftTimeMs;
   }
 
   useInterval(calcLeftTime, 500);
@@ -104,13 +89,22 @@ const ResetPwPage = (
     router.replace('/');
   }
 
-  return (
-    <>
-      <Head>
-        <title>비밀번호 재설정 - BSM Auth</title>
-      </Head>
-      <Modal type="main" id="resetPw" title="비밀번호 재설정">
-        <h3>남은 시간 {leftTime}</h3>
+  const modal = (() => {
+    if (!tokenInfo) {
+      return <></>;
+    }
+    if (tokenInfo.used) {
+      return <Modal type="main" id="resetPw" title="비밀번호 재설정">
+        <h3>이미 비밀번호가 재설정 되었습니다.</h3>
+      </Modal>;
+    }
+    if (isExpired) {
+      return <Modal type="main" id="resetPw" title="비밀번호 재설정">
+        <h3>비밀번호 재설정 시간이 만료되었습니다</h3>
+      </Modal>;
+    }
+    return <Modal type="main" id="resetPw" title="비밀번호 재설정">
+        <h3>남은 시간 {tokenLeftTime}</h3>
         <form
           className='cols gap-1'
           autoComplete="off"
@@ -135,7 +129,15 @@ const ResetPwPage = (
           />
           <Button type="submit" className="accent" full>비밀번호 재설정</Button>
         </form>
-      </Modal>
+      </Modal>;
+  })();
+
+  return (
+    <>
+      <Head>
+        <title>비밀번호 재설정 - BSM Auth</title>
+      </Head>
+      { modal }
     </>
   );
 }
