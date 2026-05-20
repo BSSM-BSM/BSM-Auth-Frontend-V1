@@ -1,13 +1,13 @@
 import { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useAtom } from "jotai";
 import { screenScaleState, themeState } from "@/store/common.store";
 import { ToggleButton } from "@/components/common/buttons/toggleButton";
 import { NumberInput } from "@/components/common/inputs/numberInput";
 import Modal from "@/components/common/modal";
 
 export const SettingBox = () => {
-  const [theme, setTheme] = useRecoilState(themeState);
-  const [screenScale, setScreenScale] = useRecoilState(screenScaleState);
+  const [theme, setTheme] = useAtom(themeState);
+  const [screenScale, setScreenScale] = useAtom(screenScaleState);
 
   useEffect(() => {
     if (theme === 'dark') {

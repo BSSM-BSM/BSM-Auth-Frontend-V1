@@ -1,5 +1,5 @@
 import * as S from '@/styles/common/sidebar.style';
-import { IconType } from 'react-icons/lib/esm/iconBase';
+import { IconType } from 'react-icons';
 import { ReactNode, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 
@@ -9,7 +9,7 @@ interface SidebarItemProps {
   order?: number,
   Icon?: IconType,
   IconElement?: ReactNode,
-  iconSize?: number,
+  iconSize?: number | string,
   children?: ReactNode,
   onClick?: () => void;
   dropdownMenu?: ReactNode,

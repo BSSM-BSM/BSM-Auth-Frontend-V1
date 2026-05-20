@@ -3,12 +3,12 @@ import { AiOutlineUser, AiOutlineSearch } from 'react-icons/ai';
 import { BiServer } from 'react-icons/bi';
 import NavbarItem from '@/components/common/navbar/navbarItem';
 import { useRouter } from 'next/navigation';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { pageState } from '@/store/common.store';
 
 const Navbar = () => {
   const router = useRouter();
-  const _page = useRecoilValue(pageState);
+  const _page = useAtomValue(pageState);
 
   return (
     <S.Navbar>

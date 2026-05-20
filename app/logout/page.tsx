@@ -1,7 +1,6 @@
 'use client';
 
 import { NextPage } from 'next';
-import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
 import { headerOptionState } from '@/store/common.store';
 import { useModal } from '@/hooks/useModal';
@@ -9,13 +8,15 @@ import { HttpMethod, useAjax } from '@/hooks/useAjax';
 import { userState } from '@/store/account.store';
 import Modal from '@/components/common/modal';
 import { Button } from '@/components/common/buttons/button';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { useResetAtom } from 'jotai/utils';
 
 const UserProfilePage: NextPage = () => {
-  const setHeaderOption = useSetRecoilState(headerOptionState);
+  const setHeaderOption = useSetAtom(headerOptionState);
   const { ajax } = useAjax();
   const { openModal, closeModal } = useModal();
-  const user = useRecoilValue(userState);
-  const resetUser = useResetRecoilState(userState);
+  const user = useAtomValue(userState);
+  const resetUser = useResetAtom(userState);
 
   useEffect(() => {
     setHeaderOption({ title: '로그아웃', headTitle: '로그아웃 - BSM Auth' });

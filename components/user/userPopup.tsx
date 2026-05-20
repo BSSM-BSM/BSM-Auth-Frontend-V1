@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useAtom } from "jotai";
 import { HttpMethod, useAjax } from "@/hooks/useAjax";
 import { useModal } from "@/hooks/useModal";
 import { useOverlay } from "@/hooks/useOverlay";
@@ -75,7 +75,7 @@ const UpdateNicknameBox = () => {
   const { ajax } = useAjax();
   const { closeModal } = useModal();
   const { showToast } = useOverlay();
-  const [, setUser] = useRecoilState(userState);
+  const [, setUser] = useAtom(userState);
   const [newNickname, setNewNickname] = useState('');
 
   const updateNickname = async () => {

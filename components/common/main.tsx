@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { headerOptionState, sideBarState } from '@/store/common.store';
 import Sidebar from '@/components/common/sidebar/sidebar';
 import Navbar from '@/components/common/navbar/navbar';
@@ -16,8 +16,8 @@ export const Main = ({
 }: {
   children: ReactNode;
 }) => {
-  const [sideBar, setSideBar] = useRecoilState(sideBarState);
-  const { title, headTitle } = useRecoilValue(headerOptionState);
+  const [sideBar, setSideBar] = useAtom(sideBarState);
+  const { title, headTitle } = useAtomValue(headerOptionState);
 
   useEffect(() => {
     if (headTitle) {

@@ -1,19 +1,23 @@
 import { v1 as uuidV1 } from 'uuid';
 import { ReactNode } from "react";
-import { useRecoilState } from "recoil";
+import { useAtom } from "jotai";
 import { alertState, alertTimerState, loadingState, toastState } from "@/store/overlay.store";
 
 interface UseOverlay {
-  loading: (flag: boolean) => void;
-  showToast: (msg: string | ReactNode, time?: number) => Promise<void>;
-  showAlert: (msg: string) => void;
+  loading: Loading;
+  showToast: ShowToast;
+  showAlert: ShowAlert;
 }
 
+export type Loading = (flag: boolean) => void;
+export type ShowToast = (content: string | ReactNode, time?: number) => Promise<void>;
+export type ShowAlert = (msg: string) => void;
+
 export const useOverlay = (): UseOverlay => {
-  const [, setLoading] = useRecoilState(loadingState);
-  const [, setToastList] = useRecoilState(toastState);
-  const [, setAlert] = useRecoilState(alertState);
-  const [alertTimer, setAlertTimer] = useRecoilState(alertTimerState);
+  const [, setLoading] = useAtom(loadingState);
+  const [, setToastList] = useAtom(toastState);
+  const [, setAlert] = useAtom(alertState);
+  const [alertTimer, setAlertTimer] = useAtom(alertTimerState);
 
   const loading = (flag: boolean) => {
     setLoading(() => flag);

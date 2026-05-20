@@ -1,11 +1,12 @@
-import { SetterOrUpdater } from 'recoil';
 import { Ajax, HttpMethod } from '@/hooks/useAjax';
 import { NoLoginUser, Student, Teacher } from '@/types/user.type';
 import { StaticImageData } from 'next/image';
 import DefaultProfilePic from '@/public/icons/profile_default.png';
+import { SetStateAction } from 'jotai';
+import { Dispatch } from 'react';
 
 
-export const getUserInfo = async (ajax: Ajax, setUser: SetterOrUpdater<NoLoginUser| Student| Teacher>) => {
+export const getUserInfo = async (ajax: Ajax, setUser: Dispatch<SetStateAction<NoLoginUser| Student| Teacher>>) => {
     localStorage.removeItem('user');
     const [data, error] = await ajax<Student | Teacher>({
         method: HttpMethod.GET,

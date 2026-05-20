@@ -8,18 +8,18 @@ import { Client, OauthScopeList } from '@/types/oauth.type';
 import { ClientMenuPopup } from '@/components/oauth/clientMenuPopup';
 import { useModal } from '@/hooks/useModal';
 import { HttpMethod, useAjax } from '@/hooks/useAjax';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useAtom, useSetAtom } from 'jotai';
 import { userState } from '@/store/account.store';
 import { headerOptionState, pageState } from '@/store/common.store';
 import { Button } from '@/components/common/buttons/button';
 import OauthClientItem from '@/components/oauth/clientItem';
 
 const OauthManagePage: NextPage = () => {
-  const setHeaderOption = useSetRecoilState(headerOptionState);
-  const setPage = useSetRecoilState(pageState);
+  const setHeaderOption = useSetAtom(headerOptionState);
+  const setPage = useSetAtom(pageState);
   const { ajax } = useAjax();
   const { openModal } = useModal();
-  const [user] = useRecoilState(userState);
+  const [user] = useAtom(userState);
   const [selectClient, setSelectClient] = useState<Client | null>(null);
   const [clientList, setClientList] = useState<Client[]>([]);
   const [scopeInfoList, setScopeInfoList] = useState<OauthScopeList>([]);

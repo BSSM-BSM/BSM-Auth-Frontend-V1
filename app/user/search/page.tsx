@@ -1,7 +1,7 @@
 'use client';
 
 import styles from '@/styles/user-search.module.css';
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import { HttpMethod, useAjax } from '@/hooks/useAjax';
 import { headerOptionState, pageState } from '@/store/common.store';
@@ -10,8 +10,8 @@ import { TextInput } from '@/components/common/inputs/textInput';
 import { SearchUserInfo } from '@/components/user/searchUserInfo';
 
 const UserProfilePage = () => {
-  const setHeaderOption = useSetRecoilState(headerOptionState);
-  const setPage = useSetRecoilState(pageState);
+  const setHeaderOption = useSetAtom(headerOptionState);
+  const setPage = useSetAtom(pageState);
   const { ajax } = useAjax();
   const [searchQuery, setSearchQuery] = useState('');
   const [userList, setUserList] = useState<(Student | Teacher)[]>([]);

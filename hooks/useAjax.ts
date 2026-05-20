@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosPromise, AxiosRequestConfig } from "axios";
-import { useResetRecoilState } from "recoil";
+import { useResetAtom } from "jotai/utils";
 import { SignJWT } from "jose";
 import { userState } from "@/store/account.store";
 import { useModal } from "@/hooks/useModal";
@@ -47,7 +47,7 @@ interface AjaxType<T> {
 export const useAjax = () => {
   const { loading, showAlert, showToast } = useOverlay();
   const { openModal } = useModal();
-  const resetUser = useResetRecoilState(userState);
+  const resetUser = useResetAtom(userState);
 
   const ajax: Ajax = async <T>({
     method,
@@ -68,7 +68,7 @@ export const useAjax = () => {
       } else {
         config.headers = { 'x-api-token': apiToken };
       }
-      
+
       const rawRes = (await ((): AxiosPromise<T> => {
         switch (method) {
           case HttpMethod.GET: return instance.get(url, config);

@@ -8,7 +8,7 @@ import { useModal } from '@/hooks/useModal';
 import { HttpMethod, useAjax } from '@/hooks/useAjax';
 import { useOverlay } from '@/hooks/useOverlay';
 import { useInterval } from '@/hooks/useInterval';
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import { headerOptionState } from '@/store/common.store';
 import { TextInput } from '@/components/common/inputs/textInput';
 import { Button } from '@/components/common/buttons/button';
@@ -20,7 +20,7 @@ const ResetPwPage = ({
 }) => {
   const router = useRouter();
   
-  const setHeaderOption = useSetRecoilState(headerOptionState);
+  const setHeaderOption = useSetAtom(headerOptionState);
   const { ajax } = useAjax();
   const { openModal, closeModal } = useModal();
   const { showAlert, showToast } = useOverlay();

@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useAtom } from 'jotai';
 import { HttpMethod, useAjax } from '@/hooks/useAjax';
 import { useModal } from '@/hooks/useModal';
 import { useOverlay } from '@/hooks/useOverlay';
@@ -27,7 +27,7 @@ const LoginBox = () => {
   const { ajax } = useAjax();
   const { openModal, closeModal } = useModal();
   const { showAlert } = useOverlay();
-  const [, setUser] = useRecoilState(userState);
+  const [, setUser] = useAtom(userState);
   const [loginStep, setLoginStep] = useState(0);
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');

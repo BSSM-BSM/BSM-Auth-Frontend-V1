@@ -1,7 +1,7 @@
 'use client';
 
 import styles from '@/styles/user.module.css';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useAtom, useSetAtom } from 'jotai';
 import { userState } from '@/store/account.store';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { UserPopup } from '@/components/user/userPopup';
@@ -15,12 +15,12 @@ import { Student, Teacher } from '@/types/user.type';
 import { UserInfoList } from '@/components/user/userInfoList';
 
 const UserProfilePage = () => {
-  const setHeaderOption = useSetRecoilState(headerOptionState);
-  const setPage = useSetRecoilState(pageState);
+  const setHeaderOption = useSetAtom(headerOptionState);
+  const setPage = useSetAtom(pageState);
   const { ajax } = useAjax();
   const { openModal } = useModal();
   const { showToast } = useOverlay();
-  const [user] = useRecoilState(userState);
+  const [user] = useAtom(userState);
   const [userInfo, setUserInfo] = useState<null | Student | Teacher>(null);
   const profileInputRef = useRef<HTMLInputElement>(null);
   const [profileSrc, setProfileSrc] = useState<string | StaticImageData>(DefaultProfilePic);

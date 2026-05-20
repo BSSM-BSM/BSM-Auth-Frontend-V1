@@ -10,10 +10,8 @@ export const ToggleButton = ({
   onCallback,
   offCallback,
   value
-}: ToggleButtonProps) => {
-  return (
-    <label className={`${styles.toggle} ${value ? styles.active : ''}`} onClick={() => !value ? onCallback() : offCallback()}>
-      <div className={styles.slider}></div>
-    </label>
-  );
-}
+}: ToggleButtonProps) => (
+  <label className={`${styles.toggle} ${value ? styles.active : ''}`} onClick={() => !value ? onCallback() : offCallback()}>
+    <div className={styles.slider}></div>
+  </label>
+);

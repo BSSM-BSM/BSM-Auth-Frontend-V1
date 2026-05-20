@@ -1,6 +1,6 @@
 import * as S from '@/styles/common/sidebar.style';
 import { useEffect, useState } from 'react';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { userState } from '@/store/account.store';
 import { UserRole } from "@/types/user.type";
 import Image, { StaticImageData } from 'next/image';
@@ -13,15 +13,16 @@ import { FiLogOut } from 'react-icons/fi';
 import { HttpMethod, useAjax } from '@/hooks/useAjax';
 import { useOverlay } from '@/hooks/useOverlay';
 import { useRouter } from 'next/navigation';
+import { useResetAtom } from 'jotai/utils';
 
 const SidebarUserMenu = () => {
   const router = useRouter();
   const { ajax } = useAjax();
   const { showToast } = useOverlay();
-  const resetUser = useResetRecoilState(userState);
+  const resetUser = useResetAtom(userState);
   const { openModal } = useModal();
   const [profileSrc, setProfileSrc] = useState<string | StaticImageData>(DefaultProfilePic);
-  const user = useRecoilValue(userState);
+  const user = useAtomValue(userState);
 
   useEffect(() => {
       setProfileSrc(getProfileSrc(user.isLogin? user.id: 0));

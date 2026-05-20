@@ -3,7 +3,7 @@
 import styles from "@/styles/oauth.module.css";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useAtom, useSetAtom } from "jotai";
 import Modal from "@/components/common/modal";
 import { userState } from "@/store/account.store";
 import { OauthScope } from "@/types/oauth.type";
@@ -18,12 +18,12 @@ const Oauth = ({
 }: {
   searchParams: { clientId?: string; redirectURI?: string };
 }) => {
-  const setHeaderOption = useSetRecoilState(headerOptionState);
-  const setPage = useSetRecoilState(pageState);
+  const setHeaderOption = useSetAtom(headerOptionState);
+  const setPage = useSetAtom(pageState);
   const { ajax } = useAjax();
   const { openModal, closeModal } = useModal();
   const { loading } = useOverlay();
-  const [user] = useRecoilState(userState);
+  const [user] = useAtom(userState);
 
   useEffect(() => {
     setHeaderOption({ title: "BSM OAuth", headTitle: "BSM OAuth - BSM Auth" });
