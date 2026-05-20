@@ -2,7 +2,7 @@
 
 import styles from "@/styles/oauth.module.css";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import Modal from "@/components/common/modal";
 import { userState } from "@/store/account.store";
@@ -13,11 +13,14 @@ import { headerOptionState, pageState } from "@/store/common.store";
 import { Button } from "@/components/common/buttons/button";
 import { useOverlay } from "@/hooks/useOverlay";
 
-const Oauth = ({
-  searchParams: { clientId, redirectURI },
-}: {
-  searchParams: { clientId?: string; redirectURI?: string };
-}) => {
+const Oauth = (
+  props: {
+    searchParams: Promise<{ clientId?: string; redirectURI?: string }>;
+  }
+) => {
+  const searchParams = use(props.searchParams);
+  const { clientId, redirectURI } = searchParams;
+
   const setHeaderOption = useSetAtom(headerOptionState);
   const setPage = useSetAtom(pageState);
   const { ajax } = useAjax();

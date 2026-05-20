@@ -3,7 +3,7 @@
 import styles from '@/styles/user.module.css';
 import { useAtom, useSetAtom } from 'jotai';
 import { userState } from '@/store/account.store';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { HttpMethod, useAjax } from '@/hooks/useAjax';
 import { headerOptionState, pageState } from '@/store/common.store';
 import Image, { StaticImageData } from 'next/image';
@@ -12,16 +12,15 @@ import { Student, Teacher } from '@/types/user.type';
 import { UserInfoList } from '@/components/user/userInfoList';
 
 interface OtherUserProfilePageProps {
-  params: {
+  params: Promise<{
     userId: number
-  }
+  }>
 }
 
-const OtherUserProfilePage = ({
-  params: {
-    userId
-  }
-}: OtherUserProfilePageProps) => {
+const OtherUserProfilePage = (props: OtherUserProfilePageProps) => {
+  const params = use(props.params);
+  const { userId } = params;
+
   const setHeaderOption = useSetAtom(headerOptionState);
   const setPage = useSetAtom(pageState);
   const { ajax } = useAjax();

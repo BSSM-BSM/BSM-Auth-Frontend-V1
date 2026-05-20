@@ -2,7 +2,7 @@
 
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import Modal from '@/components/common/modal';
 import { useModal } from '@/hooks/useModal';
 import { HttpMethod, useAjax } from '@/hooks/useAjax';
@@ -13,13 +13,16 @@ import { headerOptionState } from '@/store/common.store';
 import { TextInput } from '@/components/common/inputs/textInput';
 import { Button } from '@/components/common/buttons/button';
 
-const ResetPwPage = ({
-  searchParams: { token },
-}: {
-  searchParams: { token?: string };
-}) => {
+const ResetPwPage = (
+  props: {
+    searchParams: Promise<{ token?: string }>;
+  }
+) => {
+  const searchParams = use(props.searchParams);
+  const { token } = searchParams;
+
   const router = useRouter();
-  
+
   const setHeaderOption = useSetAtom(headerOptionState);
   const { ajax } = useAjax();
   const { openModal, closeModal } = useModal();
