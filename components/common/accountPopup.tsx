@@ -94,7 +94,7 @@ const LoginBox = () => {
             key='id'
             autoComplete='username'
             setCallback={setId}
-            placeholder='아이디'
+            placeholder='계정 ID'
             full
             required
             immediately
@@ -217,7 +217,7 @@ const SignUpBox = () => {
     >
       <TextInput
         setCallback={setAuthId}
-        placeholder="아이디"
+        placeholder="계정 ID"
         full
         required
       />
@@ -408,7 +408,7 @@ const FindAuthIdBox = () => {
     });
     if (error) return;
 
-    showToast('ID 복구 메일 전송이 완료되었습니다.\n메일함을 확인해주세요.');
+    showToast('계정 ID 복구 메일 전송이 완료되었습니다.\n메일함을 확인해주세요.');
     closeModal('findAuthIdMail');
   }
 
@@ -498,11 +498,11 @@ const ResetPwBox = () => {
       >
         <TextInput
           setCallback={setAuthId}
-          placeholder='복구할 아이디'
+          placeholder='복구할 계정의 ID'
           full
           required
         />
-        <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
+        <p>계정 복구용으로 설정한 이메일 주소로 전송됩니다</p>
         <Button type='submit' className='accent' full>복구 메일 전송</Button>
       </form>
     </Modal>

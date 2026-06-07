@@ -47,6 +47,10 @@ export const UserInfoList = ({
             <span>{userInfo.teacher.name}</span>
           </li>
         </>}
+        <li>
+          <span>계정 복구용 이메일 주소</span>
+          <span>{userInfo.recoveryEmail || "설정되지 않음"}</span>
+        </li>
       </ul>
     </li>
   )

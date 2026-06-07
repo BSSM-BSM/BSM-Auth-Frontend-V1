@@ -14,7 +14,8 @@ interface LoginUser {
   email: string,
   createdAt: string,
   role: UserRole,
-  profileUrl: string
+  profileUrl: string,
+  recoveryEmail: string | null
 }
 
 export interface Student extends LoginUser {
