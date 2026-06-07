@@ -96,6 +96,9 @@ const UserProfilePage = () => {
                 <li className='pointer' onClick={() => openModal({ key: 'updatePw' })}>
                   <span>비밀번호 변경</span>
                 </li>
+                <li className='pointer' onClick={() => openModal({ key: 'updateRecoveryEmail' })}>
+                  <span>계정 복구용 이메일 주소 변경</span>
+                </li>
                 <li>
                   <span>연결된 서비스 관리</span>
                   <span>(준비중)</span>

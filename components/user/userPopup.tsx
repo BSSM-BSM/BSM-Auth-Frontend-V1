@@ -13,6 +13,7 @@ export const UserPopup = () =>  (
   <>
     <UpdatePwBox />
     <UpdateNicknameBox />
+    <UpdateRecoveryEmailBox />
   </>
 );
 
@@ -27,7 +28,7 @@ const UpdatePwBox = () => {
     if (!confirm('비밀번호를 재설정하시겠습니까?')) {
       return;
     }
-    const [, error] = await ajax<{ accessToken: string }>({
+    const [, error] = await ajax<void>({
       method: HttpMethod.PUT,
       url: '/auth/pw',
       payload: {
@@ -82,7 +83,7 @@ const UpdateNicknameBox = () => {
     if (!confirm('닉네임을 변경하시겠습니까?')) {
       return;
     }
-    const [, error] = await ajax<{ accessToken: string }>({
+    const [, error] = await ajax<void>({
       method: HttpMethod.PUT,
       url: '/user/nickname',
       payload: {
@@ -113,6 +114,54 @@ const UpdateNicknameBox = () => {
           required
         />
         <Button type="submit" className="accent" full>닉네임 변경</Button>
+      </form>
+    </Modal>
+  );
+}
+
+const UpdateRecoveryEmailBox = () => {
+  const { ajax } = useAjax();
+  const { closeModal } = useModal();
+  const { showToast } = useOverlay();
+  const [, setUser] = useAtom(userState);
+  const [newRecoveryEmail, setNewRecoveryEmail] = useState('');
+
+  const updateRecoveryEmail = async () => {
+    if (!confirm('복구 이메일 주소를 변경하시겠습니까?')) {
+      return;
+    }
+    const [, error] = await ajax<void>({
+      method: HttpMethod.PUT,
+      url: '/auth/student/recovery-email',
+      payload: {
+        newRecoveryEmail
+      }
+    });
+    if (error) return;
+    
+    showToast('복구 이메일 주소 변경이 완료되었습니다');
+    getUserInfo(ajax, setUser);
+    closeModal('updateRecoveryEmail')
+  }
+
+  return (
+    <Modal type="main" id="updateRecoveryEmail" title="계정 복구용 이메일 주소 변경">
+      <form
+        className='cols gap-1'
+        autoComplete="off"
+        onSubmit={e => {
+          e.preventDefault();
+          updateRecoveryEmail();
+        }}
+      >
+        <TextInput
+          type="email"
+          setCallback={setNewRecoveryEmail}
+          placeholder="변경할 복구 이메일 주소"
+          full
+          required
+        />
+        <Button type="submit" className="accent" full>복구 이메일 주소 변경</Button>
       </form>
     </Modal>
   );

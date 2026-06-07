@@ -399,29 +399,12 @@ const FindAuthIdBox = () => {
   const { showToast } = useOverlay();
   const { closeModal } = useModal();
   const [email, setEmail] = useState('');
-  const [grade, setGrade] = useState(0);
-  const [classNo, setClassNo] = useState(0);
-  const [studentNo, setStudentNo] = useState(0);
-  const [name, setName] = useState('');
 
   const findAuthIdMail = async (role: UserRole) => {
-    const payload = (() => {
-      switch (role) {
-        case UserRole.STUDENT: return {
-          grade,
-          classNo,
-          studentNo,
-          name
-        }
-        case UserRole.TEACHER: return {
-          email
-        }
-      }
-    })();
     const [, error] = await ajax({
       method: HttpMethod.POST,
       url: `auth/mail/auth-id/${role.toLowerCase()}`,
-      payload
+      payload: { email }
     });
     if (error) return;
 
@@ -432,32 +415,9 @@ const FindAuthIdBox = () => {
   const findAuthIdInputView = (role: UserRole) => {
     switch (role) {
       case UserRole.STUDENT: return (<>
-        <div className='rows gap-05 center'>
-          <NumberInput
-            setCallback={setGrade}
-            min={1}
-            max={3}
-            placeholder='학년'
-            required
-          />
-          <NumberInput
-            setCallback={setClassNo}
-            min={1}
-            max={4}
-            placeholder='반'
-            required
-          />
-          <NumberInput
-            setCallback={setStudentNo}
-            min={1}
-            max={17}
-            placeholder='번호'
-            required
-          />
-        </div>
         <TextInput
-          setCallback={setName}
-          placeholder="이름"
+          setCallback={setEmail}
+          placeholder='복구 메일 주소(초기 값: 학교 이메일)'
           full
           required
         />
@@ -465,7 +425,7 @@ const FindAuthIdBox = () => {
       case UserRole.TEACHER: return (
         <TextInput
           setCallback={setEmail}
-          placeholder='학교 이메일 주소'
+          placeholder='복구 메일 주소'
           full
           required
         />
@@ -483,10 +443,8 @@ const FindAuthIdBox = () => {
           findAuthIdMail(role);
         }}
       >
-        {
-          findAuthIdInputView(role)
-        }
-        <p>학교 이메일계정으로 복구 메일이 전송됩니다</p>
+        { findAuthIdInputView(role) }
+        <p>계정 복구용으로 설정한 이메일 주소로 전송됩니다</p>
         <Button type='submit' className='accent' full>복구 메일 전송</Button>
       </form>
     </>
